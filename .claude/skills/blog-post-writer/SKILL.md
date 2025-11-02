@@ -10,7 +10,12 @@ scopes:
 
 ## Overview
 
-Completes technical blog drafts by analyzing commit history and writing first-person narratives for the four story sections, staying grounded in actual commit evidence.
+Completes technical blog drafts by analyzing commit history and writing engaging first-person narratives. Two styles supported:
+
+1. **Retrospective**: Grounded in actual work (commit-based, evidence-driven)
+2. **Exploratory**: Thought experiments and forward-looking ideas
+
+Most drafts generated from repos use retrospective style.
 
 ## When to Use
 
@@ -50,6 +55,45 @@ The commits show a pattern of building calculator strategies...
 | **Solution** | How you approached it | Implementation patterns in commits |
 | **Learned** | Takeaways | Reflections on commit patterns |
 
+## Narrative Techniques (from effective technical blogs)
+
+### Conversational Hooks
+**Bad Opening:**
+> This post describes the implementation of a calculator system in touchepas.
+
+**Good Opening:**
+> I spent three days fighting TypeScript's type system. Turns out, it was trying to tell me something important.
+
+**Pattern:** Start with a human moment, not technical summary
+
+### Self-Aware Honesty
+Acknowledge messiness, mistakes, uncertainty:
+- "I'm still not sure this was the right approach"
+- "This is obviously a mess, but it works"
+- "I probably should have done X, but here's what I actually did"
+
+**Why it works:** Builds trust, makes you relatable, prevents defensive reading
+
+### Problem Escalation
+Structure your narrative with escalating questions:
+1. Open: Should I do X?
+2. Middle: What's hard about X?
+3. End: Given we're doing X, what's the best way?
+
+By the end, reader presupposes agreement with your approach.
+
+### Show the Thought Process
+Don't just show the solution—show the **path to the solution**:
+- "My first attempt was..."
+- "That broke because..."
+- "So I tried..."
+- "Which revealed..."
+
+**Example from Ben Anderson's "Should I Buy Claude a Mac Mini?"**:
+> "I am buying Claude a Mac Mini. Or at least, I'm thinking about it."
+
+Opens with uncertainty, invites reader into deliberation rather than presenting conclusion.
+
 ## Implementation
 
 ### Step 1: Read the Draft Completely
@@ -76,16 +120,29 @@ Group commits by type:
 ### Step 3: Write Sections Using Evidence
 
 **Context Section:**
+- **Start with a hook** - human moment, not technical summary
+  - Bad: "This post describes the work on touchepas"
+  - Good: "I needed a rent calculator that didn't lie to me"
 - State what the project does based on feature commits
-- Use phrases like "The commits show...", "Development focused on..."
+- Use conversational bridges: "Here's what happened...", "I started with..."
 - **Avoid assuming business context** not evident in commits
 - 2-3 paragraphs
 
+**Example opening:**
+> I spent October refactoring a calculator system. Not because I wanted to—because TypeScript forced my hand. That void-returning function? It was a type bomb waiting to explode.
+
 **Challenge Section:**
+- **Be honest about what was hard** - not just "here's what I did"
+  - "This took longer than it should have"
+  - "I went down the wrong path first"
+  - "The real problem wasn't what I thought"
 - Use fix commits as evidence of problems
 - Use refactor commits as evidence of complexity
-- Mention trade-offs visible in commit sequence
+- Show the **path** to understanding, not just the understanding
 - 2-4 paragraphs
+
+**Example:**
+> The first version worked. Sort of. It passed tests, but I knew it was fragile. The void return type was technically correct—there are cases where no result makes sense. But TypeScript was warning me: "Are you sure about this?" I ignored it. Mistake.
 
 **Solution Section:**
 - Walk through the approach using commit chronology
