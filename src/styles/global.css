@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply antialiased;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-700 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-600;
+  }
+}
+
+@layer components {
+  /* Link styles */
+  .link {
+    @apply text-mycelium-400 hover:text-mycelium-300 transition-colors underline;
+  }
+
+  /* Card styles */
+  .card {
+    @apply border border-gray-800 rounded-lg p-6 hover:border-mycelium-600 transition-colors;
+  }
+
+  /* Tag styles */
+  .tag {
+    @apply px-3 py-1 bg-gray-800 text-mycelium-300 rounded-full text-sm;
+  }
+}

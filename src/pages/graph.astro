@@ -1,0 +1,96 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GraphVisualization from '../components/GraphVisualization';
+import Timeline from '../components/Timeline';
+import { getPublishedPosts, getSkills, getPatterns } from '../utils/markdown';
+
+const contentDir = new URL('../../content', import.meta.url).pathname;
+const posts = await getPublishedPosts(contentDir);
+const skills = await getSkills(contentDir);
+const patterns = await getPatterns(contentDir);
+
+// Placeholder graph (will be loaded client-side)
+const emptyGraph = {
+  nodes: [],
+  edges: [],
+  lastUpdated: new Date().toISOString(),
+};
+---
+
+<BaseLayout title="Knowledge Graph" description="Interactive visualization of interconnected knowledge">
+  <div class="max-w-6xl mx-auto">
+    <!-- Header -->
+    <header class="mb-12">
+      <h1 class="text-4xl font-bold text-gray-100 mb-4">
+        Knowledge Graph
+      </h1>
+      <p class="text-xl text-gray-400">
+        Explore the mycelium network of interconnected posts, skills, and patterns
+      </p>
+    </header>
+
+    <!-- Graph Visualization -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-100 mb-6">Interactive Graph</h2>
+      <div class="bg-gray-800 p-6 rounded-lg">
+        <GraphVisualization client:load graph={emptyGraph} width={1000} height={600} />
+      </div>
+      <div class="mt-4 text-sm text-gray-500">
+        <p>The graph visualization will load dynamically. If you see an empty graph:</p>
+        <ol class="list-decimal list-inside mt-2 space-y-1">
+          <li>Run <code class="bg-gray-800 px-2 py-0.5 rounded">npm run graph</code> to generate the graph data</li>
+          <li>Rebuild the site with <code class="bg-gray-800 px-2 py-0.5 rounded">npm run build</code></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Timeline View -->
+    <section class="mb-12">
+      <Timeline
+        client:load
+        nodes={[...posts, ...skills, ...patterns].map(item => ({
+          id: item.slug,
+          type: item.slug.startsWith('2025') ? 'post' as const : 'pattern' as const,
+          title: item.frontmatter.title,
+          tags: item.frontmatter.tags || [],
+          path: `/${item.slug.startsWith('2025') ? 'posts' : 'patterns'}/${item.slug}`,
+          date: item.frontmatter.date,
+        }))}
+      />
+    </section>
+
+    <!-- Statistics -->
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-gray-800 rounded-lg p-6">
+        <div class="text-3xl font-bold text-mycelium-400">{posts.length}</div>
+        <div class="text-gray-400 mt-1">Published Posts</div>
+      </div>
+      <div class="bg-gray-800 rounded-lg p-6">
+        <div class="text-3xl font-bold text-mycelium-400">{skills.length}</div>
+        <div class="text-gray-400 mt-1">Claude Skills</div>
+      </div>
+      <div class="bg-gray-800 rounded-lg p-6">
+        <div class="text-3xl font-bold text-mycelium-400">{patterns.length}</div>
+        <div class="text-gray-400 mt-1">Technical Patterns</div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Load graph data client-side
+    async function loadGraphData() {
+      try {
+        const response = await fetch('/graph.json');
+        if (response.ok) {
+          const graph = await response.json();
+          console.log('Graph loaded:', graph);
+          // Graph will be loaded by the component via the graphLoader utility
+        }
+      } catch (error) {
+        console.warn('Graph not yet generated. Run: npm run graph');
+      }
+    }
+
+    loadGraphData();
+  </script>
+</BaseLayout>

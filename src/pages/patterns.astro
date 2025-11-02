@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPatterns } from '../utils/markdown';
+
+const contentDir = new URL('../../content', import.meta.url).pathname;
+const patterns = await getPatterns(contentDir);
+---
+
+<BaseLayout title="Technical Patterns" description="A library of reusable technical patterns and architectural approaches">
+  <div class="max-w-4xl mx-auto">
+    <header class="mb-12">
+      <h1 class="text-4xl font-bold text-gray-100 mb-4">
+        Technical Patterns
+      </h1>
+      <p class="text-xl text-gray-400">
+        Reusable architectural patterns and technical approaches
+      </p>
+    </header>
+
+    {patterns.length === 0 ? (
+      <p class="text-gray-400">No patterns documented yet.</p>
+    ) : (
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {patterns.map(pattern => (
+          <article class="border border-gray-800 rounded-lg p-6 hover:border-mycelium-600 transition-colors">
+            <a href={`/patterns/${pattern.slug}`} class="block">
+              <h2 class="text-xl font-bold text-gray-100 hover:text-mycelium-400 transition-colors">
+                {pattern.frontmatter.title}
+              </h2>
+              {pattern.frontmatter.description && (
+                <p class="text-gray-400 mt-3 text-sm">
+                  {pattern.frontmatter.description}
+                </p>
+              )}
+              <div class="flex flex-wrap gap-2 mt-4">
+                {pattern.frontmatter.tags.slice(0, 3).map(tag => (
+                  <span class="text-xs px-2 py-1 bg-gray-800 text-mycelium-300 rounded">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </a>
+          </article>
+        ))}
+      </div>
+    )}
+  </div>
+</BaseLayout>

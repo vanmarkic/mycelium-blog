@@ -127,6 +127,15 @@ npm run build
 
 # Preview production build
 npm run preview
+
+# Scan repositories for new content
+npm run scan
+
+# Build knowledge graph
+npm run graph
+
+# Lint code
+npm run lint
 ```
 
 ## Tech Stack

@@ -1,13 +1,19 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [
     react(),
-    tailwind()
+    tailwind(),
+    sitemap()
   ],
+  output: 'static',
+  build: {
+    inlineStylesheets: 'auto',
+  },
   markdown: {
     syntaxHighlight: 'shiki',
     shikiConfig: {
@@ -15,6 +21,6 @@ export default defineConfig({
       wrap: true
     }
   },
-  site: 'https://your-username.github.io',  // Update this
+  site: 'https://your-username.github.io',  // Update this with your actual domain
   base: '/',
 });
