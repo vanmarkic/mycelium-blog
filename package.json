@@ -1,0 +1,37 @@
+{
+  "name": "mycelium-blog",
+  "version": "0.1.0",
+  "description": "File-based digital garden with mycelium links - showcasing technical work and Claude Code workflow",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "scan": "tsx scripts/scan-repos.ts",
+    "graph": "tsx scripts/build-graph.ts",
+    "lint": "eslint . --ext .ts,.tsx,.astro"
+  },
+  "dependencies": {
+    "@astrojs/react": "^3.6.2",
+    "@astrojs/tailwind": "^5.1.1",
+    "astro": "^4.16.0",
+    "d3": "^7.9.0",
+    "gray-matter": "^4.0.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "simple-git": "^3.27.0",
+    "tailwindcss": "^3.4.14"
+  },
+  "devDependencies": {
+    "@types/d3": "^7.4.3",
+    "@types/node": "^22.7.9",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^8.10.0",
+    "@typescript-eslint/parser": "^8.10.0",
+    "eslint": "^9.13.0",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3"
+  }
+}
