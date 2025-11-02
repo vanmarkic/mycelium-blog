@@ -1,0 +1,46 @@
+{
+  "nodes": [
+    {
+      "id": "2025-10-28-event-sourcing-patterns",
+      "type": "post",
+      "title": "Event Sourcing Patterns for State Management",
+      "tags": [
+        "event-sourcing",
+        "architecture",
+        "state-management",
+        "domain-driven-design"
+      ],
+      "path": "/posts/2025-10-28-event-sourcing-patterns",
+      "date": "2025-10-28"
+    },
+    {
+      "id": "work-visibility",
+      "type": "skill",
+      "title": "Work Visibility Skill",
+      "tags": [
+        "claude-code",
+        "productivity",
+        "git-analysis",
+        "workflow-automation"
+      ],
+      "path": "/skills/work-visibility",
+      "date": "2025-11-02"
+    },
+    {
+      "id": "static-site-generation",
+      "type": "pattern",
+      "title": "Static Site Generation Pattern",
+      "tags": [
+        "architecture",
+        "performance",
+        "ssg",
+        "astro",
+        "jamstack"
+      ],
+      "path": "/patterns/static-site-generation",
+      "date": "2025-11-02"
+    }
+  ],
+  "edges": [],
+  "lastUpdated": "2025-11-02T23:02:32.918Z"
+}
