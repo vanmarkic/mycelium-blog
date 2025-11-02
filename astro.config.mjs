@@ -21,6 +21,6 @@ export default defineConfig({
       wrap: true
     }
   },
-  site: 'https://your-username.github.io',  // Update this with your actual domain
-  base: '/',
+  site: 'https://dragancloudbizz.github.io',
+  base: '/mycelium-blog/',
 });
