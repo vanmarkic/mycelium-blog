@@ -5,6 +5,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import matter from 'gray-matter';
+import { marked } from 'marked';
 import type { PostFrontmatter, ParsedContent } from '../types/content';
 import { validateFrontmatter } from './validation';
 
@@ -25,9 +26,12 @@ export async function loadMarkdownFile(filePath: string): Promise<ParsedContent>
 
   const slug = path.basename(filePath, '.md');
 
+  // Convert markdown to HTML
+  const htmlContent = await marked(markdownContent);
+
   return {
     frontmatter: data as PostFrontmatter,
-    content: markdownContent,
+    content: htmlContent,
     slug,
     filePath,
   };
