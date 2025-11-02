@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://dragancloudbizz.github.io/mycelium-blog/sitemap-index.xml
+Sitemap: https://vanmarkic.github.io/mycelium-blog/sitemap-index.xml

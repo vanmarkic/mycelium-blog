@@ -21,6 +21,6 @@ export default defineConfig({
       wrap: true
     }
   },
-  site: 'https://dragancloudbizz.github.io',
+  site: 'https://vanmarkic.github.io',
   base: '/mycelium-blog/',
 });
