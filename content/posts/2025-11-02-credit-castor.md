@@ -21,6 +21,7 @@ relatedTo:
   - 2025-11-02-claude-config
   - 2025-11-02-loyer.brussels
   - 2025-11-02-touchepas
+  - 2025-11-03-ferme-du-temple
   - static-site-generation
 description: 'Exploring test-driven-development, static-site-generation in credit-castor'
 ---

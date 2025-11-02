@@ -19,6 +19,7 @@ patterns:
 relatedTo:
   - 2025-11-02-credit-castor
   - 2025-11-02-loyer.brussels
+  - 2025-11-03-ferme-du-temple
 description: >-
   Architectural pattern for building high-performance websites with pre-rendered
   static HTML

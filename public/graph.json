@@ -71,6 +71,24 @@
       "date": "2025-11-02"
     },
     {
+      "id": "2025-11-03-ferme-du-temple",
+      "type": "post",
+      "title": "Building La Ferme du Temple: Performance Engineering Meets Design Principles",
+      "tags": [
+        "astro",
+        "performance",
+        "seo",
+        "gestalt-principles",
+        "web-vitals",
+        "accessibility",
+        "static-site-generation",
+        "react",
+        "supabase"
+      ],
+      "path": "/posts/2025-11-03-ferme-du-temple",
+      "date": "2025-11-03"
+    },
+    {
       "id": "work-visibility",
       "type": "skill",
       "title": "Work Visibility Skill",
@@ -136,6 +154,13 @@
     },
     {
       "from": "2025-11-02-credit-castor",
+      "to": "2025-11-03-ferme-du-temple",
+      "type": "related",
+      "strength": 0.4966666666666667,
+      "reason": "3 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-02-credit-castor",
       "to": "static-site-generation",
       "type": "implements",
       "strength": 0.5900000000000001,
@@ -150,11 +175,25 @@
     },
     {
       "from": "2025-11-02-loyer.brussels",
+      "to": "2025-11-03-ferme-du-temple",
+      "type": "related",
+      "strength": 0.41095238095238096,
+      "reason": "2 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-02-loyer.brussels",
       "to": "static-site-generation",
       "type": "implements",
       "strength": 0.30000000000000004,
       "reason": "shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-03-ferme-du-temple",
+      "to": "static-site-generation",
+      "type": "implements",
+      "strength": 0.4566666666666667,
+      "reason": "2 shared tags, shared patterns: static-site-generation, recent proximity"
     }
   ],
-  "lastUpdated": "2025-11-02T23:08:53.570Z"
+  "lastUpdated": "2025-11-02T23:12:43.904Z"
 }
