@@ -55,9 +55,19 @@ The commits show a pattern of building calculator strategies...
 | **Solution** | How you approached it | Implementation patterns in commits |
 | **Learned** | Takeaways | Reflections on commit patterns |
 
+## Two Effective Styles
+
+### Style 1: Conversational (Ben Anderson)
+Personal, exploratory, thinks out loud. Good for thought experiments and retrospectives.
+
+### Style 2: Pedagogical (Mark Seemann)
+Principled, builds arguments through evidence. Good for establishing technical positions.
+
+**Choose based on your content:** Retrospectives often blend both styles.
+
 ## Narrative Techniques (from effective technical blogs)
 
-### Conversational Hooks
+### Conversational Hooks (Ben Anderson style)
 **Bad Opening:**
 > This post describes the implementation of a calculator system in touchepas.
 
@@ -94,6 +104,54 @@ Don't just show the solution—show the **path to the solution**:
 
 Opens with uncertainty, invites reader into deliberation rather than presenting conclusion.
 
+### Declarative Thesis (Mark Seemann style)
+**Strong opening:**
+> Favour Fakes over dynamic mocks.
+
+**Pattern:** State your position immediately, then build evidence
+
+**When to use:**
+- You have a strong technical opinion backed by experience
+- Arguing against common practice
+- Teaching a principled approach
+
+### Anticipate Objections
+Address skepticism throughout, not just at the end:
+- "You may object that..."
+- "Perhaps you're still not convinced..."
+- "One might argue..."
+
+**Why it works:** Shows you've thought through counterarguments, builds credibility
+
+**Example:**
+> You might think void returns are fine—technically correct, even. I thought so too. Then I tried refactoring.
+
+### Progressive Revelation (Seemann style)
+Show the same test with different implementations:
+1. Show interface/contract
+2. Show correct implementation
+3. Show broken implementation
+4. Highlight what changed and what broke
+
+**Pattern:** Build understanding through comparison, not explanation
+
+### Define Your Terms
+If using potentially ambiguous terms, define them upfront:
+- "What I mean by 'encapsulation' is..."
+- "When I say 'contract' I'm referring to..."
+- "Let's clarify what we mean by..."
+
+**Why it works:** Prevents talking past each other, establishes shared vocabulary
+
+### Contract-Based Reasoning
+Frame problems in principles, not convenience:
+- Bad: "This approach is easier"
+- Good: "This approach maintains encapsulation by..."
+- Bad: "Tests run faster"
+- Good: "Tests verify contracts, not implementations"
+
+**Pattern:** Ground arguments in fundamental principles, not pragmatic trade-offs
+
 ## Implementation
 
 ### Step 1: Read the Draft Completely
@@ -128,8 +186,11 @@ Group commits by type:
 - **Avoid assuming business context** not evident in commits
 - 2-3 paragraphs
 
-**Example opening:**
+**Example opening (Conversational):**
 > I spent October refactoring a calculator system. Not because I wanted to—because TypeScript forced my hand. That void-returning function? It was a type bomb waiting to explode.
+
+**Example opening (Pedagogical):**
+> Test-driven development requires fast feedback. The touchepas refactoring demonstrates how the RED-GREEN-REFACTOR cycle surfaces type inconsistencies that static analysis alone might miss.
 
 **Challenge Section:**
 - **Be honest about what was hard** - not just "here's what I did"
@@ -141,8 +202,13 @@ Group commits by type:
 - Show the **path** to understanding, not just the understanding
 - 2-4 paragraphs
 
-**Example:**
+**Example (Conversational):**
 > The first version worked. Sort of. It passed tests, but I knew it was fragile. The void return type was technically correct—there are cases where no result makes sense. But TypeScript was warning me: "Are you sure about this?" I ignored it. Mistake.
+
+**Example (Pedagogical with Progressive Revelation):**
+> The void return type satisfied the compiler. But consider what happens during refactoring: the interface allows void, but clients expect null. This contract mismatch creates a maintenance burden—every caller must handle both cases, even when only one occurs in practice.
+>
+> Let me show you with the actual tests. First, with void... [then with null]. Notice how the second test clearly signals "no result found" rather than "operation completed with no value."
 
 **Solution Section:**
 - Walk through the approach using commit chronology
