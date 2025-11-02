@@ -257,6 +257,139 @@ function generateTitle(
 }
 
 /**
+ * Analyzes commit messages to detect story patterns
+ */
+interface CommitStory {
+  features: Commit[];
+  fixes: Commit[];
+  refactoring: Commit[];
+  docs: Commit[];
+  tests: Commit[];
+  other: Commit[];
+}
+
+function analyzeCommitPatterns(commits: Commit[]): CommitStory {
+  const story: CommitStory = {
+    features: [],
+    fixes: [],
+    refactoring: [],
+    docs: [],
+    tests: [],
+    other: [],
+  };
+
+  const featureWords = /^(feat|feature|add|implement|create|build)/i;
+  const fixWords = /^(fix|bugfix|patch|resolve|correct)/i;
+  const refactorWords = /^(refactor|refine|improve|optimize|enhance|clean)/i;
+  const docsWords = /^(docs|documentation|readme|comment)/i;
+  const testWords = /^(test|spec|coverage)/i;
+
+  for (const commit of commits) {
+    const msg = commit.message.toLowerCase();
+    if (featureWords.test(msg)) story.features.push(commit);
+    else if (fixWords.test(msg)) story.fixes.push(commit);
+    else if (refactorWords.test(msg)) story.refactoring.push(commit);
+    else if (docsWords.test(msg)) story.docs.push(commit);
+    else if (testWords.test(msg)) story.tests.push(commit);
+    else story.other.push(commit);
+  }
+
+  return story;
+}
+
+/**
+ * Generates narrative text from commit patterns
+ */
+function generateNarrative(metadata: RepoMetadata): string {
+  const story = analyzeCommitPatterns(metadata.recentCommits);
+  const totalCommits = metadata.recentCommits.length;
+
+  let narrative = '';
+
+  // Opening: Set the context
+  if (story.features.length > 0) {
+    const featureCount = story.features.length;
+    const percentage = Math.round((featureCount / totalCommits) * 100);
+    narrative += `Over the past month, **${totalCommits} commits** shaped ${metadata.repo}, with ${percentage}% focused on building new features. `;
+  } else {
+    narrative += `Over the past month, **${totalCommits} commits** refined ${metadata.repo}. `;
+  }
+
+  // Tech context
+  if (metadata.techStack.length > 0) {
+    narrative += `The project leverages **${metadata.techStack.join(', ')}**`;
+    if (metadata.detectedPatterns.length > 0) {
+      narrative += `, applying patterns like **${metadata.detectedPatterns.join(', ')}** to solve real-world problems.\n\n`;
+    } else {
+      narrative += ` to tackle complex challenges.\n\n`;
+    }
+  }
+
+  return narrative;
+}
+
+/**
+ * Generates story-driven section prompts
+ */
+function generateStoryPrompts(metadata: RepoMetadata): string {
+  const story = analyzeCommitPatterns(metadata.recentCommits);
+
+  let prompts = '## The Story\n\n';
+  prompts += '<!-- Review the commit history below and tell the story of this work:\n\n';
+  prompts += '1. **Context**: What problem were you trying to solve? What was the goal?\n';
+  prompts += '2. **Challenge**: What obstacles did you encounter? What made this interesting?\n';
+  prompts += '3. **Solution**: How did you approach the problem? What decisions did you make?\n';
+  prompts += '4. **Outcome**: What did you learn? What would you do differently?\n\n';
+
+  // Provide specific commit insights to help tell the story
+  if (story.features.length > 0) {
+    prompts += `Notable features built:\n`;
+    story.features.slice(0, 3).forEach(c => {
+      prompts += `- ${c.message} (${new Date(c.date).toLocaleDateString()})\n`;
+    });
+    prompts += '\n';
+  }
+
+  if (story.fixes.length > 0) {
+    prompts += `Challenges overcome:\n`;
+    story.fixes.slice(0, 3).forEach(c => {
+      prompts += `- ${c.message} (${new Date(c.date).toLocaleDateString()})\n`;
+    });
+    prompts += '\n';
+  }
+
+  if (story.refactoring.length > 0) {
+    prompts += `Evolution and refinement:\n`;
+    story.refactoring.slice(0, 3).forEach(c => {
+      prompts += `- ${c.message} (${new Date(c.date).toLocaleDateString()})\n`;
+    });
+    prompts += '\n';
+  }
+
+  prompts += '-->\n\n';
+  prompts += '### Context: What I Was Building\n\n';
+  prompts += `[Describe the project goal and why you started this work. What problem does ${metadata.repo} solve?]\n\n`;
+
+  prompts += '### The Challenge\n\n';
+  prompts += '[What made this difficult? What trade-offs did you face? What surprised you?]\n\n';
+
+  prompts += '### How I Solved It\n\n';
+  prompts += '[Walk through your approach. Show key code, explain decisions, highlight insights.]\n\n';
+
+  if (story.features.length > 0 || story.refactoring.length > 0) {
+    prompts += '```typescript\n';
+    prompts += '// Show a meaningful code snippet that tells the story\n';
+    prompts += '// This could be a key function, an interesting pattern, or a clever solution\n';
+    prompts += '```\n\n';
+  }
+
+  prompts += '### What I Learned\n\n';
+  prompts += '[Key takeaways, lessons learned, what you\'d do differently next time]\n\n';
+
+  return prompts;
+}
+
+/**
  * Generates a markdown draft from repository metadata
  */
 function generateDraft(metadata: RepoMetadata): string {
@@ -272,37 +405,31 @@ function generateDraft(metadata: RepoMetadata): string {
     skills: metadata.claudeSkills,
     patterns: metadata.detectedPatterns,
     relatedTo: [],
-    description: `Exploring ${metadata.detectedPatterns.join(', ')} in ${metadata.repo}`,
+    description: `Exploring ${metadata.detectedPatterns.join(', ') || 'development patterns'} in ${metadata.repo}`,
   };
 
-  const content = `## Overview
+  const narrative = generateNarrative(metadata);
+  const storyPrompts = generateStoryPrompts(metadata);
 
-This post explores the work done on ${metadata.repo} over the last ${metadata.recentCommits.length} commits.
+  const content = `## Introduction
 
-**Tech Stack:** ${metadata.techStack.join(', ') || 'Not detected'}
+${narrative}
 
-**Patterns:** ${metadata.detectedPatterns.join(', ') || 'None detected'}
+${storyPrompts}
 
-## Recent Activity
+## Technical Details
+
+**Stack**: ${metadata.techStack.join(', ') || 'Not detected'}
+**Patterns**: ${metadata.detectedPatterns.join(', ') || 'None detected'}
+${metadata.claudeSkills.length > 0 ? `**Claude Skills**: ${metadata.claudeSkills.join(', ')}` : ''}
+
+## All Commits (${metadata.recentCommits.length})
 
 ${metadata.recentCommits
-  .slice(0, 5)
   .map(
     (commit) => `- ${commit.message} (${new Date(commit.date).toLocaleDateString()})`
   )
   .join('\n')}
-
-## Key Learnings
-
-<!-- AI: Generate insights about the technical decisions, patterns, and challenges -->
-
-## Technical Deep Dive
-
-<!-- AI: Analyze the most interesting commits and explain technical details -->
-
-## Conclusion
-
-<!-- AI: Summarize the value and lessons learned from this work -->
 
 ## Mycelium Links
 
