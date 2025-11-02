@@ -5,6 +5,8 @@ import { getPublishedPosts } from '../utils/markdown';
 const contentDir = new URL('../../content', import.meta.url).pathname;
 const posts = await getPublishedPosts(contentDir);
 
+const base = import.meta.env.BASE_URL;
+
 // Group posts by tags for display
 const allTags = new Set<string>();
 posts.forEach(post => {
@@ -50,7 +52,7 @@ posts.forEach(post => {
             <article class="border border-gray-800 rounded-lg p-6 hover:border-mycelium-600 transition-colors">
               <div class="flex items-start justify-between">
                 <div class="flex-1">
-                  <a href={`/posts/${post.slug}`} class="text-2xl font-bold text-gray-100 hover:text-mycelium-400 transition-colors">
+                  <a href={`${base}posts/${post.slug}`} class="text-2xl font-bold text-gray-100 hover:text-mycelium-400 transition-colors">
                     {post.frontmatter.title}
                   </a>
                   {post.frontmatter.privacy === 'internal' && (

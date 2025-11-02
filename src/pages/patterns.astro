@@ -4,6 +4,8 @@ import { getPatterns } from '../utils/markdown';
 
 const contentDir = new URL('../../content', import.meta.url).pathname;
 const patterns = await getPatterns(contentDir);
+
+const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title="Technical Patterns" description="A library of reusable technical patterns and architectural approaches">
@@ -23,7 +25,7 @@ const patterns = await getPatterns(contentDir);
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         {patterns.map(pattern => (
           <article class="border border-gray-800 rounded-lg p-6 hover:border-mycelium-600 transition-colors">
-            <a href={`/patterns/${pattern.slug}`} class="block">
+            <a href={`${base}patterns/${pattern.slug}`} class="block">
               <h2 class="text-xl font-bold text-gray-100 hover:text-mycelium-400 transition-colors">
                 {pattern.frontmatter.title}
               </h2>

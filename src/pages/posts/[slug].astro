@@ -15,6 +15,8 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { frontmatter, content } = post;
+
+const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title={frontmatter.title} description={frontmatter.description}>
@@ -64,7 +66,7 @@ const { frontmatter, content } = post;
               <span class="text-gray-400">Skills:</span>{' '}
               {frontmatter.skills.map((skill, i) => (
                 <span>
-                  <a href={`/skills/${skill}`} class="text-mycelium-400 hover:text-mycelium-300">
+                  <a href={`${base}skills/${skill}`} class="text-mycelium-400 hover:text-mycelium-300">
                     {skill}
                   </a>
                   {i < frontmatter.skills.length - 1 && ', '}
@@ -77,7 +79,7 @@ const { frontmatter, content } = post;
               <span class="text-gray-400">Patterns:</span>{' '}
               {frontmatter.patterns.map((pattern, i) => (
                 <span>
-                  <a href={`/patterns/${pattern}`} class="text-mycelium-400 hover:text-mycelium-300">
+                  <a href={`${base}patterns/${pattern}`} class="text-mycelium-400 hover:text-mycelium-300">
                     {pattern}
                   </a>
                   {i < frontmatter.patterns.length - 1 && ', '}
@@ -106,7 +108,7 @@ const { frontmatter, content } = post;
         <div class="space-y-3">
           {frontmatter.relatedTo.map(relatedSlug => (
             <a
-              href={`/posts/${relatedSlug}`}
+              href={`${base}posts/${relatedSlug}`}
               class="block p-4 bg-gray-800 rounded-lg hover:bg-gray-750 hover:border-mycelium-600 border border-transparent transition-all"
             >
               <span class="text-mycelium-400 hover:text-mycelium-300">
@@ -121,7 +123,7 @@ const { frontmatter, content } = post;
     <!-- Back to home -->
     <div class="mt-12">
       <a
-        href="/"
+        href={base}
         class="text-mycelium-400 hover:text-mycelium-300 transition-colors"
       >
         ← Back to all posts
