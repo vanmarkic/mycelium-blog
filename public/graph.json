@@ -14,6 +14,63 @@
       "date": "2025-10-28"
     },
     {
+      "id": "2025-11-02-claude-config",
+      "type": "post",
+      "title": "Building claude-config with React and test-driven-development",
+      "tags": [
+        "test-driven-development",
+        "react",
+        "typescript",
+        "vitest",
+        "tailwind-css"
+      ],
+      "path": "/posts/2025-11-02-claude-config",
+      "date": "2025-11-02"
+    },
+    {
+      "id": "2025-11-02-credit-castor",
+      "type": "post",
+      "title": "Building credit-castor with React and test-driven-development",
+      "tags": [
+        "test-driven-development",
+        "static-site-generation",
+        "react",
+        "astro",
+        "vitest",
+        "tailwind-css"
+      ],
+      "path": "/posts/2025-11-02-credit-castor",
+      "date": "2025-11-02"
+    },
+    {
+      "id": "2025-11-02-loyer.brussels",
+      "type": "post",
+      "title": "Building loyer.brussels with React and test-driven-development",
+      "tags": [
+        "test-driven-development",
+        "static-site-generation",
+        "react",
+        "next.js",
+        "typescript",
+        "vitest",
+        "tailwind-css"
+      ],
+      "path": "/posts/2025-11-02-loyer.brussels",
+      "date": "2025-11-02"
+    },
+    {
+      "id": "2025-11-02-touchepas",
+      "type": "post",
+      "title": "Building touchepas with React and test-driven-development",
+      "tags": [
+        "test-driven-development",
+        "react",
+        "typescript"
+      ],
+      "path": "/posts/2025-11-02-touchepas",
+      "date": "2025-11-02"
+    },
+    {
       "id": "work-visibility",
       "type": "skill",
       "title": "Work Visibility Skill",
@@ -41,6 +98,63 @@
       "date": "2025-11-02"
     }
   ],
-  "edges": [],
-  "lastUpdated": "2025-11-02T23:02:32.918Z"
+  "edges": [
+    {
+      "from": "2025-11-02-claude-config",
+      "to": "2025-11-02-credit-castor",
+      "type": "related",
+      "strength": 0.62,
+      "reason": "4 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-02-claude-config",
+      "to": "2025-11-02-loyer.brussels",
+      "type": "related",
+      "strength": 0.7000000000000001,
+      "reason": "5 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-02-claude-config",
+      "to": "2025-11-02-touchepas",
+      "type": "related",
+      "strength": 0.7000000000000001,
+      "reason": "3 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-02-credit-castor",
+      "to": "2025-11-02-loyer.brussels",
+      "type": "related",
+      "strength": 0.6333333333333334,
+      "reason": "5 shared tags, shared patterns: test-driven-development, static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-02-credit-castor",
+      "to": "2025-11-02-touchepas",
+      "type": "related",
+      "strength": 0.5666666666666667,
+      "reason": "2 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-02-credit-castor",
+      "to": "static-site-generation",
+      "type": "implements",
+      "strength": 0.5900000000000001,
+      "reason": "1 shared tags, shared repos: credit-castor, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-02-loyer.brussels",
+      "to": "2025-11-02-touchepas",
+      "type": "related",
+      "strength": 0.7000000000000001,
+      "reason": "3 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-02-loyer.brussels",
+      "to": "static-site-generation",
+      "type": "implements",
+      "strength": 0.30000000000000004,
+      "reason": "shared patterns: static-site-generation, recent proximity"
+    }
+  ],
+  "lastUpdated": "2025-11-02T23:08:53.570Z"
 }

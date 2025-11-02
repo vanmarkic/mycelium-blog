@@ -1,14 +1,27 @@
 ---
-title: "Static Site Generation Pattern"
-date: "2025-11-02"
+title: Static Site Generation Pattern
+date: '2025-11-02'
 status: published
 privacy: public
-tags: [architecture, performance, ssg, astro, jamstack]
-repos: [credit-castor, mycelium-blog]
+tags:
+  - architecture
+  - performance
+  - ssg
+  - astro
+  - jamstack
+repos:
+  - credit-castor
+  - mycelium-blog
 skills: []
-patterns: [static-site-generation, jamstack]
-relatedTo: []
-description: "Architectural pattern for building high-performance websites with pre-rendered static HTML"
+patterns:
+  - static-site-generation
+  - jamstack
+relatedTo:
+  - 2025-11-02-credit-castor
+  - 2025-11-02-loyer.brussels
+description: >-
+  Architectural pattern for building high-performance websites with pre-rendered
+  static HTML
 ---
 
 ## Pattern Overview
