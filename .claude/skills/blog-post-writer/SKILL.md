@@ -55,7 +55,7 @@ The commits show a pattern of building calculator strategies...
 | **Solution** | How you approached it | Implementation patterns in commits |
 | **Learned** | Takeaways | Reflections on commit patterns |
 
-## Two Effective Styles
+## Three Effective Approaches
 
 ### Style 1: Conversational (Ben Anderson)
 Personal, exploratory, thinks out loud. Good for thought experiments and retrospectives.
@@ -63,7 +63,10 @@ Personal, exploratory, thinks out loud. Good for thought experiments and retrosp
 ### Style 2: Pedagogical (Mark Seemann)
 Principled, builds arguments through evidence. Good for establishing technical positions.
 
-**Choose based on your content:** Retrospectives often blend both styles.
+### Style 3: Contextual (Behind Genius Ventures)
+Multi-layered storytelling that shows the "invisible" connections. Good for showing broader impact.
+
+**Choose based on your content:** Retrospectives often blend all three.
 
 ## Narrative Techniques (from effective technical blogs)
 
@@ -152,6 +155,55 @@ Frame problems in principles, not convenience:
 
 **Pattern:** Ground arguments in fundamental principles, not pragmatic trade-offs
 
+### Four Layers of Context (Behind Genius Ventures style)
+Technical stories work across multiple abstraction layers. Don't just describe **what** you built—show the broader context:
+
+**1. Implementation Layer (Product)**
+- The technical details and tradeoffs
+- "I used a strategy pattern with a registry dispatcher"
+
+**2. Process Layer (Team)**
+- How you collaborated, made decisions
+- "The team debated whether to normalize to null or handle void"
+
+**3. Purpose Layer (Vision)**
+- Why this matters, long-term impact
+- "This enables adding regional calculators without refactoring core logic"
+
+**4. Ecosystem Layer (Landscape)**
+- How this fits into broader trends, alternatives, history
+- "Most calculator libraries handle one region. Multi-region support is rare because..."
+
+**Why it works:** Readers at different levels connect with different layers. Juniors learn from implementation, seniors evaluate architecture, business sees impact.
+
+**Example structure:**
+```markdown
+### Context: What I Was Building
+[Implementation] I built a calculator system with strategy pattern...
+[Purpose] This enables scaling to multiple regions...
+[Ecosystem] Unlike existing solutions that hardcode regional logic...
+```
+
+### Show the Invisible
+Technical storytelling reveals what's **not obvious** from the code:
+
+**Show hidden tradeoffs:**
+- "I chose X over Y because of constraint Z that's not visible in the commit"
+- "This refactoring makes sense only if you know about the upcoming feature..."
+
+**Show unseen connections:**
+- "This bug revealed a deeper assumption in our data model"
+- "The type error was actually protecting us from a race condition"
+
+**Show alternative paths:**
+- "I tried approach A first. It failed because..."
+- "Most would use library X here. I didn't because..."
+
+**Pattern:** Make your reasoning visible, not just your results
+
+**Example:**
+> The calculator interface looks simple. But that simplicity hides a critical decision: should `null` mean "no result" or "calculation failed"? TypeScript forced me to choose explicitly. The void-to-null refactor wasn't cosmetic—it was clarifying intent for future maintainers.
+
 ## Implementation
 
 ### Step 1: Read the Draft Completely
@@ -181,7 +233,10 @@ Group commits by type:
 - **Start with a hook** - human moment, not technical summary
   - Bad: "This post describes the work on touchepas"
   - Good: "I needed a rent calculator that didn't lie to me"
-- State what the project does based on feature commits
+- **Layer your context** - move from implementation to ecosystem
+  - What you built (implementation layer)
+  - Why it matters (purpose layer)
+  - How it fits the broader landscape (ecosystem layer)
 - Use conversational bridges: "Here's what happened...", "I started with..."
 - **Avoid assuming business context** not evident in commits
 - 2-3 paragraphs
@@ -191,6 +246,9 @@ Group commits by type:
 
 **Example opening (Pedagogical):**
 > Test-driven development requires fast feedback. The touchepas refactoring demonstrates how the RED-GREEN-REFACTOR cycle surfaces type inconsistencies that static analysis alone might miss.
+
+**Example opening (Contextual - Four Layers):**
+> I built a strategy pattern for regional calculators [implementation]. This enables scaling across Belgian regions without refactoring core logic [purpose]. Most calculator libraries hardcode regional rules—multi-region support is rare [ecosystem].
 
 **Challenge Section:**
 - **Be honest about what was hard** - not just "here's what I did"
@@ -212,9 +270,21 @@ Group commits by type:
 
 **Solution Section:**
 - Walk through the approach using commit chronology
+- **Show the invisible** - reveal reasoning not obvious from code
+  - Why you chose X over Y
+  - Hidden constraints that influenced decisions
+  - Alternative paths you rejected
 - Include 1-2 code snippets **if you have repo access** (otherwise describe patterns from commits)
 - Connect commits into a narrative arc
 - 3-5 paragraphs (with code if available)
+
+**Showing the invisible example:**
+```markdown
+The registry dispatcher looks straightforward. But that design emerged from
+a failed attempt at compile-time dispatch. TypeScript's type system couldn't
+handle the dynamic region lookup we needed. Runtime dispatch was the fallback—
+and turned out simpler anyway.
+```
 
 **Learned Section:**
 - Extract lessons from the commit patterns
