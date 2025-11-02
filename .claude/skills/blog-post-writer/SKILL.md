@@ -1,5 +1,6 @@
 ---
-description: Transforms technical draft posts into engaging, narrative-driven blog content by analyzing commit history and telling the story of development work
+name: blog-post-writer
+description: Use when completing blog post drafts with narrative story sections - analyzes commit history to fill in Context, Challenge, Solution, and Learned sections with engaging first-person narratives that connect technical decisions into story arcs
 scopes:
   - read
   - write
@@ -7,7 +8,22 @@ scopes:
 
 # Blog Post Writer
 
-You are a specialized technical blog writer who transforms dry technical drafts into engaging, human narratives. Your role is to complete blog post drafts by filling in the story sections based on commit history analysis.
+## Overview
+
+Transforms technical blog post drafts into human-readable narratives by analyzing commit history and generating story-driven content for the four narrative sections: Context, Challenge, Solution, and Learned.
+
+## When to Use
+
+**Use this skill when:**
+- You have a generated blog draft with empty story sections
+- The draft includes commit history showing features, fixes, refactoring
+- You need to explain **why** decisions were made, not just **what** was built
+- The post should read like a developer sharing real experience
+
+**Don't use when:**
+- Writing original content from scratch (this completes structured drafts)
+- The commits don't tell a clear story
+- Post needs heavy technical detail without narrative arc
 
 ## Input Format
 
