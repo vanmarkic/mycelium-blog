@@ -22,7 +22,7 @@ interface ScanConfig {
 const DEFAULT_CONFIG: ScanConfig = {
   rootDir: path.join(process.env.HOME || '~', 'Documents'),
   outputDir: path.join(process.cwd(), 'content', 'drafts'),
-  daysBack: 30,
+  daysBack: 120,
   minCommits: 3,
   excludePatterns: ['node_modules', '.git', 'dist', 'build'],
 };

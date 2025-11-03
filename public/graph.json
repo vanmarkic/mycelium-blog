@@ -1,20 +1,21 @@
 {
   "nodes": [
     {
-      "id": "2025-10-28-event-sourcing-patterns",
+      "id": "2025-11-02-example-draft",
       "type": "post",
-      "title": "Event Sourcing Patterns for State Management",
+      "title": "Building a Belgian Real Estate Calculator with Astro and Pure Functions",
       "tags": [
-        "event-sourcing",
-        "architecture",
-        "state-management",
-        "domain-driven-design"
+        "astro",
+        "real-estate",
+        "pure-functions",
+        "tdd",
+        "vitest"
       ],
-      "path": "/posts/2025-10-28-event-sourcing-patterns",
-      "date": "2025-10-28"
+      "path": "/posts/2025-11-02-example-draft",
+      "date": "2025-11-02"
     },
     {
-      "id": "2025-11-02-claude-config",
+      "id": "2025-11-03-claude-config",
       "type": "post",
       "title": "Building claude-config with React and test-driven-development",
       "tags": [
@@ -24,42 +25,11 @@
         "vitest",
         "tailwind-css"
       ],
-      "path": "/posts/2025-11-02-claude-config",
-      "date": "2025-11-02"
+      "path": "/posts/2025-11-03-claude-config",
+      "date": "2025-11-03"
     },
     {
-      "id": "2025-11-02-credit-castor",
-      "type": "post",
-      "title": "Building credit-castor with React and test-driven-development",
-      "tags": [
-        "test-driven-development",
-        "static-site-generation",
-        "react",
-        "astro",
-        "vitest",
-        "tailwind-css"
-      ],
-      "path": "/posts/2025-11-02-credit-castor",
-      "date": "2025-11-02"
-    },
-    {
-      "id": "2025-11-02-loyer.brussels",
-      "type": "post",
-      "title": "Building loyer.brussels with React and test-driven-development",
-      "tags": [
-        "test-driven-development",
-        "static-site-generation",
-        "react",
-        "next.js",
-        "typescript",
-        "vitest",
-        "tailwind-css"
-      ],
-      "path": "/posts/2025-11-02-loyer.brussels",
-      "date": "2025-11-02"
-    },
-    {
-      "id": "2025-11-02-touchepas",
+      "id": "2025-11-03-touchepas",
       "type": "post",
       "title": "Building touchepas with React and test-driven-development",
       "tags": [
@@ -67,25 +37,7 @@
         "react",
         "typescript"
       ],
-      "path": "/posts/2025-11-02-touchepas",
-      "date": "2025-11-02"
-    },
-    {
-      "id": "2025-11-03-ferme-du-temple",
-      "type": "post",
-      "title": "Building La Ferme du Temple: Performance Engineering Meets Design Principles",
-      "tags": [
-        "astro",
-        "performance",
-        "seo",
-        "gestalt-principles",
-        "web-vitals",
-        "accessibility",
-        "static-site-generation",
-        "react",
-        "supabase"
-      ],
-      "path": "/posts/2025-11-03-ferme-du-temple",
+      "path": "/posts/2025-11-03-touchepas",
       "date": "2025-11-03"
     },
     {
@@ -118,82 +70,19 @@
   ],
   "edges": [
     {
-      "from": "2025-11-02-claude-config",
-      "to": "2025-11-02-credit-castor",
-      "type": "related",
-      "strength": 0.62,
-      "reason": "4 shared tags, shared patterns: test-driven-development, recent proximity"
-    },
-    {
-      "from": "2025-11-02-claude-config",
-      "to": "2025-11-02-loyer.brussels",
-      "type": "related",
-      "strength": 0.7000000000000001,
-      "reason": "5 shared tags, shared patterns: test-driven-development, recent proximity"
-    },
-    {
-      "from": "2025-11-02-claude-config",
-      "to": "2025-11-02-touchepas",
-      "type": "related",
-      "strength": 0.7000000000000001,
-      "reason": "3 shared tags, shared patterns: test-driven-development, recent proximity"
-    },
-    {
-      "from": "2025-11-02-credit-castor",
-      "to": "2025-11-02-loyer.brussels",
-      "type": "related",
-      "strength": 0.6333333333333334,
-      "reason": "5 shared tags, shared patterns: test-driven-development, static-site-generation, recent proximity"
-    },
-    {
-      "from": "2025-11-02-credit-castor",
-      "to": "2025-11-02-touchepas",
-      "type": "related",
-      "strength": 0.5666666666666667,
-      "reason": "2 shared tags, shared patterns: test-driven-development, recent proximity"
-    },
-    {
-      "from": "2025-11-02-credit-castor",
-      "to": "2025-11-03-ferme-du-temple",
-      "type": "related",
-      "strength": 0.4966666666666667,
-      "reason": "3 shared tags, shared patterns: static-site-generation, recent proximity"
-    },
-    {
-      "from": "2025-11-02-credit-castor",
+      "from": "2025-11-02-example-draft",
       "to": "static-site-generation",
       "type": "implements",
       "strength": 0.5900000000000001,
       "reason": "1 shared tags, shared repos: credit-castor, shared patterns: static-site-generation, recent proximity"
     },
     {
-      "from": "2025-11-02-loyer.brussels",
-      "to": "2025-11-02-touchepas",
+      "from": "2025-11-03-claude-config",
+      "to": "2025-11-03-touchepas",
       "type": "related",
       "strength": 0.7000000000000001,
       "reason": "3 shared tags, shared patterns: test-driven-development, recent proximity"
-    },
-    {
-      "from": "2025-11-02-loyer.brussels",
-      "to": "2025-11-03-ferme-du-temple",
-      "type": "related",
-      "strength": 0.41095238095238096,
-      "reason": "2 shared tags, shared patterns: static-site-generation, recent proximity"
-    },
-    {
-      "from": "2025-11-02-loyer.brussels",
-      "to": "static-site-generation",
-      "type": "implements",
-      "strength": 0.30000000000000004,
-      "reason": "shared patterns: static-site-generation, recent proximity"
-    },
-    {
-      "from": "2025-11-03-ferme-du-temple",
-      "to": "static-site-generation",
-      "type": "implements",
-      "strength": 0.4566666666666667,
-      "reason": "2 shared tags, shared patterns: static-site-generation, recent proximity"
     }
   ],
-  "lastUpdated": "2025-11-02T23:12:43.904Z"
+  "lastUpdated": "2025-11-03T01:17:05.688Z"
 }

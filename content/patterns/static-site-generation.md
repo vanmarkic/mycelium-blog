@@ -17,9 +17,7 @@ patterns:
   - static-site-generation
   - jamstack
 relatedTo:
-  - 2025-11-02-credit-castor
-  - 2025-11-02-loyer.brussels
-  - 2025-11-03-ferme-du-temple
+  - 2025-11-02-example-draft
 description: >-
   Architectural pattern for building high-performance websites with pre-rendered
   static HTML
