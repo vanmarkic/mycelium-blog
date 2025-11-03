@@ -1,7 +1,7 @@
 ---
 title: Building a Belgian Real Estate Calculator with Astro and Pure Functions
 date: '2025-11-02'
-status: draft
+status: published
 privacy: public
 tags:
   - astro

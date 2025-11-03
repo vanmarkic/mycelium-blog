@@ -1,7 +1,7 @@
 ---
 title: Building touchepas with React and test-driven-development
 date: '2025-11-03'
-status: draft
+status: published
 privacy: public
 tags:
   - test-driven-development
