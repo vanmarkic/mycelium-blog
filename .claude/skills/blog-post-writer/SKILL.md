@@ -17,6 +17,8 @@ Completes technical blog drafts by analyzing commit history and writing engaging
 
 Most drafts generated from repos use retrospective style.
 
+**CRITICAL OUTPUT RULE**: When writing blog content, NEVER mention "commits", "git history", "the log", or similar meta-references. Write naturally as if recounting from memory.
+
 ## When to Use
 
 **Use when:**
@@ -35,15 +37,15 @@ Most drafts generated from repos use retrospective style.
 ```markdown
 ### Context
 touchepas is a rent indexation calculator for Belgium...
-[Makes assumptions about business domain from commit messages]
+[Makes assumptions about business domain without evidence]
 ```
 
 **After (With Skill):**
 ```markdown
 ### Context
-touchepas implements calculation logic for different regional scenarios.
-The commits show a pattern of building calculator strategies...
-[Stays grounded in what commits actually show]
+I built a calculation system that needed to handle different regional scenarios.
+Early on, I realized a strategy pattern would give me the flexibility I needed...
+[Stays grounded in what actually happened, written naturally]
 ```
 
 ## Quick Reference: The 4 Sections
@@ -229,6 +231,8 @@ Group commits by type:
 
 ### Step 3: Write Sections Using Evidence
 
+**CRITICAL OUTPUT RULE: Never mention "commits", "git history", "the log", or any meta-analysis in your blog writing. Write as if you're naturally reflecting on your development experience from memory.**
+
 **Context Section:**
 - **Start with a hook** - human moment, not technical summary
   - Bad: "This post describes the work on touchepas"
@@ -305,31 +309,33 @@ Write as "I built", "I discovered", "I learned" - not "we" or "the developer".
 | **Listing commits instead of telling story** | Connect commits with "This led to...", "Which revealed...", "After that..." |
 | **Generic code snippets** | Show actual patterns from the codebase, not contrived examples |
 | **Third-person narration** | Always use first person: "I implemented" not "The code implements" |
+| **Mentioning commits/git in OUTPUT** | NEVER write "the commits show", "git history", or "looking at the log" - write naturally as if recounting from memory |
 
 ## Example: Before & After
 
 **Before (Ungrounded Assumption):**
 > touchepas is a rent indexation calculator for Belgium. The project needed to calculate rent adjustments based on regional health index data.
 
-**After (Evidence-Based):**
-> touchepas implements calculation logic with a strategy pattern. The commits show adding a BrusselsCalculator, then a registry dispatcher, suggesting support for multiple calculation approaches.
+**After (Evidence-Based, Natural Voice):**
+> I built a calculation system using a strategy pattern. Started with a BrusselsCalculator, then added a registry dispatcher when I realized I'd need to support multiple calculation approaches.
 
 **Before (Listing):**
 > First I added the calculator interface. Then I implemented BrusselsCalculator. Then I added tests.
 
-**After (Story Arc):**
-> I started with a calculator interface to define the contract. This forced me to think about return types—which surfaced a void vs null inconsistency that TypeScript caught. The test-first commits show the RED-GREEN-REFACTOR cycle working.
+**After (Story Arc, Natural Voice):**
+> I started with a calculator interface to define the contract. This forced me to think about return types—which surfaced a void vs null inconsistency that TypeScript caught. Working test-first, the RED-GREEN-REFACTOR cycle kept me honest.
 
 ## Red Flags - STOP and Revise
 
 If you find yourself:
 - Inventing user needs or business requirements not shown in commits
 - Writing "Users need..." without evidence
-- Copying commit messages without synthesis
+- Explicitly mentioning "commits", "git history", or "the log shows" **in your blog output**
 - Creating fake code examples when you don't have repo access
 - Writing in third person
+- Writing "The commits show..." or similar meta-analysis **in your blog output**
 
-**Stop. Re-read the commits. Stay grounded in evidence.**
+**Stop. Re-read the commits. Write naturally as if you're recounting from memory, not analyzing logs.**
 
 ## Code Snippet Guidelines
 
@@ -339,5 +345,5 @@ If you find yourself:
 
 **If you DON'T have repo access:**
 - Describe patterns inferred from commit messages
-- Example: "The commits suggest a strategy pattern with a registry dispatcher..."
+- Example: "I used a strategy pattern with a registry dispatcher..."
 - Don't invent code—describe the approach instead

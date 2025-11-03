@@ -59,7 +59,53 @@ npx tsx scripts/scan-repos.ts
 - Internal drafts: Technical patterns only, no business context
 - Public drafts: Full transparency with examples
 
-### Phase 2: Review & Curate
+### Phase 2: Complete Drafts (NEW)
+
+**Command:** User runs `/blog:complete` or asks "complete the draft posts"
+
+**Your process:**
+
+1. Find all drafts that need completion:
+```bash
+cd ~/Documents/mycelium-blog
+ls content/drafts/*.md
+```
+
+2. For each draft, use the **blog-post-writer skill** to complete the story sections:
+   - Read the draft completely (frontmatter + commit history)
+   - Analyze commit patterns (features, fixes, refactoring)
+   - Write Context, Challenge, Solution, Learned sections
+   - Use evidence-based narrative (no unverified assumptions)
+   - Apply conversational, pedagogical, or contextual style as appropriate
+   - **Output must NOT mention "commits", "git history", or similar meta-references**
+
+3. Invoke blog-post-writer:
+   ```
+   For each draft file:
+   - Read content/drafts/[filename].md
+   - Invoke blog-post-writer skill
+   - Skill writes the four sections based on commit evidence
+   - Save updated draft
+   ```
+
+4. Report completion:
+   ```
+   ✅ Completed 3 draft posts:
+      - content/drafts/2025-11-02-temporal-workflows.md
+      - content/drafts/2025-11-02-astro-calculator.md
+      - content/drafts/2025-11-02-playwright-automation.md
+
+   🤖 NEXT: Run /blog:review to review completed drafts
+   ```
+
+**blog-post-writer integration:**
+- Uses commit history from the draft's "All Commits" section
+- Stays grounded in evidence (no business assumptions for internal posts)
+- Applies narrative techniques: conversational hooks, self-aware honesty, progressive revelation
+- Uses first-person voice: "I built", "I discovered", "I learned"
+- Outputs natural narratives without mentioning "commits", "git history", or meta-analysis
+
+### Phase 3: Review & Curate
 
 **Command:** User runs `/blog:review` or asks "show me the draft posts"
 
@@ -103,7 +149,7 @@ ls -la content/drafts/
 - Ensure privacy compliance (no business leaks in internal posts)
 - Enhance SEO (title, meta description suggestions)
 
-### Phase 3: Graph Building
+### Phase 4: Graph Building
 
 **Command:** User runs `/blog:graph` or asks "rebuild the knowledge graph"
 
@@ -148,7 +194,7 @@ npx tsx scripts/build-graph.ts
 - 0.6-0.7 = Shared repos or tech stack
 - 0.3-0.5 = Moderate tag overlap or temporal proximity
 
-### Phase 4: Publish
+### Phase 5: Publish
 
 **Command:** User runs `/blog:publish` or asks "publish the blog changes"
 
@@ -212,6 +258,7 @@ git push origin main
 | Command | Alias | Description |
 |---------|-------|-------------|
 | `/blog:scan` | "scan repos" | Analyze git repos and generate drafts |
+| `/blog:complete` | "complete drafts" | Use blog-post-writer to complete story sections |
 | `/blog:review` | "review drafts" | Show pending drafts with metadata |
 | `/blog:graph` | "rebuild graph" | Detect mycelium connections |
 | `/blog:publish` | "publish blog" | Commit and deploy changes |
@@ -261,23 +308,27 @@ if (post.privacy === 'internal') {
 
 ## Integration with Existing Skills
 
-**Leverage these skills:**
+**Core skill integration:**
 
-1. **work-visibility:** Adapt git analysis logic for post generation
+1. **blog-post-writer (PRIMARY):** Completes story sections with evidence-based narratives
 2. **divergent-ideation:** Generate diverse post angles from repo analysis
 3. **gestalt-information-architecture:** Optimize graph visualization layout
 4. **ai-slop-detector:** Ensure AI drafts are high quality, not verbose
 
-**Workflow synergy:**
+**Updated workflow synergy:**
 ```
-work-visibility (repo analysis)
+blog-workflow:scan (repo analysis + draft generation)
     ↓
-blog-workflow (draft generation)
+blog-post-writer (complete story sections) ← NEW!
     ↓
-divergent-ideation (multiple angles)
+blog-workflow:review (approve/edit/delete)
     ↓
-blog-workflow (publish)
+blog-workflow:graph (build connections)
+    ↓
+blog-workflow:publish (commit + deploy)
 ```
+
+**Key improvement:** The blog-post-writer skill is now integrated directly into the workflow, transforming commit lists into engaging narratives automatically.
 
 ## Error Handling
 
@@ -316,10 +367,46 @@ blog-workflow (publish)
 ## Best Practices
 
 1. **Scan weekly** - Run `/blog:scan` every week to capture recent work
-2. **Batch reviews** - Review all drafts at once for consistency
-3. **Rebuild graph after edits** - Connections may change with content updates
-4. **Descriptive commits** - Use conventional commit format (feat/fix/docs)
-5. **Verify privacy** - Double-check internal posts before publishing
+2. **Auto-complete drafts** - Run `/blog:complete` after scanning to generate story sections
+3. **Batch reviews** - Review all completed drafts at once for consistency
+4. **Rebuild graph after edits** - Connections may change with content updates
+5. **Descriptive commits** - Use conventional commit format (feat/fix/docs)
+6. **Verify privacy** - Double-check internal posts before publishing
+
+**Recommended workflow cadence:**
+- Weekly: scan + complete drafts
+- Weekly: review and approve drafts
+- Before publishing: rebuild graph
+- Regular: publish approved posts
+
+## Workflow Synergy
+
+The updated workflow creates a seamless pipeline:
+
+```
+1. /blog:scan
+   → Analyzes repos
+   → Generates drafts with commit history
+   → Creates story prompts
+
+2. /blog:complete (NEW)
+   → Invokes blog-post-writer skill
+   → Completes Context/Challenge/Solution/Learned sections
+   → Uses evidence-based narrative (no commits/git mentioned in output)
+
+3. /blog:review
+   → Shows completed drafts
+   → Approve/Edit/Delete
+
+4. /blog:graph
+   → Detects mycelium connections
+   → Updates backlinks
+
+5. /blog:publish
+   → Commits and deploys
+```
+
+**Key improvement:** The blog-post-writer skill transforms basic drafts with commit lists into engaging, story-driven blog posts automatically. No more manual section writing!
 
 ## Example Session
 
