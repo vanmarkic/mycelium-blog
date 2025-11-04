@@ -13,6 +13,7 @@ tags:
   - belgian-real-estate
 repos:
   - credit-castor
+skills: []
 patterns:
   - domain-driven-design
   - state-machines
