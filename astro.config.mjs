@@ -21,6 +21,13 @@ export default defineConfig({
       wrap: true
     }
   },
+  i18n: {
+    defaultLocale: 'fr',
+    locales: ['fr', 'nl', 'en'],
+    routing: {
+      prefixDefaultLocale: false
+    }
+  },
   site: 'https://vanmarkic.github.io',
   base: '/mycelium-blog/',
 });
