@@ -1,0 +1,271 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout
+  title="Support"
+  description="Soutenez le développement de projets open source et d'outils numériques utiles à la communauté"
+>
+  <div class="space-y-12">
+    <!-- Hero Section -->
+    <section class="text-center py-12">
+      <h1 class="text-5xl font-bold text-mycelium-400 mb-4">
+        Soutenez mes projets
+      </h1>
+      <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+        Votre soutien permet de développer et maintenir des outils open source,
+        des applications utiles et de partager des connaissances avec la communauté.
+      </p>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="bg-gray-800 rounded-lg p-8">
+      <h2 class="text-3xl font-bold mb-4 text-gray-100">Comment vos dons sont utilisés</h2>
+      <div class="prose prose-invert max-w-none">
+        <p class="text-gray-300 text-lg">
+          Chaque contribution aide à financer :
+        </p>
+        <ul class="text-gray-300 space-y-2 mt-4">
+          <li>🛠️ Le développement et la maintenance d'outils open source</li>
+          <li>📚 La documentation et le partage de connaissances techniques</li>
+          <li>🌱 L'exploration de nouvelles technologies et patterns</li>
+          <li>🤝 La contribution à l'écosystème open source</li>
+          <li>⚡ L'infrastructure et les coûts d'hébergement des projets</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="bg-gray-800 rounded-lg p-8">
+      <h2 class="text-3xl font-bold mb-4 text-gray-100">Projets soutenus</h2>
+      <div class="prose prose-invert max-w-none">
+        <p class="text-gray-300 text-lg mb-6">
+          Vos contributions soutiennent l'ensemble de mes projets, incluant :
+        </p>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-gray-900 p-4 rounded-lg">
+            <h3 class="text-mycelium-400 font-semibold mb-2">🏟️ Stadium Check</h3>
+            <p class="text-gray-400 text-sm">Vérification et données sur les stades sportifs</p>
+          </div>
+          <div class="bg-gray-900 p-4 rounded-lg">
+            <h3 class="text-mycelium-400 font-semibold mb-2">🏠 Loyer.Brussels</h3>
+            <p class="text-gray-400 text-sm">Outil d'information sur les loyers à Bruxelles</p>
+          </div>
+          <div class="bg-gray-900 p-4 rounded-lg">
+            <h3 class="text-mycelium-400 font-semibold mb-2">🍄 Mycelium Blog</h3>
+            <p class="text-gray-400 text-sm">Jardin numérique de connaissances techniques</p>
+          </div>
+          <div class="bg-gray-900 p-4 rounded-lg">
+            <h3 class="text-mycelium-400 font-semibold mb-2">🤖 Claude Code Skills</h3>
+            <p class="text-gray-400 text-sm">Skills et workflows pour l'IA assistante</p>
+          </div>
+          <div class="bg-gray-900 p-4 rounded-lg">
+            <h3 class="text-mycelium-400 font-semibold mb-2">💳 Credit Castor</h3>
+            <p class="text-gray-400 text-sm">Gestion et analyse de crédits</p>
+          </div>
+          <div class="bg-gray-900 p-4 rounded-lg">
+            <h3 class="text-mycelium-400 font-semibold mb-2">✌️ DeuxMains</h3>
+            <p class="text-gray-400 text-sm">Application de seconde main</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Donation Options -->
+    <section>
+      <h2 class="text-3xl font-bold mb-8 text-center text-gray-100">Choisissez votre méthode de contribution</h2>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- GitHub Sponsors -->
+        <div class="card bg-gray-800 p-6 rounded-lg hover:border-mycelium-600 border border-gray-700 transition-all">
+          <div class="flex items-start mb-4">
+            <div class="text-4xl mr-3">💖</div>
+            <div>
+              <h3 class="text-xl font-bold text-mycelium-400">GitHub Sponsors</h3>
+              <p class="text-sm text-gray-400 mt-1">Soutenez via GitHub</p>
+            </div>
+          </div>
+          <p class="text-gray-300 text-sm mb-4">
+            Contribution récurrente ou ponctuelle directement depuis votre compte GitHub.
+          </p>
+          <a
+            href="#"
+            class="inline-block w-full text-center bg-mycelium-600 hover:bg-mycelium-500 text-white font-semibold py-2 px-4 rounded transition-colors"
+          >
+            Sponsor
+          </a>
+          <p class="text-xs text-gray-500 mt-2 text-center">À configurer prochainement</p>
+        </div>
+
+        <!-- Ko-fi -->
+        <div class="card bg-gray-800 p-6 rounded-lg hover:border-mycelium-600 border border-gray-700 transition-all">
+          <div class="flex items-start mb-4">
+            <div class="text-4xl mr-3">☕</div>
+            <div>
+              <h3 class="text-xl font-bold text-mycelium-400">Ko-fi</h3>
+              <p class="text-sm text-gray-400 mt-1">Offrez-moi un café</p>
+            </div>
+          </div>
+          <p class="text-gray-300 text-sm mb-4">
+            Contributions simples et rapides, avec ou sans compte.
+          </p>
+          <a
+            href="#"
+            class="inline-block w-full text-center bg-mycelium-600 hover:bg-mycelium-500 text-white font-semibold py-2 px-4 rounded transition-colors"
+          >
+            Donner sur Ko-fi
+          </a>
+          <p class="text-xs text-gray-500 mt-2 text-center">À configurer prochainement</p>
+        </div>
+
+        <!-- Buy Me a Coffee -->
+        <div class="card bg-gray-800 p-6 rounded-lg hover:border-mycelium-600 border border-gray-700 transition-all">
+          <div class="flex items-start mb-4">
+            <div class="text-4xl mr-3">☕</div>
+            <div>
+              <h3 class="text-xl font-bold text-mycelium-400">Buy Me a Coffee</h3>
+              <p class="text-sm text-gray-400 mt-1">Contribution rapide</p>
+            </div>
+          </div>
+          <p class="text-gray-300 text-sm mb-4">
+            Soutenez mon travail avec une contribution ponctuelle.
+          </p>
+          <a
+            href="#"
+            class="inline-block w-full text-center bg-mycelium-600 hover:bg-mycelium-500 text-white font-semibold py-2 px-4 rounded transition-colors"
+          >
+            Buy Me a Coffee
+          </a>
+          <p class="text-xs text-gray-500 mt-2 text-center">À configurer prochainement</p>
+        </div>
+
+        <!-- Patreon -->
+        <div class="card bg-gray-800 p-6 rounded-lg hover:border-mycelium-600 border border-gray-700 transition-all">
+          <div class="flex items-start mb-4">
+            <div class="text-4xl mr-3">🎨</div>
+            <div>
+              <h3 class="text-xl font-bold text-mycelium-400">Patreon</h3>
+              <p class="text-sm text-gray-400 mt-1">Soutien mensuel</p>
+            </div>
+          </div>
+          <p class="text-gray-300 text-sm mb-4">
+            Rejoignez ma communauté avec des contributions mensuelles.
+          </p>
+          <a
+            href="#"
+            class="inline-block w-full text-center bg-mycelium-600 hover:bg-mycelium-500 text-white font-semibold py-2 px-4 rounded transition-colors"
+          >
+            Devenir Patron
+          </a>
+          <p class="text-xs text-gray-500 mt-2 text-center">À configurer prochainement</p>
+        </div>
+
+        <!-- Liberapay -->
+        <div class="card bg-gray-800 p-6 rounded-lg hover:border-mycelium-600 border border-gray-700 transition-all">
+          <div class="flex items-start mb-4">
+            <div class="text-4xl mr-3">💰</div>
+            <div>
+              <h3 class="text-xl font-bold text-mycelium-400">Liberapay</h3>
+              <p class="text-sm text-gray-400 mt-1">Plateforme libre</p>
+            </div>
+          </div>
+          <p class="text-gray-300 text-sm mb-4">
+            Soutenez via une plateforme open source et sans but lucratif.
+          </p>
+          <a
+            href="#"
+            class="inline-block w-full text-center bg-mycelium-600 hover:bg-mycelium-500 text-white font-semibold py-2 px-4 rounded transition-colors"
+          >
+            Donner sur Liberapay
+          </a>
+          <p class="text-xs text-gray-500 mt-2 text-center">À configurer prochainement</p>
+        </div>
+
+        <!-- Open Collective -->
+        <div class="card bg-gray-800 p-6 rounded-lg hover:border-mycelium-600 border border-gray-700 transition-all">
+          <div class="flex items-start mb-4">
+            <div class="text-4xl mr-3">🤝</div>
+            <div>
+              <h3 class="text-xl font-bold text-mycelium-400">Open Collective</h3>
+              <p class="text-sm text-gray-400 mt-1">Transparence totale</p>
+            </div>
+          </div>
+          <p class="text-gray-300 text-sm mb-4">
+            Financements transparents avec suivi public des dépenses.
+          </p>
+          <a
+            href="#"
+            class="inline-block w-full text-center bg-mycelium-600 hover:bg-mycelium-500 text-white font-semibold py-2 px-4 rounded transition-colors"
+          >
+            Contribuer
+          </a>
+          <p class="text-xs text-gray-500 mt-2 text-center">À configurer prochainement</p>
+        </div>
+
+        <!-- PayPal -->
+        <div class="card bg-gray-800 p-6 rounded-lg hover:border-mycelium-600 border border-gray-700 transition-all">
+          <div class="flex items-start mb-4">
+            <div class="text-4xl mr-3">💳</div>
+            <div>
+              <h3 class="text-xl font-bold text-mycelium-400">PayPal</h3>
+              <p class="text-sm text-gray-400 mt-1">Paiement classique</p>
+            </div>
+          </div>
+          <p class="text-gray-300 text-sm mb-4">
+            Contribution rapide via PayPal, avec ou sans compte.
+          </p>
+          <a
+            href="#"
+            class="inline-block w-full text-center bg-mycelium-600 hover:bg-mycelium-500 text-white font-semibold py-2 px-4 rounded transition-colors"
+          >
+            Donner via PayPal
+          </a>
+          <p class="text-xs text-gray-500 mt-2 text-center">À configurer prochainement</p>
+        </div>
+
+        <!-- Bank Transfer IBAN -->
+        <div class="card bg-gray-800 p-6 rounded-lg hover:border-mycelium-600 border border-gray-700 transition-all">
+          <div class="flex items-start mb-4">
+            <div class="text-4xl mr-3">🏦</div>
+            <div>
+              <h3 class="text-xl font-bold text-mycelium-400">Virement IBAN</h3>
+              <p class="text-sm text-gray-400 mt-1">Virement bancaire</p>
+            </div>
+          </div>
+          <p class="text-gray-300 text-sm mb-4">
+            Pour les dons directs par virement bancaire européen.
+          </p>
+          <button
+            onclick="document.getElementById('iban-details').classList.toggle('hidden')"
+            class="inline-block w-full text-center bg-mycelium-600 hover:bg-mycelium-500 text-white font-semibold py-2 px-4 rounded transition-colors"
+          >
+            Voir les détails
+          </button>
+          <div id="iban-details" class="hidden mt-4 p-3 bg-gray-900 rounded text-xs">
+            <p class="text-gray-400 mb-2"><strong>Titulaire:</strong> À configurer</p>
+            <p class="text-gray-400 mb-2"><strong>IBAN:</strong> À configurer</p>
+            <p class="text-gray-400"><strong>BIC:</strong> À configurer</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Thank You Section -->
+    <section class="text-center py-12 bg-gray-800 rounded-lg">
+      <h2 class="text-3xl font-bold text-mycelium-400 mb-4">Merci pour votre soutien ! 🍄</h2>
+      <p class="text-gray-300 max-w-2xl mx-auto">
+        Chaque contribution, quelle que soit sa taille, fait une différence.
+        Ensemble, nous cultivons un écosystème numérique plus riche et ouvert.
+      </p>
+      <p class="text-gray-400 mt-4 text-sm">
+        Questions ? Contactez-moi via GitHub ou les réseaux sociaux.
+      </p>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  // Script for toggling IBAN details is inline in the HTML
+</script>
