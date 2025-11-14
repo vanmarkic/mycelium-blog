@@ -10,346 +10,470 @@ const base = import.meta.env.BASE_URL;
 >
   <div class="space-y-12">
     <!-- Hero Section -->
-    <section class="text-center py-12">
-      <h1 class="text-5xl font-bold text-mycelium-400 mb-4">
-        Soutenez mes projets
-      </h1>
-      <p class="text-xl text-gray-400 max-w-2xl mx-auto">
-        Votre soutien permet de développer et maintenir des outils open source,
-        des applications utiles et de partager des connaissances avec la communauté.
-      </p>
-    </section>
-
-    <!-- Mission Section -->
-    <section class="bg-gray-800 rounded-lg p-8">
-      <h2 class="text-3xl font-bold mb-4 text-gray-100">Comment vos dons sont utilisés</h2>
-      <div class="prose prose-invert max-w-none">
-        <p class="text-gray-300 text-lg">
-          Chaque contribution aide à financer :
+    <section class="relative overflow-hidden text-center py-16 px-4">
+      <div class="absolute inset-0 bg-gradient-to-r from-mycelium-900/20 via-transparent to-mycelium-900/20"></div>
+      <div class="relative z-10">
+        <div class="inline-block px-4 py-2 bg-mycelium-500/20 border border-mycelium-400 rounded-full mb-4">
+          <span class="text-mycelium-300 text-sm font-semibold">💚 Open Source & Impact Social</span>
+        </div>
+        <h1 class="text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-mycelium-400 via-green-300 to-mycelium-500 mb-6">
+          Soutenez l'écosystème !
+        </h1>
+        <p class="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-8">
+          Aidez à construire des outils qui changent des vies 🚀<br/>
+          Du code open source aux projets solidaires
         </p>
-        <ul class="text-gray-300 space-y-2 mt-4">
-          <li>🛠️ Le développement et la maintenance d'outils open source</li>
-          <li>📚 La documentation et le partage de connaissances techniques</li>
-          <li>🌱 L'exploration de nouvelles technologies et patterns</li>
-          <li>🤝 La contribution à l'écosystème open source</li>
-          <li>⚡ L'infrastructure et les coûts d'hébergement des projets</li>
-        </ul>
+
+        <!-- Quick stats -->
+        <div class="flex justify-center gap-6 flex-wrap mt-8">
+          <div class="text-center">
+            <div class="text-3xl font-bold text-mycelium-400">6+</div>
+            <div class="text-xs text-gray-400">Projets actifs</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-bold text-mycelium-400">100%</div>
+            <div class="text-xs text-gray-400">Open Source</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-bold text-mycelium-400">🇧🇪</div>
+            <div class="text-xs text-gray-400">Made in BE</div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- Projects Section -->
-    <section class="bg-gray-800 rounded-lg p-8">
-      <h2 class="text-3xl font-bold mb-4 text-gray-100">Projets soutenus</h2>
-      <div class="prose prose-invert max-w-none">
+    <!-- Mission Section -->
+    <section class="relative overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-8 md:p-10 border border-gray-700 shadow-xl">
+      <div class="absolute top-0 right-0 w-48 h-48 bg-mycelium-500/5 rounded-full blur-3xl"></div>
+      <div class="relative z-10">
+        <h2 class="text-4xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-mycelium-400 to-green-400">
+          Pourquoi me soutenir ? 🤔
+        </h2>
         <p class="text-gray-300 text-lg mb-6">
-          Vos contributions soutiennent l'ensemble de mes projets, incluant :
+          Chaque don contribue à créer un impact réel :
         </p>
         <div class="grid md:grid-cols-2 gap-4">
-          <div class="bg-gray-900 p-4 rounded-lg">
-            <h3 class="text-mycelium-400 font-semibold mb-2">🏟️ Stadium Check</h3>
-            <p class="text-gray-400 text-sm">Vérification et données sur les stades sportifs</p>
+          <div class="flex items-start space-x-3 bg-gray-800/50 p-4 rounded-xl hover:bg-gray-800 transition-colors">
+            <div class="text-2xl">🛠️</div>
+            <div>
+              <h3 class="text-mycelium-300 font-semibold mb-1">Dev & Maintenance</h3>
+              <p class="text-gray-400 text-sm">Outils open source qui facilitent la vie</p>
+            </div>
           </div>
-          <div class="bg-gray-900 p-4 rounded-lg">
-            <h3 class="text-mycelium-400 font-semibold mb-2">🏠 Loyer.Brussels</h3>
-            <p class="text-gray-400 text-sm">Outil d'information sur les loyers à Bruxelles</p>
+          <div class="flex items-start space-x-3 bg-gray-800/50 p-4 rounded-xl hover:bg-gray-800 transition-colors">
+            <div class="text-2xl">📚</div>
+            <div>
+              <h3 class="text-mycelium-300 font-semibold mb-1">Docs & Savoir</h3>
+              <p class="text-gray-400 text-sm">Partage de connaissances techniques</p>
+            </div>
           </div>
-          <div class="bg-gray-900 p-4 rounded-lg">
-            <h3 class="text-mycelium-400 font-semibold mb-2">🍄 Mycelium Blog</h3>
-            <p class="text-gray-400 text-sm">Jardin numérique de connaissances techniques</p>
+          <div class="flex items-start space-x-3 bg-gray-800/50 p-4 rounded-xl hover:bg-gray-800 transition-colors">
+            <div class="text-2xl">🌱</div>
+            <div>
+              <h3 class="text-mycelium-300 font-semibold mb-1">Innovation</h3>
+              <p class="text-gray-400 text-sm">Exploration de nouvelles technos</p>
+            </div>
           </div>
-          <div class="bg-gray-900 p-4 rounded-lg">
-            <h3 class="text-mycelium-400 font-semibold mb-2">🤖 Claude Code Skills</h3>
-            <p class="text-gray-400 text-sm">Skills et workflows pour l'IA assistante</p>
+          <div class="flex items-start space-x-3 bg-gray-800/50 p-4 rounded-xl hover:bg-gray-800 transition-colors">
+            <div class="text-2xl">⚡</div>
+            <div>
+              <h3 class="text-mycelium-300 font-semibold mb-1">Infrastructure</h3>
+              <p class="text-gray-400 text-sm">Hébergement et coûts serveurs</p>
+            </div>
           </div>
-          <div class="bg-gray-900 p-4 rounded-lg">
-            <h3 class="text-mycelium-400 font-semibold mb-2">💳 Credit Castor</h3>
-            <p class="text-gray-400 text-sm">Gestion et analyse de crédits</p>
-          </div>
-          <div class="bg-gray-900 p-4 rounded-lg">
-            <h3 class="text-mycelium-400 font-semibold mb-2">✌️ DeuxMains</h3>
-            <p class="text-gray-400 text-sm">Application de seconde main</p>
-          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Showcase -->
+    <section class="bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-2xl p-8 md:p-10 border border-gray-700">
+      <h2 class="text-4xl font-bold mb-3 text-center text-transparent bg-clip-text bg-gradient-to-r from-mycelium-400 to-green-400">
+        Les projets que vous soutenez 🚀
+      </h2>
+      <p class="text-gray-400 text-center mb-8">De l'open source qui fait du bien !</p>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div class="group bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl border-2 border-gray-700 hover:border-mycelium-500 transition-all hover:scale-105 hover:shadow-xl">
+          <div class="text-4xl mb-3">🏟️</div>
+          <h3 class="text-mycelium-400 font-bold text-xl mb-2 group-hover:text-mycelium-300 transition-colors">Stadium Check</h3>
+          <p class="text-gray-400 text-sm">Vérif et data des stades sportifs</p>
+          <div class="mt-3 inline-block px-2 py-1 bg-gray-700 rounded text-xs text-gray-400">Sport Tech</div>
+        </div>
+        <div class="group bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl border-2 border-gray-700 hover:border-mycelium-500 transition-all hover:scale-105 hover:shadow-xl">
+          <div class="text-4xl mb-3">🏠</div>
+          <h3 class="text-mycelium-400 font-bold text-xl mb-2 group-hover:text-mycelium-300 transition-colors">Loyer.Brussels</h3>
+          <p class="text-gray-400 text-sm">Infos loyers à Bruxelles</p>
+          <div class="mt-3 inline-block px-2 py-1 bg-gray-700 rounded text-xs text-gray-400">Civic Tech</div>
+        </div>
+        <div class="group bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl border-2 border-gray-700 hover:border-mycelium-500 transition-all hover:scale-105 hover:shadow-xl">
+          <div class="text-4xl mb-3">🍄</div>
+          <h3 class="text-mycelium-400 font-bold text-xl mb-2 group-hover:text-mycelium-300 transition-colors">Mycelium Blog</h3>
+          <p class="text-gray-400 text-sm">Jardin numérique de savoirs</p>
+          <div class="mt-3 inline-block px-2 py-1 bg-gray-700 rounded text-xs text-gray-400">Knowledge</div>
+        </div>
+        <div class="group bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl border-2 border-gray-700 hover:border-mycelium-500 transition-all hover:scale-105 hover:shadow-xl">
+          <div class="text-4xl mb-3">🤖</div>
+          <h3 class="text-mycelium-400 font-bold text-xl mb-2 group-hover:text-mycelium-300 transition-colors">Claude Code Skills</h3>
+          <p class="text-gray-400 text-sm">Skills & workflows pour IA</p>
+          <div class="mt-3 inline-block px-2 py-1 bg-gray-700 rounded text-xs text-gray-400">AI Tools</div>
+        </div>
+        <div class="group bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl border-2 border-gray-700 hover:border-mycelium-500 transition-all hover:scale-105 hover:shadow-xl">
+          <div class="text-4xl mb-3">💳</div>
+          <h3 class="text-mycelium-400 font-bold text-xl mb-2 group-hover:text-mycelium-300 transition-colors">Credit Castor</h3>
+          <p class="text-gray-400 text-sm">Gestion et analyse de crédits</p>
+          <div class="mt-3 inline-block px-2 py-1 bg-gray-700 rounded text-xs text-gray-400">FinTech</div>
+        </div>
+        <div class="group bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl border-2 border-gray-700 hover:border-mycelium-500 transition-all hover:scale-105 hover:shadow-xl">
+          <div class="text-4xl mb-3">✌️</div>
+          <h3 class="text-mycelium-400 font-bold text-xl mb-2 group-hover:text-mycelium-300 transition-colors">DeuxMains</h3>
+          <p class="text-gray-400 text-sm">App de seconde main</p>
+          <div class="mt-3 inline-block px-2 py-1 bg-gray-700 rounded text-xs text-gray-400">GreenTech</div>
         </div>
       </div>
     </section>
 
     <!-- Donation Options -->
     <section>
-      <h2 class="text-3xl font-bold mb-8 text-center text-gray-100">Choisissez votre méthode de contribution</h2>
+      <div class="text-center mb-10">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-mycelium-400 to-green-400">
+          Choisissez votre méthode 💸
+        </h2>
+        <p class="text-gray-400 text-lg">Toutes les options mènent au même endroit : soutenir l'open source ! 🌱</p>
+      </div>
 
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
         <!-- GitHub Sponsors -->
-        <div class="card bg-gray-800 p-6 rounded-lg hover:border-mycelium-600 border border-gray-700 transition-all">
-          <div class="flex items-start mb-4">
-            <div class="text-4xl mr-3">💖</div>
-            <div>
-              <h3 class="text-xl font-bold text-mycelium-400">GitHub Sponsors</h3>
-              <p class="text-sm text-gray-400 mt-1">Soutenez via GitHub</p>
-            </div>
-          </div>
-          <p class="text-gray-300 text-sm mb-4">
-            Contribution récurrente ou ponctuelle directement depuis votre compte GitHub.
-          </p>
-          <a
-            href="#"
-            class="inline-block w-full text-center bg-mycelium-600 hover:bg-mycelium-500 text-white font-semibold py-2 px-4 rounded transition-colors"
-          >
-            Sponsor
+        <div class="group relative bg-gradient-to-br from-pink-900/20 to-gray-800 p-6 rounded-2xl border-2 border-pink-600/30 hover:border-pink-500 transition-all hover:scale-105 hover:shadow-2xl hover:shadow-pink-500/20">
+          <div class="absolute top-3 right-3 px-2 py-1 bg-pink-500/20 rounded-full text-xs text-pink-300">Populaire</div>
+          <div class="text-5xl mb-4">💖</div>
+          <h3 class="text-2xl font-bold text-pink-300 mb-2">GitHub Sponsors</h3>
+          <p class="text-gray-400 text-sm mb-4">Soutenez via GitHub, mensuel ou one-shot</p>
+          <a href="#" class="block w-full text-center bg-gradient-to-r from-pink-600 to-pink-500 hover:from-pink-500 hover:to-pink-400 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg text-sm">
+            💝 Devenir Sponsor
           </a>
-          <p class="text-xs text-gray-500 mt-2 text-center">À configurer prochainement</p>
+          <p class="text-xs text-gray-500 mt-3 text-center italic">Bientôt disponible</p>
         </div>
 
         <!-- Ko-fi -->
-        <div class="card bg-gray-800 p-6 rounded-lg hover:border-mycelium-600 border border-gray-700 transition-all">
-          <div class="flex items-start mb-4">
-            <div class="text-4xl mr-3">☕</div>
-            <div>
-              <h3 class="text-xl font-bold text-mycelium-400">Ko-fi</h3>
-              <p class="text-sm text-gray-400 mt-1">Offrez-moi un café</p>
-            </div>
-          </div>
-          <p class="text-gray-300 text-sm mb-4">
-            Contributions simples et rapides, avec ou sans compte.
-          </p>
-          <a
-            href="#"
-            class="inline-block w-full text-center bg-mycelium-600 hover:bg-mycelium-500 text-white font-semibold py-2 px-4 rounded transition-colors"
-          >
-            Donner sur Ko-fi
+        <div class="group relative bg-gradient-to-br from-yellow-900/20 to-gray-800 p-6 rounded-2xl border-2 border-yellow-600/30 hover:border-yellow-500 transition-all hover:scale-105 hover:shadow-2xl hover:shadow-yellow-500/20">
+          <div class="text-5xl mb-4">☕</div>
+          <h3 class="text-2xl font-bold text-yellow-300 mb-2">Ko-fi</h3>
+          <p class="text-gray-400 text-sm mb-4">Offrez-moi un café (ou 3!)</p>
+          <a href="#" class="block w-full text-center bg-gradient-to-r from-yellow-600 to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-gray-900 font-bold py-3 px-6 rounded-xl transition-all shadow-lg text-sm">
+            ☕ Buy a Coffee
           </a>
-          <p class="text-xs text-gray-500 mt-2 text-center">À configurer prochainement</p>
+          <p class="text-xs text-gray-500 mt-3 text-center italic">Bientôt disponible</p>
         </div>
 
         <!-- Buy Me a Coffee -->
-        <div class="card bg-gray-800 p-6 rounded-lg hover:border-mycelium-600 border border-gray-700 transition-all">
-          <div class="flex items-start mb-4">
-            <div class="text-4xl mr-3">☕</div>
-            <div>
-              <h3 class="text-xl font-bold text-mycelium-400">Buy Me a Coffee</h3>
-              <p class="text-sm text-gray-400 mt-1">Contribution rapide</p>
-            </div>
-          </div>
-          <p class="text-gray-300 text-sm mb-4">
-            Soutenez mon travail avec une contribution ponctuelle.
-          </p>
-          <a
-            href="#"
-            class="inline-block w-full text-center bg-mycelium-600 hover:bg-mycelium-500 text-white font-semibold py-2 px-4 rounded transition-colors"
-          >
-            Buy Me a Coffee
+        <div class="group relative bg-gradient-to-br from-orange-900/20 to-gray-800 p-6 rounded-2xl border-2 border-orange-600/30 hover:border-orange-500 transition-all hover:scale-105 hover:shadow-2xl hover:shadow-orange-500/20">
+          <div class="text-5xl mb-4">🧋</div>
+          <h3 class="text-2xl font-bold text-orange-300 mb-2">Buy Me a Coffee</h3>
+          <p class="text-gray-400 text-sm mb-4">Contribution ponctuelle rapide</p>
+          <a href="#" class="block w-full text-center bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg text-sm">
+            🧋 Supporter
           </a>
-          <p class="text-xs text-gray-500 mt-2 text-center">À configurer prochainement</p>
+          <p class="text-xs text-gray-500 mt-3 text-center italic">Bientôt disponible</p>
         </div>
 
         <!-- Patreon -->
-        <div class="card bg-gray-800 p-6 rounded-lg hover:border-mycelium-600 border border-gray-700 transition-all">
-          <div class="flex items-start mb-4">
-            <div class="text-4xl mr-3">🎨</div>
-            <div>
-              <h3 class="text-xl font-bold text-mycelium-400">Patreon</h3>
-              <p class="text-sm text-gray-400 mt-1">Soutien mensuel</p>
-            </div>
-          </div>
-          <p class="text-gray-300 text-sm mb-4">
-            Rejoignez ma communauté avec des contributions mensuelles.
-          </p>
-          <a
-            href="#"
-            class="inline-block w-full text-center bg-mycelium-600 hover:bg-mycelium-500 text-white font-semibold py-2 px-4 rounded transition-colors"
-          >
-            Devenir Patron
+        <div class="group relative bg-gradient-to-br from-red-900/20 to-gray-800 p-6 rounded-2xl border-2 border-red-600/30 hover:border-red-500 transition-all hover:scale-105 hover:shadow-2xl hover:shadow-red-500/20">
+          <div class="text-5xl mb-4">🎨</div>
+          <h3 class="text-2xl font-bold text-red-300 mb-2">Patreon</h3>
+          <p class="text-gray-400 text-sm mb-4">Rejoignez la communauté mensuelle</p>
+          <a href="#" class="block w-full text-center bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg text-sm">
+            🎨 Devenir Patron
           </a>
-          <p class="text-xs text-gray-500 mt-2 text-center">À configurer prochainement</p>
+          <p class="text-xs text-gray-500 mt-3 text-center italic">Bientôt disponible</p>
         </div>
 
         <!-- Liberapay -->
-        <div class="card bg-gray-800 p-6 rounded-lg hover:border-mycelium-600 border border-gray-700 transition-all">
-          <div class="flex items-start mb-4">
-            <div class="text-4xl mr-3">💰</div>
-            <div>
-              <h3 class="text-xl font-bold text-mycelium-400">Liberapay</h3>
-              <p class="text-sm text-gray-400 mt-1">Plateforme libre</p>
-            </div>
-          </div>
-          <p class="text-gray-300 text-sm mb-4">
-            Soutenez via une plateforme open source et sans but lucratif.
-          </p>
-          <a
-            href="#"
-            class="inline-block w-full text-center bg-mycelium-600 hover:bg-mycelium-500 text-white font-semibold py-2 px-4 rounded transition-colors"
-          >
-            Donner sur Liberapay
+        <div class="group relative bg-gradient-to-br from-green-900/20 to-gray-800 p-6 rounded-2xl border-2 border-green-600/30 hover:border-green-500 transition-all hover:scale-105 hover:shadow-2xl hover:shadow-green-500/20">
+          <div class="absolute top-3 right-3 px-2 py-1 bg-green-500/20 rounded-full text-xs text-green-300">Open Source</div>
+          <div class="text-5xl mb-4">💚</div>
+          <h3 class="text-2xl font-bold text-green-300 mb-2">Liberapay</h3>
+          <p class="text-gray-400 text-sm mb-4">Plateforme libre et non-profit</p>
+          <a href="#" class="block w-full text-center bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg text-sm">
+            💚 Contribuer
           </a>
-          <p class="text-xs text-gray-500 mt-2 text-center">À configurer prochainement</p>
+          <p class="text-xs text-gray-500 mt-3 text-center italic">Bientôt disponible</p>
         </div>
 
         <!-- Open Collective -->
-        <div class="card bg-gray-800 p-6 rounded-lg hover:border-mycelium-600 border border-gray-700 transition-all">
-          <div class="flex items-start mb-4">
-            <div class="text-4xl mr-3">🤝</div>
-            <div>
-              <h3 class="text-xl font-bold text-mycelium-400">Open Collective</h3>
-              <p class="text-sm text-gray-400 mt-1">Transparence totale</p>
-            </div>
-          </div>
-          <p class="text-gray-300 text-sm mb-4">
-            Financements transparents avec suivi public des dépenses.
-          </p>
-          <a
-            href="#"
-            class="inline-block w-full text-center bg-mycelium-600 hover:bg-mycelium-500 text-white font-semibold py-2 px-4 rounded transition-colors"
-          >
-            Contribuer
+        <div class="group relative bg-gradient-to-br from-blue-900/20 to-gray-800 p-6 rounded-2xl border-2 border-blue-600/30 hover:border-blue-500 transition-all hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20">
+          <div class="absolute top-3 right-3 px-2 py-1 bg-blue-500/20 rounded-full text-xs text-blue-300">Transparent</div>
+          <div class="text-5xl mb-4">🤝</div>
+          <h3 class="text-2xl font-bold text-blue-300 mb-2">Open Collective</h3>
+          <p class="text-gray-400 text-sm mb-4">Transparence totale des finances</p>
+          <a href="#" class="block w-full text-center bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg text-sm">
+            🤝 Soutenir
           </a>
-          <p class="text-xs text-gray-500 mt-2 text-center">À configurer prochainement</p>
+          <p class="text-xs text-gray-500 mt-3 text-center italic">Bientôt disponible</p>
         </div>
 
         <!-- PayPal -->
-        <div class="card bg-gray-800 p-6 rounded-lg hover:border-mycelium-600 border border-gray-700 transition-all">
-          <div class="flex items-start mb-4">
-            <div class="text-4xl mr-3">💳</div>
-            <div>
-              <h3 class="text-xl font-bold text-mycelium-400">PayPal</h3>
-              <p class="text-sm text-gray-400 mt-1">Paiement classique</p>
-            </div>
-          </div>
-          <p class="text-gray-300 text-sm mb-4">
-            Contribution rapide via PayPal, avec ou sans compte.
-          </p>
-          <a
-            href="#"
-            class="inline-block w-full text-center bg-mycelium-600 hover:bg-mycelium-500 text-white font-semibold py-2 px-4 rounded transition-colors"
-          >
-            Donner via PayPal
+        <div class="group relative bg-gradient-to-br from-indigo-900/20 to-gray-800 p-6 rounded-2xl border-2 border-indigo-600/30 hover:border-indigo-500 transition-all hover:scale-105 hover:shadow-2xl hover:shadow-indigo-500/20">
+          <div class="text-5xl mb-4">💳</div>
+          <h3 class="text-2xl font-bold text-indigo-300 mb-2">PayPal</h3>
+          <p class="text-gray-400 text-sm mb-4">Paiement classique et sécurisé</p>
+          <a href="#" class="block w-full text-center bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg text-sm">
+            💳 Donner
           </a>
-          <p class="text-xs text-gray-500 mt-2 text-center">À configurer prochainement</p>
+          <p class="text-xs text-gray-500 mt-3 text-center italic">Bientôt disponible</p>
         </div>
 
         <!-- Bank Transfer IBAN -->
-        <div class="card bg-gray-800 p-6 rounded-lg hover:border-mycelium-600 border border-gray-700 transition-all">
-          <div class="flex items-start mb-4">
-            <div class="text-4xl mr-3">🏦</div>
-            <div>
-              <h3 class="text-xl font-bold text-mycelium-400">Virement IBAN</h3>
-              <p class="text-sm text-gray-400 mt-1">Virement bancaire</p>
-            </div>
-          </div>
-          <p class="text-gray-300 text-sm mb-4">
-            Pour les dons directs par virement bancaire européen.
-          </p>
+        <div class="group relative bg-gradient-to-br from-purple-900/20 to-gray-800 p-6 rounded-2xl border-2 border-purple-600/30 hover:border-purple-500 transition-all hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20">
+          <div class="text-5xl mb-4">🏦</div>
+          <h3 class="text-2xl font-bold text-purple-300 mb-2">Virement IBAN</h3>
+          <p class="text-gray-400 text-sm mb-4">Virement bancaire européen direct</p>
           <button
             onclick="document.getElementById('iban-details').classList.toggle('hidden')"
-            class="inline-block w-full text-center bg-mycelium-600 hover:bg-mycelium-500 text-white font-semibold py-2 px-4 rounded transition-colors"
+            class="block w-full text-center bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg text-sm"
           >
-            Voir les détails
+            🏦 Voir IBAN
           </button>
-          <div id="iban-details" class="hidden mt-4 p-3 bg-gray-900 rounded text-xs">
-            <p class="text-gray-400 mb-2"><strong>Titulaire:</strong> À configurer</p>
-            <p class="text-gray-400 mb-2"><strong>IBAN:</strong> À configurer</p>
-            <p class="text-gray-400"><strong>BIC:</strong> À configurer</p>
+          <div id="iban-details" class="hidden mt-4 p-4 bg-gray-900/70 rounded-xl text-sm border border-purple-500/30">
+            <p class="text-gray-300 mb-2"><strong class="text-purple-300">Titulaire:</strong> À configurer</p>
+            <p class="text-gray-300 mb-2"><strong class="text-purple-300">IBAN:</strong> À configurer</p>
+            <p class="text-gray-300"><strong class="text-purple-300">BIC:</strong> À configurer</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Pro Bono Marketplace Section -->
-    <section class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-8 border-2 border-mycelium-600">
-      <div class="text-center mb-8">
-        <h2 class="text-4xl font-bold text-mycelium-400 mb-4">🤝 Marketplace Pro Bono</h2>
-        <p class="text-xl text-gray-300 max-w-3xl mx-auto">
-          Vous êtes une association en Belgique avec un besoin IT ? Ou un·e spécialiste souhaitant contribuer ?
-          Connectons nos compétences pour faire avancer des projets solidaires !
-        </p>
-      </div>
+    <section class="relative overflow-hidden bg-gradient-to-br from-mycelium-900 via-gray-900 to-gray-900 rounded-2xl p-8 md:p-12 border-2 border-mycelium-500 shadow-2xl">
+      <!-- Decorative background elements -->
+      <div class="absolute top-0 right-0 w-64 h-64 bg-mycelium-500/10 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-0 left-0 w-96 h-96 bg-mycelium-600/5 rounded-full blur-3xl"></div>
 
-      <div class="grid md:grid-cols-2 gap-8 mt-8">
-        <!-- For Organizations -->
-        <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
-          <h3 class="text-2xl font-bold text-mycelium-400 mb-4">🏛️ Vous êtes une association ?</h3>
-          <p class="text-gray-300 mb-4">
-            Proposez votre projet ou tâche IT (petite ou grande) et trouvez des spécialistes bénévoles
-            pour vous accompagner.
+      <div class="relative z-10">
+        <!-- Header with badge -->
+        <div class="text-center mb-10">
+          <div class="inline-block px-4 py-2 bg-mycelium-500/20 border border-mycelium-400 rounded-full mb-4">
+            <span class="text-mycelium-300 text-sm font-semibold">🇧🇪 Initiative Solidaire Belge</span>
+          </div>
+          <h2 class="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-mycelium-400 via-mycelium-300 to-green-400 mb-6">
+            Marketplace Pro Bono
+          </h2>
+          <p class="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            Connectez vos compétences IT avec des assos qui bougent ! 🚀
           </p>
-          <ul class="text-gray-400 space-y-2 mb-6 text-sm">
-            <li>✅ Développement web ou mobile</li>
-            <li>✅ Automatisation de processus</li>
-            <li>✅ Gestion de bases de données</li>
-            <li>✅ Infrastructure et hébergement</li>
-            <li>✅ Formation et documentation</li>
-            <li>✅ Consulting technique</li>
-          </ul>
-          <a
-            href="https://github.com/vanmarkic/mycelium-blog/issues/new?template=pro-bono-request.md&labels=pro-bono,association"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-block w-full text-center bg-mycelium-600 hover:bg-mycelium-500 text-white font-semibold py-3 px-6 rounded transition-colors"
-          >
-            Proposer un projet
-          </a>
         </div>
 
-        <!-- For Specialists -->
-        <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
-          <h3 class="text-2xl font-bold text-mycelium-400 mb-4">👨‍💻 Vous êtes spécialiste IT ?</h3>
-          <p class="text-gray-300 mb-4">
-            Mettez vos compétences au service d'associations qui en ont besoin.
-            Contribuez à votre rythme, selon vos disponibilités.
-          </p>
-          <ul class="text-gray-400 space-y-2 mb-6 text-sm">
-            <li>🌱 Impact social direct</li>
-            <li>🔧 Projets variés et stimulants</li>
-            <li>🤝 Collaboration avec d'autres experts</li>
-            <li>📚 Partage de connaissances</li>
-            <li>🏆 Portfolio de contributions solidaires</li>
-            <li>⏱️ Flexibilité totale d'engagement</li>
-          </ul>
-          <a
-            href="https://github.com/vanmarkic/mycelium-blog/issues?q=is%3Aissue+is%3Aopen+label%3Apro-bono"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-block w-full text-center bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded transition-colors"
-          >
-            Voir les projets disponibles
-          </a>
-        </div>
-      </div>
-
-      <div class="mt-8 bg-gray-900 p-6 rounded-lg">
-        <h3 class="text-xl font-bold text-mycelium-300 mb-3">💡 Comment ça marche ?</h3>
-        <div class="grid md:grid-cols-3 gap-4 text-sm">
-          <div>
-            <p class="text-mycelium-400 font-semibold mb-2">1. Proposition</p>
-            <p class="text-gray-400">Les associations soumettent leurs besoins IT via GitHub Issues</p>
+        <!-- Stats badges -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+          <div class="bg-gray-800/50 backdrop-blur-sm p-4 rounded-xl text-center border border-gray-700 hover:border-mycelium-500 transition-all hover:scale-105">
+            <div class="text-3xl font-bold text-mycelium-400">100%</div>
+            <div class="text-xs text-gray-400 mt-1">Gratuit</div>
           </div>
-          <div>
-            <p class="text-mycelium-400 font-semibold mb-2">2. Connexion</p>
-            <p class="text-gray-400">Les spécialistes découvrent les projets et proposent leur aide</p>
+          <div class="bg-gray-800/50 backdrop-blur-sm p-4 rounded-xl text-center border border-gray-700 hover:border-mycelium-500 transition-all hover:scale-105">
+            <div class="text-3xl font-bold text-mycelium-400">24h</div>
+            <div class="text-xs text-gray-400 mt-1">Réponse rapide</div>
           </div>
-          <div>
-            <p class="text-mycelium-400 font-semibold mb-2">3. Collaboration</p>
-            <p class="text-gray-400">Le travail se fait de manière transparente et collaborative</p>
+          <div class="bg-gray-800/50 backdrop-blur-sm p-4 rounded-xl text-center border border-gray-700 hover:border-mycelium-500 transition-all hover:scale-105">
+            <div class="text-3xl font-bold text-mycelium-400">🤝</div>
+            <div class="text-xs text-gray-400 mt-1">Collaboratif</div>
+          </div>
+          <div class="bg-gray-800/50 backdrop-blur-sm p-4 rounded-xl text-center border border-gray-700 hover:border-mycelium-500 transition-all hover:scale-105">
+            <div class="text-3xl font-bold text-mycelium-400">🌱</div>
+            <div class="text-xs text-gray-400 mt-1">Impact social</div>
           </div>
         </div>
-      </div>
 
-      <div class="mt-6 text-center">
-        <p class="text-gray-400 text-sm">
-          <strong class="text-mycelium-400">Focus Belgique</strong> • Cette initiative vise prioritairement
-          les associations belges et les spécialistes basés en Belgique, mais toute contribution est bienvenue !
-        </p>
+        <!-- Service Categories Grid -->
+        <div class="mb-12">
+          <h3 class="text-2xl font-bold text-gray-100 mb-6 text-center">🛠️ Catégories de services disponibles</h3>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            <div class="group bg-gradient-to-br from-blue-500/10 to-blue-600/5 p-4 rounded-xl border border-blue-500/30 hover:border-blue-400 transition-all cursor-pointer hover:scale-110 hover:shadow-lg">
+              <div class="text-4xl mb-2 group-hover:scale-110 transition-transform">💻</div>
+              <div class="text-sm font-semibold text-gray-200">Dev Web</div>
+            </div>
+            <div class="group bg-gradient-to-br from-purple-500/10 to-purple-600/5 p-4 rounded-xl border border-purple-500/30 hover:border-purple-400 transition-all cursor-pointer hover:scale-110 hover:shadow-lg">
+              <div class="text-4xl mb-2 group-hover:scale-110 transition-transform">📱</div>
+              <div class="text-sm font-semibold text-gray-200">Apps Mobile</div>
+            </div>
+            <div class="group bg-gradient-to-br from-green-500/10 to-green-600/5 p-4 rounded-xl border border-green-500/30 hover:border-green-400 transition-all cursor-pointer hover:scale-110 hover:shadow-lg">
+              <div class="text-4xl mb-2 group-hover:scale-110 transition-transform">⚡</div>
+              <div class="text-sm font-semibold text-gray-200">Automation</div>
+            </div>
+            <div class="group bg-gradient-to-br from-yellow-500/10 to-yellow-600/5 p-4 rounded-xl border border-yellow-500/30 hover:border-yellow-400 transition-all cursor-pointer hover:scale-110 hover:shadow-lg">
+              <div class="text-4xl mb-2 group-hover:scale-110 transition-transform">🗄️</div>
+              <div class="text-sm font-semibold text-gray-200">Databases</div>
+            </div>
+            <div class="group bg-gradient-to-br from-red-500/10 to-red-600/5 p-4 rounded-xl border border-red-500/30 hover:border-red-400 transition-all cursor-pointer hover:scale-110 hover:shadow-lg">
+              <div class="text-4xl mb-2 group-hover:scale-110 transition-transform">☁️</div>
+              <div class="text-sm font-semibold text-gray-200">Cloud/Infra</div>
+            </div>
+            <div class="group bg-gradient-to-br from-pink-500/10 to-pink-600/5 p-4 rounded-xl border border-pink-500/30 hover:border-pink-400 transition-all cursor-pointer hover:scale-110 hover:shadow-lg">
+              <div class="text-4xl mb-2 group-hover:scale-110 transition-transform">📚</div>
+              <div class="text-sm font-semibold text-gray-200">Formation</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main CTA Cards -->
+        <div class="grid md:grid-cols-2 gap-6 mb-12">
+          <!-- For Organizations -->
+          <div class="group relative bg-gradient-to-br from-mycelium-800/40 to-gray-800/40 backdrop-blur-sm p-8 rounded-2xl border-2 border-mycelium-600/50 hover:border-mycelium-400 transition-all hover:shadow-2xl hover:scale-[1.02]">
+            <div class="absolute -top-3 -right-3 bg-mycelium-500 text-gray-900 text-xs font-bold px-3 py-1 rounded-full">
+              🏛️ Assos
+            </div>
+            <div class="text-5xl mb-4">🚀</div>
+            <h3 class="text-3xl font-bold text-mycelium-300 mb-3">Vous avez un projet ?</h3>
+            <p class="text-gray-300 mb-6 text-lg">
+              Proposez votre besoin IT et trouvez des pros qui kiffent aider !
+              Petit ou grand projet, on s'en occupe. 💪
+            </p>
+
+            <div class="space-y-2 mb-6">
+              <div class="flex items-center text-gray-400">
+                <span class="text-mycelium-400 mr-2">✓</span> Publication en 2 minutes
+              </div>
+              <div class="flex items-center text-gray-400">
+                <span class="text-mycelium-400 mr-2">✓</span> Réponse sous 24h
+              </div>
+              <div class="flex items-center text-gray-400">
+                <span class="text-mycelium-400 mr-2">✓</span> Accompagnement personnalisé
+              </div>
+            </div>
+
+            <a
+              href="https://github.com/vanmarkic/mycelium-blog/issues/new?template=pro-bono-request.md&labels=pro-bono,association"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="block w-full text-center bg-gradient-to-r from-mycelium-600 to-mycelium-500 hover:from-mycelium-500 hover:to-mycelium-400 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-lg hover:shadow-mycelium-500/50 text-lg"
+            >
+              🎯 Lancer mon projet
+            </a>
+          </div>
+
+          <!-- For Specialists -->
+          <div class="group relative bg-gradient-to-br from-gray-800/40 to-gray-900/40 backdrop-blur-sm p-8 rounded-2xl border-2 border-gray-600/50 hover:border-mycelium-400 transition-all hover:shadow-2xl hover:scale-[1.02]">
+            <div class="absolute -top-3 -right-3 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+              👨‍💻 Experts
+            </div>
+            <div class="text-5xl mb-4">🦸‍♂️</div>
+            <h3 class="text-3xl font-bold text-blue-300 mb-3">Envie de contribuer ?</h3>
+            <p class="text-gray-300 mb-6 text-lg">
+              Mets tes skills au service de projets qui ont du sens !
+              Développe ton portfolio en faisant le bien. 🌟
+            </p>
+
+            <div class="space-y-2 mb-6">
+              <div class="flex items-center text-gray-400">
+                <span class="text-blue-400 mr-2">✓</span> Choisis tes projets
+              </div>
+              <div class="flex items-center text-gray-400">
+                <span class="text-blue-400 mr-2">✓</span> À ton rythme
+              </div>
+              <div class="flex items-center text-gray-400">
+                <span class="text-blue-400 mr-2">✓</span> Impact réel et mesurable
+              </div>
+            </div>
+
+            <a
+              href="https://github.com/vanmarkic/mycelium-blog/issues?q=is%3Aissue+is%3Aopen+label%3Apro-bono"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="block w-full text-center bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-lg hover:shadow-blue-500/50 text-lg"
+            >
+              🔍 Explorer les projets
+            </a>
+          </div>
+        </div>
+
+        <!-- How it works - Timeline style -->
+        <div class="bg-gray-800/30 backdrop-blur-sm p-8 rounded-2xl border border-gray-700">
+          <h3 class="text-3xl font-bold text-center text-mycelium-300 mb-8">
+            💡 Comment ça roule ?
+          </h3>
+          <div class="grid md:grid-cols-3 gap-6">
+            <div class="relative">
+              <div class="flex flex-col items-center text-center">
+                <div class="w-16 h-16 bg-gradient-to-br from-mycelium-500 to-mycelium-600 rounded-full flex items-center justify-center text-2xl font-bold text-white mb-4 shadow-lg">
+                  1
+                </div>
+                <div class="w-full h-1 bg-gradient-to-r from-mycelium-500 to-transparent absolute top-8 left-1/2 hidden md:block"></div>
+                <h4 class="text-xl font-bold text-mycelium-300 mb-2">Poste ton besoin</h4>
+                <p class="text-gray-400 text-sm">
+                  Remplis un form simple avec les détails de ton projet. C'est direct !
+                </p>
+              </div>
+            </div>
+            <div class="relative">
+              <div class="flex flex-col items-center text-center">
+                <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-2xl font-bold text-white mb-4 shadow-lg">
+                  2
+                </div>
+                <div class="w-full h-1 bg-gradient-to-r from-blue-500 to-transparent absolute top-8 left-1/2 hidden md:block"></div>
+                <h4 class="text-xl font-bold text-blue-300 mb-2">Match avec un expert</h4>
+                <p class="text-gray-400 text-sm">
+                  Des spécialistes checkent les projets et se proposent. Connexion magique ! ✨
+                </p>
+              </div>
+            </div>
+            <div class="relative">
+              <div class="flex flex-col items-center text-center">
+                <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center text-2xl font-bold text-white mb-4 shadow-lg">
+                  3
+                </div>
+                <h4 class="text-xl font-bold text-green-300 mb-2">Build ensemble</h4>
+                <p class="text-gray-400 text-sm">
+                  Collaborez sur GitHub de manière transparente. Du code qui change le monde ! 🌍
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trust indicators -->
+        <div class="mt-8 text-center">
+          <div class="inline-flex items-center space-x-4 bg-gray-800/50 px-6 py-3 rounded-full border border-gray-700">
+            <span class="text-gray-400 text-sm">🔒 Transparent</span>
+            <span class="text-gray-600">•</span>
+            <span class="text-gray-400 text-sm">🌱 Open Source</span>
+            <span class="text-gray-600">•</span>
+            <span class="text-gray-400 text-sm">🇧🇪 Made in Belgium</span>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- Thank You Section -->
-    <section class="text-center py-12 bg-gray-800 rounded-lg">
-      <h2 class="text-3xl font-bold text-mycelium-400 mb-4">Merci pour votre soutien ! 🍄</h2>
-      <p class="text-gray-300 max-w-2xl mx-auto">
-        Chaque contribution, quelle que soit sa taille, fait une différence.
-        Ensemble, nous cultivons un écosystème numérique plus riche et ouvert.
-      </p>
-      <p class="text-gray-400 mt-4 text-sm">
-        Questions ? Contactez-moi via GitHub ou les réseaux sociaux.
-      </p>
+    <section class="relative overflow-hidden text-center py-16 px-6 bg-gradient-to-br from-mycelium-900/40 via-gray-800 to-gray-900 rounded-3xl border-2 border-mycelium-500/50 shadow-2xl">
+      <div class="absolute inset-0 bg-gradient-to-r from-mycelium-500/5 via-transparent to-green-500/5"></div>
+      <div class="absolute top-0 left-1/4 w-64 h-64 bg-mycelium-400/10 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-green-400/5 rounded-full blur-3xl"></div>
+
+      <div class="relative z-10">
+        <div class="text-6xl mb-6 animate-pulse">🍄</div>
+        <h2 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-mycelium-400 via-green-300 to-mycelium-500 mb-6">
+          Merci d'être là ! 💚
+        </h2>
+        <p class="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-6">
+          Chaque contribution, chaque partage, chaque ligne de code fait une différence.<br/>
+          <span class="text-mycelium-300 font-semibold">Ensemble, on cultive un écosystème numérique meilleur ! 🌱</span>
+        </p>
+
+        <div class="flex justify-center gap-6 flex-wrap mt-8 mb-6">
+          <div class="px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-mycelium-500/30">
+            <span class="text-gray-300 text-sm">🌍 Impact global</span>
+          </div>
+          <div class="px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-mycelium-500/30">
+            <span class="text-gray-300 text-sm">🤝 Solidarité</span>
+          </div>
+          <div class="px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-mycelium-500/30">
+            <span class="text-gray-300 text-sm">💻 Open Source</span>
+          </div>
+        </div>
+
+        <p class="text-gray-400 text-sm">
+          Des questions ? Retrouvez-moi sur
+          <a href="https://github.com/vanmarkic" class="text-mycelium-400 hover:text-mycelium-300 underline" target="_blank" rel="noopener">GitHub</a>
+        </p>
+      </div>
     </section>
   </div>
 </BaseLayout>
