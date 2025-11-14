@@ -163,11 +163,12 @@ const base = import.meta.env.BASE_URL;
         </div>
 
         <!-- Credit Castor -->
-        <div class="group bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl border-2 border-gray-700 hover:border-mycelium-500 transition-all hover:scale-105 hover:shadow-xl">
-          <div class="text-4xl mb-3">💳</div>
-          <h3 class="text-mycelium-400 font-bold text-xl mb-2 group-hover:text-mycelium-300 transition-colors">Credit Castor</h3>
-          <p class="text-gray-400 text-sm">Gestion et analyse de crédits</p>
-          <div class="mt-3 inline-block px-2 py-1 bg-gray-700 rounded text-xs text-gray-400">FinTech</div>
+        <div class="group bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl border-2 border-gray-700 hover:border-teal-500 transition-all hover:scale-105 hover:shadow-xl cursor-pointer" onclick="document.getElementById('modal-castor').classList.remove('hidden')">
+          <div class="text-4xl mb-3">🏘️</div>
+          <h3 class="text-teal-400 font-bold text-xl mb-2 group-hover:text-teal-300 transition-colors">Credit Castor</h3>
+          <p class="text-gray-400 text-sm mb-3">Calculateur habitat groupé - achat en division</p>
+          <div class="mt-3 inline-block px-2 py-1 bg-teal-900/30 rounded text-xs text-teal-300 mb-2">Housing</div>
+          <p class="text-xs text-mycelium-400 font-semibold">→ Cliquez pour voir les contreparties</p>
         </div>
 
         <!-- DeuxMains -->
@@ -339,6 +340,40 @@ const base = import.meta.env.BASE_URL;
                 <li class="flex items-start"><span class="text-orange-400 mr-2">🎁</span> Newsletter mensuelle sur le logement</li>
                 <li class="flex items-start"><span class="text-orange-400 mr-2">🎁</span> Support prioritaire en cas de litige</li>
                 <li class="flex items-start"><span class="text-orange-400 mr-2">🎁</span> Participation aux assemblées Wuune</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Credit Castor -->
+      <div id="modal-castor" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onclick="this.classList.add('hidden')">
+        <div class="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl max-w-2xl w-full border-2 border-teal-500 shadow-2xl" onclick="event.stopPropagation()">
+          <div class="flex justify-between items-start mb-6">
+            <div>
+              <h3 class="text-3xl font-bold text-teal-400 mb-2">🏘️ Credit Castor</h3>
+              <p class="text-gray-400">Montage d'habitat groupé simplifié</p>
+            </div>
+            <button onclick="document.getElementById('modal-castor').classList.add('hidden')" class="text-gray-400 hover:text-white text-2xl">×</button>
+          </div>
+          <div class="space-y-4">
+            <div>
+              <h4 class="text-xl font-bold text-teal-300 mb-3">Ce que vous soutenez :</h4>
+              <ul class="space-y-2 text-gray-300">
+                <li class="flex items-start"><span class="text-teal-400 mr-2">✓</span> Calculateur pour achat en division (habitat groupé)</li>
+                <li class="flex items-start"><span class="text-teal-400 mr-2">✓</span> Facilitation de montages financiers collectifs</li>
+                <li class="flex items-start"><span class="text-teal-400 mr-2">✓</span> Alternative aux modèles immobiliers traditionnels</li>
+                <li class="flex items-start"><span class="text-teal-400 mr-2">✓</span> Promotion de l'habitat participatif</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="text-xl font-bold text-teal-300 mb-3">Vos contreparties :</h4>
+              <ul class="space-y-2 text-gray-300">
+                <li class="flex items-start"><span class="text-teal-400 mr-2">🎁</span> Accès premium au calculateur</li>
+                <li class="flex items-start"><span class="text-teal-400 mr-2">🎁</span> Guide complet "Monter son habitat groupé"</li>
+                <li class="flex items-start"><span class="text-teal-400 mr-2">🎁</span> Templates juridiques et financiers</li>
+                <li class="flex items-start"><span class="text-teal-400 mr-2">🎁</span> Consultation gratuite (1h) avec un expert</li>
+                <li class="flex items-start"><span class="text-teal-400 mr-2">🎁</span> Accès au réseau d'habitat groupé</li>
               </ul>
             </div>
           </div>
