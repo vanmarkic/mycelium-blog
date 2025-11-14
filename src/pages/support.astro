@@ -27,7 +27,7 @@ const base = import.meta.env.BASE_URL;
         <!-- Quick stats -->
         <div class="flex justify-center gap-6 flex-wrap mt-8">
           <div class="text-center">
-            <div class="text-3xl font-bold text-mycelium-400">6+</div>
+            <div class="text-3xl font-bold text-mycelium-400">10+</div>
             <div class="text-xs text-gray-400">Projets actifs</div>
           </div>
           <div class="text-center">
@@ -93,41 +93,255 @@ const base = import.meta.env.BASE_URL;
       <p class="text-gray-400 text-center mb-8">De l'open source qui fait du bien !</p>
 
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Nationale4 -->
+        <div class="group bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl border-2 border-gray-700 hover:border-red-500 transition-all hover:scale-105 hover:shadow-xl cursor-pointer" onclick="document.getElementById('modal-nationale4').classList.remove('hidden')">
+          <div class="text-4xl mb-3">📰</div>
+          <h3 class="text-red-400 font-bold text-xl mb-2 group-hover:text-red-300 transition-colors">Nationale4</h3>
+          <p class="text-gray-400 text-sm mb-3">Journalisme indépendant et investigation</p>
+          <div class="mt-3 inline-block px-2 py-1 bg-red-900/30 rounded text-xs text-red-300 mb-2">Media</div>
+          <p class="text-xs text-mycelium-400 font-semibold">→ Cliquez pour voir les contreparties</p>
+        </div>
+
+        <!-- Ferme du Temple -->
+        <div class="group bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl border-2 border-gray-700 hover:border-amber-500 transition-all hover:scale-105 hover:shadow-xl cursor-pointer" onclick="document.getElementById('modal-ferme').classList.remove('hidden')">
+          <div class="text-4xl mb-3">🏛️</div>
+          <h3 class="text-amber-400 font-bold text-xl mb-2 group-hover:text-amber-300 transition-colors">Ferme du Temple</h3>
+          <p class="text-gray-400 text-sm mb-3">Écosystème restauration du patrimoine</p>
+          <div class="mt-3 inline-block px-2 py-1 bg-amber-900/30 rounded text-xs text-amber-300 mb-2">Heritage</div>
+          <p class="text-xs text-mycelium-400 font-semibold">→ Cliquez pour voir les contreparties</p>
+        </div>
+
+        <!-- Womb -->
+        <div class="group bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl border-2 border-gray-700 hover:border-purple-500 transition-all hover:scale-105 hover:shadow-xl cursor-pointer" onclick="document.getElementById('modal-womb').classList.remove('hidden')">
+          <div class="text-4xl mb-3">🎵</div>
+          <h3 class="text-purple-400 font-bold text-xl mb-2 group-hover:text-purple-300 transition-colors">Womb</h3>
+          <p class="text-gray-400 text-sm mb-3">Musique thérapeutique pour introvertis</p>
+          <div class="mt-3 inline-block px-2 py-1 bg-purple-900/30 rounded text-xs text-purple-300 mb-2">Music & Wellness</div>
+          <p class="text-xs text-mycelium-400 font-semibold">→ Cliquez pour voir les contreparties</p>
+        </div>
+
+        <!-- Lagendwa -->
+        <div class="group bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl border-2 border-gray-700 hover:border-cyan-500 transition-all hover:scale-105 hover:shadow-xl cursor-pointer" onclick="document.getElementById('modal-lagendwa').classList.remove('hidden')">
+          <div class="text-4xl mb-3">🎪</div>
+          <h3 class="text-cyan-400 font-bold text-xl mb-2 group-hover:text-cyan-300 transition-colors">Lagendwa</h3>
+          <p class="text-gray-400 text-sm mb-3">App festival open source</p>
+          <div class="mt-3 inline-block px-2 py-1 bg-cyan-900/30 rounded text-xs text-cyan-300 mb-2">Events & Culture</div>
+          <p class="text-xs text-mycelium-400 font-semibold">→ Cliquez pour voir les contreparties</p>
+        </div>
+
+        <!-- Stadium Check -->
         <div class="group bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl border-2 border-gray-700 hover:border-mycelium-500 transition-all hover:scale-105 hover:shadow-xl">
           <div class="text-4xl mb-3">🏟️</div>
           <h3 class="text-mycelium-400 font-bold text-xl mb-2 group-hover:text-mycelium-300 transition-colors">Stadium Check</h3>
           <p class="text-gray-400 text-sm">Vérif et data des stades sportifs</p>
           <div class="mt-3 inline-block px-2 py-1 bg-gray-700 rounded text-xs text-gray-400">Sport Tech</div>
         </div>
-        <div class="group bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl border-2 border-gray-700 hover:border-mycelium-500 transition-all hover:scale-105 hover:shadow-xl">
+
+        <!-- monloyer.brussels -->
+        <div class="group bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl border-2 border-gray-700 hover:border-orange-500 transition-all hover:scale-105 hover:shadow-xl cursor-pointer" onclick="document.getElementById('modal-loyer').classList.remove('hidden')">
           <div class="text-4xl mb-3">🏠</div>
-          <h3 class="text-mycelium-400 font-bold text-xl mb-2 group-hover:text-mycelium-300 transition-colors">Loyer.Brussels</h3>
-          <p class="text-gray-400 text-sm">Infos loyers à Bruxelles</p>
-          <div class="mt-3 inline-block px-2 py-1 bg-gray-700 rounded text-xs text-gray-400">Civic Tech</div>
+          <h3 class="text-orange-400 font-bold text-xl mb-2 group-hover:text-orange-300 transition-colors">monloyer.brussels</h3>
+          <p class="text-gray-400 text-sm mb-3">Calculateur fourchette loyer - défense locataires</p>
+          <div class="mt-3 inline-block px-2 py-1 bg-orange-900/30 rounded text-xs text-orange-300 mb-2">Civic Tech</div>
+          <p class="text-xs text-mycelium-400 font-semibold">→ Cliquez pour voir les contreparties</p>
         </div>
+
+        <!-- Mycelium Blog -->
         <div class="group bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl border-2 border-gray-700 hover:border-mycelium-500 transition-all hover:scale-105 hover:shadow-xl">
           <div class="text-4xl mb-3">🍄</div>
           <h3 class="text-mycelium-400 font-bold text-xl mb-2 group-hover:text-mycelium-300 transition-colors">Mycelium Blog</h3>
           <p class="text-gray-400 text-sm">Jardin numérique de savoirs</p>
           <div class="mt-3 inline-block px-2 py-1 bg-gray-700 rounded text-xs text-gray-400">Knowledge</div>
         </div>
+
+        <!-- Claude Code Skills -->
         <div class="group bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl border-2 border-gray-700 hover:border-mycelium-500 transition-all hover:scale-105 hover:shadow-xl">
           <div class="text-4xl mb-3">🤖</div>
           <h3 class="text-mycelium-400 font-bold text-xl mb-2 group-hover:text-mycelium-300 transition-colors">Claude Code Skills</h3>
           <p class="text-gray-400 text-sm">Skills & workflows pour IA</p>
           <div class="mt-3 inline-block px-2 py-1 bg-gray-700 rounded text-xs text-gray-400">AI Tools</div>
         </div>
+
+        <!-- Credit Castor -->
         <div class="group bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl border-2 border-gray-700 hover:border-mycelium-500 transition-all hover:scale-105 hover:shadow-xl">
           <div class="text-4xl mb-3">💳</div>
           <h3 class="text-mycelium-400 font-bold text-xl mb-2 group-hover:text-mycelium-300 transition-colors">Credit Castor</h3>
           <p class="text-gray-400 text-sm">Gestion et analyse de crédits</p>
           <div class="mt-3 inline-block px-2 py-1 bg-gray-700 rounded text-xs text-gray-400">FinTech</div>
         </div>
+
+        <!-- DeuxMains -->
         <div class="group bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl border-2 border-gray-700 hover:border-mycelium-500 transition-all hover:scale-105 hover:shadow-xl">
           <div class="text-4xl mb-3">✌️</div>
           <h3 class="text-mycelium-400 font-bold text-xl mb-2 group-hover:text-mycelium-300 transition-colors">DeuxMains</h3>
           <p class="text-gray-400 text-sm">App de seconde main</p>
           <div class="mt-3 inline-block px-2 py-1 bg-gray-700 rounded text-xs text-gray-400">GreenTech</div>
+        </div>
+      </div>
+
+      <!-- Modals pour contreparties -->
+      <!-- Modal Nationale4 -->
+      <div id="modal-nationale4" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onclick="this.classList.add('hidden')">
+        <div class="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl max-w-2xl w-full border-2 border-red-500 shadow-2xl" onclick="event.stopPropagation()">
+          <div class="flex justify-between items-start mb-6">
+            <div>
+              <h3 class="text-3xl font-bold text-red-400 mb-2">📰 Nationale4</h3>
+              <p class="text-gray-400">Journalisme indépendant qui compte</p>
+            </div>
+            <button onclick="document.getElementById('modal-nationale4').classList.add('hidden')" class="text-gray-400 hover:text-white text-2xl">×</button>
+          </div>
+          <div class="space-y-4">
+            <div>
+              <h4 class="text-xl font-bold text-red-300 mb-3">Ce que vous soutenez :</h4>
+              <ul class="space-y-2 text-gray-300">
+                <li class="flex items-start"><span class="text-red-400 mr-2">✓</span> Investigation indépendante sur les sujets qui comptent</li>
+                <li class="flex items-start"><span class="text-red-400 mr-2">✓</span> Journalisme sans pub ni pression éditoriale</li>
+                <li class="flex items-start"><span class="text-red-400 mr-2">✓</span> Transparence totale des financements</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="text-xl font-bold text-red-300 mb-3">Vos contreparties :</h4>
+              <ul class="space-y-2 text-gray-300">
+                <li class="flex items-start"><span class="text-red-400 mr-2">🎁</span> Accès aux articles en avant-première</li>
+                <li class="flex items-start"><span class="text-red-400 mr-2">🎁</span> Newsletter exclusive avec coulisses des enquêtes</li>
+                <li class="flex items-start"><span class="text-red-400 mr-2">🎁</span> Mention dans les crédits (si souhaité)</li>
+                <li class="flex items-start"><span class="text-red-400 mr-2">🎁</span> Participation aux choix éditoriaux (sondages)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Ferme du Temple -->
+      <div id="modal-ferme" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onclick="this.classList.add('hidden')">
+        <div class="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl max-w-2xl w-full border-2 border-amber-500 shadow-2xl" onclick="event.stopPropagation()">
+          <div class="flex justify-between items-start mb-6">
+            <div>
+              <h3 class="text-3xl font-bold text-amber-400 mb-2">🏛️ Ferme du Temple</h3>
+              <p class="text-gray-400">Restauration et valorisation du patrimoine</p>
+            </div>
+            <button onclick="document.getElementById('modal-ferme').classList.add('hidden')" class="text-gray-400 hover:text-white text-2xl">×</button>
+          </div>
+          <div class="space-y-4">
+            <div>
+              <h4 class="text-xl font-bold text-amber-300 mb-3">Ce que vous soutenez :</h4>
+              <ul class="space-y-2 text-gray-300">
+                <li class="flex items-start"><span class="text-amber-400 mr-2">✓</span> Sauvegarde d'un patrimoine architectural unique</li>
+                <li class="flex items-start"><span class="text-amber-400 mr-2">✓</span> Écosystème local autour du bâtiment</li>
+                <li class="flex items-start"><span class="text-amber-400 mr-2">✓</span> Espace culturel et communautaire ouvert</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="text-xl font-bold text-amber-300 mb-3">Vos contreparties :</h4>
+              <ul class="space-y-2 text-gray-300">
+                <li class="flex items-start"><span class="text-amber-400 mr-2">🎁</span> Visite guidée exclusive du chantier</li>
+                <li class="flex items-start"><span class="text-amber-400 mr-2">🎁</span> Invitation aux événements culturels organisés</li>
+                <li class="flex items-start"><span class="text-amber-400 mr-2">🎁</span> Accès prioritaire aux ateliers patrimoine</li>
+                <li class="flex items-start"><span class="text-amber-400 mr-2">🎁</span> Nom gravé sur le mur des contributeurs (optionnel)</li>
+                <li class="flex items-start"><span class="text-amber-400 mr-2">🎁</span> Documentation photo HD avant/après</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Womb -->
+      <div id="modal-womb" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onclick="this.classList.add('hidden')">
+        <div class="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl max-w-2xl w-full border-2 border-purple-500 shadow-2xl" onclick="event.stopPropagation()">
+          <div class="flex justify-between items-start mb-6">
+            <div>
+              <h3 class="text-3xl font-bold text-purple-400 mb-2">🎵 Womb</h3>
+              <p class="text-gray-400">La musique ensemble, autrement</p>
+            </div>
+            <button onclick="document.getElementById('modal-womb').classList.add('hidden')" class="text-gray-400 hover:text-white text-2xl">×</button>
+          </div>
+          <div class="space-y-4">
+            <div>
+              <h4 class="text-xl font-bold text-purple-300 mb-3">Ce que vous soutenez :</h4>
+              <ul class="space-y-2 text-gray-300">
+                <li class="flex items-start"><span class="text-purple-400 mr-2">✓</span> Expériences musicales thérapeutiques et apaisantes</li>
+                <li class="flex items-start"><span class="text-purple-400 mr-2">✓</span> Espaces adaptés aux introvertis et hypersensibles</li>
+                <li class="flex items-start"><span class="text-purple-400 mr-2">✓</span> Accessibilité à la musique live sans stress</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="text-xl font-bold text-purple-300 mb-3">Vos contreparties :</h4>
+              <ul class="space-y-2 text-gray-300">
+                <li class="flex items-start"><span class="text-purple-400 mr-2">🎁</span> Accès réduit (-20%) aux sessions Womb</li>
+                <li class="flex items-start"><span class="text-purple-400 mr-2">🎁</span> Playlist exclusive des artistes participants</li>
+                <li class="flex items-start"><span class="text-purple-400 mr-2">🎁</span> Invitation prioritaire aux nouvelles expériences</li>
+                <li class="flex items-start"><span class="text-purple-400 mr-2">🎁</span> Livret bien-être musical (digital)</li>
+                <li class="flex items-start"><span class="text-purple-400 mr-2">🎁</span> Badge contributeur Womb Community</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Lagendwa -->
+      <div id="modal-lagendwa" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onclick="this.classList.add('hidden')">
+        <div class="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl max-w-2xl w-full border-2 border-cyan-500 shadow-2xl" onclick="event.stopPropagation()">
+          <div class="flex justify-between items-start mb-6">
+            <div>
+              <h3 class="text-3xl font-bold text-cyan-400 mb-2">🎪 Lagendwa</h3>
+              <p class="text-gray-400">App festival open source</p>
+            </div>
+            <button onclick="document.getElementById('modal-lagendwa').classList.add('hidden')" class="text-gray-400 hover:text-white text-2xl">×</button>
+          </div>
+          <div class="space-y-4">
+            <div>
+              <h4 class="text-xl font-bold text-cyan-300 mb-3">Ce que vous soutenez :</h4>
+              <ul class="space-y-2 text-gray-300">
+                <li class="flex items-start"><span class="text-cyan-400 mr-2">✓</span> Plateforme open source pour festivals indépendants</li>
+                <li class="flex items-start"><span class="text-cyan-400 mr-2">✓</span> Outils collaboratifs pour organisateurs</li>
+                <li class="flex items-start"><span class="text-cyan-400 mr-2">✓</span> Alternative éthique aux applis événementielles</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="text-xl font-bold text-cyan-300 mb-3">Vos contreparties :</h4>
+              <ul class="space-y-2 text-gray-300">
+                <li class="flex items-start"><span class="text-cyan-400 mr-2">🎁</span> Accès beta en avant-première</li>
+                <li class="flex items-start"><span class="text-cyan-400 mr-2">🎁</span> Fonctionnalités premium gratuites à vie</li>
+                <li class="flex items-start"><span class="text-cyan-400 mr-2">🎁</span> Votre nom dans les credits de l'app</li>
+                <li class="flex items-start"><span class="text-cyan-400 mr-2">🎁</span> Invitation au festival pilote</li>
+                <li class="flex items-start"><span class="text-cyan-400 mr-2">🎁</span> Pack stickers et goodies Lagendwa</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal monloyer.brussels -->
+      <div id="modal-loyer" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onclick="this.classList.add('hidden')">
+        <div class="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl max-w-2xl w-full border-2 border-orange-500 shadow-2xl" onclick="event.stopPropagation()">
+          <div class="flex justify-between items-start mb-6">
+            <div>
+              <h3 class="text-3xl font-bold text-orange-400 mb-2">🏠 monloyer.brussels</h3>
+              <p class="text-gray-400">Défense des droits des locataires - Wuune</p>
+            </div>
+            <button onclick="document.getElementById('modal-loyer').classList.add('hidden')" class="text-gray-400 hover:text-white text-2xl">×</button>
+          </div>
+          <div class="space-y-4">
+            <div>
+              <h4 class="text-xl font-bold text-orange-300 mb-3">Ce que vous soutenez :</h4>
+              <ul class="space-y-2 text-gray-300">
+                <li class="flex items-start"><span class="text-orange-400 mr-2">✓</span> Calculateur de fourchette de loyer acceptable</li>
+                <li class="flex items-start"><span class="text-orange-400 mr-2">✓</span> Protection des locataires contre les abus</li>
+                <li class="flex items-start"><span class="text-orange-400 mr-2">✓</span> Outil syndical pour le droit au logement</li>
+                <li class="flex items-start"><span class="text-orange-400 mr-2">✓</span> Transparence sur le marché locatif bruxellois</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="text-xl font-bold text-orange-300 mb-3">Vos contreparties :</h4>
+              <ul class="space-y-2 text-gray-300">
+                <li class="flex items-start"><span class="text-orange-400 mr-2">🎁</span> Accès illimité à l'outil de calcul</li>
+                <li class="flex items-start"><span class="text-orange-400 mr-2">🎁</span> Guide PDF "Vos droits de locataire à Bruxelles"</li>
+                <li class="flex items-start"><span class="text-orange-400 mr-2">🎁</span> Newsletter mensuelle sur le logement</li>
+                <li class="flex items-start"><span class="text-orange-400 mr-2">🎁</span> Support prioritaire en cas de litige</li>
+                <li class="flex items-start"><span class="text-orange-400 mr-2">🎁</span> Participation aux assemblées Wuune</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </section>
