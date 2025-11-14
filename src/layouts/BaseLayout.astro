@@ -24,7 +24,7 @@ const languages = [
 ];
 
 // Get current path without language prefix
-const currentPath = Astro.url.pathname.replace(/^\/(nl|en)\//, '/').replace(base, '/');
+const currentPath = Astro.url.pathname.replace(base, '/').replace(/^\/(nl|en)\//, '/');
 ---
 
 <!DOCTYPE html>
