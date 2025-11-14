@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 💬 Questions générales
+    url: https://github.com/vanmarkic/mycelium-blog/discussions
+    about: Posez des questions ou discutez des projets
+  - name: 🤝 Proposer mon aide (Spécialiste IT)
+    url: https://github.com/vanmarkic/mycelium-blog/issues?q=is%3Aissue+is%3Aopen+label%3Apro-bono
+    about: Voir les projets pro bono disponibles et proposer votre aide
