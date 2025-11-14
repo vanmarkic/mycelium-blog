@@ -1,7 +1,10 @@
 import type { Locale } from './translations';
 
 export function getLangFromUrl(url: URL): Locale {
-  const [, lang] = url.pathname.split('/');
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+  // Remove base path first, then extract language
+  const pathWithoutBase = url.pathname.replace(base, '');
+  const [, lang] = pathWithoutBase.split('/');
   if (lang === 'nl' || lang === 'en') return lang;
   return 'fr';
 }
