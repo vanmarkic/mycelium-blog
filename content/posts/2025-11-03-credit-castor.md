@@ -1,7 +1,7 @@
 ---
 title: Building credit-castor with React and test-driven-development
 date: '2025-11-03'
-status: draft
+status: published
 privacy: public
 tags:
   - test-driven-development
@@ -52,24 +52,68 @@ Evolution and refinement:
 
 ### Context: What I Was Building
 
-[Describe the project goal and why you started this work. What problem does credit-castor solve?]
+I needed a timeline. Not just any timeline—one that shows when money moves in a Belgian real estate division purchase. You know: deed date, CASCO payments, parachèvement payments, the whole cascade of transactions that buyers need to plan for.
+
+Credit-castor already had the calculator working. Enter parameters, get costs per participant. But that's a snapshot, not a forecast. I wanted to project those costs forward in time: "When do I actually pay?" This meant redesigning around chronology—moving from static calculation to event-sourced timeline projection.
+
+The work spanned 53 commits across multiple phases. Early on, I built the calculator utilities, password protection, GitHub Pages deployment. Then came the global CASCO price refactor (more on that below). The timeline work represents the latest evolution: Phase 1-6 implementation using event-sourced architecture with automated UAT and production validation.
 
 ### The Challenge
 
-[What made this difficult? What trade-offs did you face? What surprised you?]
+The first challenge was backward compatibility. I'd changed the data model from per-participant CASCO pricing to global CASCO per square meter. Existing saved scenarios broke. Users would lose their work unless I implemented migration. The commit "feat: add migrateScenarioData function for v1.0.2 compatibility" shows I built a migration function, but testing it meant manually creating v1.0.2 scenario files and verifying they loaded correctly. That's tedious, error-prone work.
+
+The second challenge was event modeling. A timeline isn't just a list of dates—it's a projection of events with dependencies. "CASCO payment happens 6 months after deed date." "Parachèvement payment happens after CASCO." I needed an architecture that could express these relationships without hardcoding sequences. The commit "feat: add event-sourced chronology foundation (34 tests)" shows I chose event sourcing. 34 tests gave me confidence the event handling was correct, but writing those tests meant thinking through every edge case: What if deed date is missing? What if multiple events happen on the same day?
+
+The third challenge was integrating calculator and timeline. The calculator operates on totals—"You owe €X for CASCO." The timeline operates on events—"€X is due on date Y." The commit "feat: implement Phase 5 - Calculator to Timeline Integration (complete)" shows I bridged these layers, but it required careful orchestration. Calculator outputs became timeline event inputs. Any mismatch between calculation logic and event handlers would produce wrong projections.
 
 ### How I Solved It
 
-[Walk through your approach. Show key code, explain decisions, highlight insights.]
+I started with documentation-driven design. Before writing code, I created design documents and implementation plans. The commits show this pattern: "docs: add backward compatibility design for v1.0.2 scenarios" came before "feat: add migrateScenarioData function." This forced me to think through the migration strategy first—what data needs to transform, where to hook the migration (app startup vs file upload), how to test it.
 
-```typescript
-// Show a meaningful code snippet that tells the story
-// This could be a key function, an interesting pattern, or a clever solution
-```
+For the CASCO refactor, I followed a disciplined sequence:
+1. Add `globalCascoPerM2` to data model
+2. Update calculation functions
+3. Update all call sites
+4. Add localStorage migration
+5. Extend migration to file uploads
+6. Test with v1.0.2 scenarios
+
+The localStorage migration runs on app startup, transforming old scenarios automatically. The file upload handler migration means uploaded scenarios also get transformed. This two-pronged approach covers both persistence mechanisms.
+
+For the timeline work, I built bottom-up across six phases:
+
+**Phase 1-3: Foundation**
+- Add deed date field to calculator (Phase 1)
+- Design event-sourced chronology architecture (Phase 2)
+- Implement chronology foundation with 34 tests (Phase 3)
+
+**Phase 4: UI Components**
+- Add deed date to calculator UI (Phase 4.1)
+- Build timeline visualization components (Phase 4.2-4.6)
+
+**Phase 5: Integration**
+- Wire calculator outputs to timeline event handlers (Phase 5)
+- Implement cash flow calculations
+- Add timeline projection engine
+
+**Phase 6: Validation**
+- Write comprehensive documentation
+- Implement automated UAT
+- Production validation
+
+The event-sourced approach means the timeline is derived, not stored. Events like "DeedDateSet" and "CascoPaymentScheduled" get projected forward to calculate cumulative cash flows. The projection engine is pure—same events, same timeline, every time.
 
 ### What I Learned
 
-[Key takeaways, lessons learned, what you'd do differently next time]
+Documentation-driven design caught migration issues before they shipped. Writing the backward compatibility design forced me to realize localStorage migration wasn't optional—without it, users would lose saved scenarios. That would've been a critical bug discovered only after release.
+
+Event sourcing was the right architectural choice for timeline projection. Direct state manipulation would've made testing harder. With events, I can unit test the projection engine independently of the UI. The 34 tests give me confidence that adding new event types won't break existing calculations.
+
+The phased approach worked. Each phase had clear deliverables and completion criteria. Phase 6's automated UAT means I can verify the entire workflow programmatically, not just manually. Next time, I'd write those automated tests earlier—they would've caught integration issues during Phase 5.
+
+The migration testing was manual and tedious. Creating v1.0.2 scenario files, uploading them, verifying transformation—all by hand. I should've automated this with test fixtures. Future data model changes will need automated migration tests, not manual verification.
+
+If I were doing this again, I'd use git worktrees from the start. The commit "chore: add .worktrees/ to .gitignore" came late, suggesting I added them partway through. Worktrees would've let me work on timeline visualization while keeping the CASCO refactor isolated, reducing context switching costs.
 
 
 

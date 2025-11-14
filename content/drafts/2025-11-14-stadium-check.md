@@ -1,6 +1,6 @@
 ---
 title: Building stadium-check with Development and Project
-date: '2025-11-03'
+date: '2025-11-14'
 status: draft
 privacy: public
 tags: []
@@ -13,7 +13,7 @@ description: Exploring development patterns in stadium-check
 ---
 ## Introduction
 
-Over the past month, **19 commits** shaped stadium-check, with 11% focused on building new features. 
+Over the past month, **27 commits** shaped stadium-check, with 26% focused on building new features. 
 
 ## The Story
 
@@ -27,11 +27,15 @@ Over the past month, **19 commits** shaped stadium-check, with 11% focused on bu
 Notable features built:
 - add gitignore (10/26/2025)
 - add config file (10/26/2025)
+- Add curl command for Pushover notification (9/2/2025)
 
 Challenges overcome:
 - fix notion scritp (10/26/2025)
 - fix notion api connection (10/26/2025)
 - fix found spots not found bug (10/26/2025)
+
+Evolution and refinement:
+- Refactor one_shot_check.py for simplified logic (9/2/2025)
 
 -->
 
@@ -64,7 +68,7 @@ Challenges overcome:
 **Patterns**: None detected
 
 
-## All Commits (19)
+## All Commits (27)
 
 - disable json based scripts (10/26/2025)
 - fix notion scritp (10/26/2025)
@@ -85,6 +89,14 @@ Challenges overcome:
 - Change cron schedule to every 10 minutes (10/25/2025)
 - Update STADIUM_URL in stadium_curl.yml (10/25/2025)
 - Update STADIUM_URL to new LesId (10/25/2025)
+- Change cron schedule to every 5 minutes (9/2/2025)
+- Remove unused curl command for no spots notification (9/2/2025)
+- Add curl command for Pushover notification (9/2/2025)
+- Add GitHub Actions workflow for stadium notifications (9/2/2025)
+- Add print statement for API response (9/2/2025)
+- Add notification for no available spots (9/2/2025)
+- Add GitHub Actions workflow for stadium watcher (9/2/2025)
+- Refactor one_shot_check.py for simplified logic (9/2/2025)
 
 ## Mycelium Links
 

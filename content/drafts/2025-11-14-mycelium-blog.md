@@ -1,6 +1,6 @@
 ---
 title: Building mycelium-blog with React and static-site-generation
-date: '2025-11-03'
+date: '2025-11-14'
 status: draft
 privacy: public
 tags:
@@ -22,7 +22,7 @@ description: Exploring static-site-generation in mycelium-blog
 ---
 ## Introduction
 
-Over the past month, **17 commits** shaped mycelium-blog, with 59% focused on building new features. The project leverages **React, Astro, TypeScript, Tailwind CSS, D3.js**, applying patterns like **static-site-generation** to solve real-world problems.
+Over the past month, **34 commits** shaped mycelium-blog, with 62% focused on building new features. The project leverages **React, Astro, TypeScript, Tailwind CSS, D3.js**, applying patterns like **static-site-generation** to solve real-world problems.
 
 
 
@@ -36,13 +36,14 @@ Over the past month, **17 commits** shaped mycelium-blog, with 59% focused on bu
 4. **Outcome**: What did you learn? What would you do differently?
 
 Notable features built:
-- feat: add contextual storytelling framework from Behind Genius Ventures (11/3/2025)
-- feat: add pedagogical writing patterns from Mark Seemann (11/3/2025)
-- feat: create blog-post-writer skill using TDD methodology (11/3/2025)
+- feat: add PayPal and IBAN donation links (11/14/2025)
+- feat: add Open Collective donation link (11/14/2025)
+- feat: implement trilingual support (FR/NL/EN) and add 3DS project (11/14/2025)
 
 Challenges overcome:
-- fix: add markdown to HTML conversion with marked (11/2/2025)
-- fix: correct all internal links to use base path (11/2/2025)
+- fix: correct getLangFromUrl to handle base URL (11/15/2025)
+- fix: correct language switching path resolution (11/15/2025)
+- fix: update Credit Castor description and add perks modal (11/14/2025)
 
 Evolution and refinement:
 - Enhance blog workflow integration with blog-post-writer skill (11/3/2025)
@@ -80,8 +81,25 @@ Evolution and refinement:
 **Patterns**: static-site-generation
 **Claude Skills**: blog-post-writer, blog-workflow
 
-## All Commits (17)
+## All Commits (34)
 
+- Merge pull request #1 from vanmarkic/claude/add-function-01RfbArma5eawZkNh4KVKkUg (11/15/2025)
+- fix: correct getLangFromUrl to handle base URL (11/15/2025)
+- fix: correct language switching path resolution (11/15/2025)
+- feat: add PayPal and IBAN donation links (11/14/2025)
+- feat: add Open Collective donation link (11/14/2025)
+- feat: implement trilingual support (FR/NL/EN) and add 3DS project (11/14/2025)
+- feat: add Claude Config project with dev tools focus (11/14/2025)
+- fix: update Credit Castor description and add perks modal (11/14/2025)
+- feat: add 4 new projects with detailed perks and benefits modals (11/14/2025)
+- feat: complete design overhaul of support page with modern marketplace aesthetic (11/14/2025)
+- feat: add pro bono marketplace section for Belgian associations (11/14/2025)
+- feat: add donation/support page with multiple payment options (11/14/2025)
+- fix: add missing skills field to domain modeling post frontmatter (11/4/2025)
+- feat: publish blog post on domain modeling with Claude and xstate (11/4/2025)
+- fix: change post status from draft to published (11/3/2025)
+- feat: add draft files for credit-castor, deuxmains, loyer.brussels, mycelium-blog, and stadium-check projects (11/3/2025)
+- feat: publish 3 new blog posts with evidence-based narratives (11/3/2025)
 - Enhance blog workflow integration with blog-post-writer skill (11/3/2025)
 - feat: add contextual storytelling framework from Behind Genius Ventures (11/3/2025)
 - feat: add pedagogical writing patterns from Mark Seemann (11/3/2025)
