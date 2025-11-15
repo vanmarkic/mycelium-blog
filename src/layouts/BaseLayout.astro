@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { useTranslations } from '../i18n/translations';
 import { getLangFromUrl, useTranslatedPath } from '../i18n/utils';
+import ThemeToggle from '../components/ThemeToggle.astro';
 
 interface Props {
   title: string;
@@ -36,30 +37,43 @@ const currentPath = Astro.url.pathname.replace(base, '/').replace(/^\/(nl|en)\//
     <title>{title} | Mycelium Blog</title>
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
+
+    <!-- Prevent flash of unstyled content -->
+    <script is:inline>
+      const theme = localStorage.getItem('theme') || 'light';
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    </script>
   </head>
-  <body class="bg-gray-900 text-gray-100 min-h-screen">
-    <nav class="border-b border-gray-800 bg-gray-950">
+  <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
+    <nav class="border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-950">
       <div class="max-w-6xl mx-auto px-4 py-4">
         <div class="flex items-center justify-between">
-          <a href={translatePath('')} class="text-2xl font-bold text-mycelium-400 hover:text-mycelium-300 transition-colors">
+          <a href={translatePath('')} class="text-2xl font-bold text-mycelium-600 dark:text-mycelium-400 hover:text-mycelium-700 dark:hover:text-mycelium-300 transition-colors">
             🍄 Mycelium
           </a>
           <div class="flex items-center gap-6">
-            <a href={translatePath('')} class="text-gray-300 hover:text-mycelium-400 transition-colors">{t.nav.posts}</a>
-            <a href={translatePath('skills')} class="text-gray-300 hover:text-mycelium-400 transition-colors">{t.nav.skills}</a>
-            <a href={translatePath('patterns')} class="text-gray-300 hover:text-mycelium-400 transition-colors">{t.nav.patterns}</a>
-            <a href={translatePath('graph')} class="text-gray-300 hover:text-mycelium-400 transition-colors">{t.nav.graph}</a>
-            <a href={translatePath('support')} class="text-gray-300 hover:text-mycelium-400 transition-colors">{t.nav.support}</a>
+            <a href={translatePath('')} class="text-gray-700 dark:text-gray-300 hover:text-mycelium-600 dark:hover:text-mycelium-400 transition-colors">{t.nav.posts}</a>
+            <a href={translatePath('skills')} class="text-gray-700 dark:text-gray-300 hover:text-mycelium-600 dark:hover:text-mycelium-400 transition-colors">{t.nav.skills}</a>
+            <a href={translatePath('patterns')} class="text-gray-700 dark:text-gray-300 hover:text-mycelium-600 dark:hover:text-mycelium-400 transition-colors">{t.nav.patterns}</a>
+            <a href={translatePath('graph')} class="text-gray-700 dark:text-gray-300 hover:text-mycelium-600 dark:hover:text-mycelium-400 transition-colors">{t.nav.graph}</a>
+            <a href={translatePath('support')} class="text-gray-700 dark:text-gray-300 hover:text-mycelium-600 dark:hover:text-mycelium-400 transition-colors">{t.nav.support}</a>
+
+            <!-- Theme Toggle -->
+            <ThemeToggle />
 
             <!-- Language Switcher -->
-            <div class="flex gap-2 ml-4 border-l border-gray-700 pl-4">
+            <div class="flex gap-2 ml-4 border-l border-gray-300 dark:border-gray-700 pl-4">
               {languages.map(({ code, label }) => (
                 <a
                   href={translatePath(currentPath, code)}
                   class={`px-2 py-1 rounded text-sm transition-colors ${
                     lang === code
                       ? 'bg-mycelium-600 text-white font-semibold'
-                      : 'text-gray-400 hover:text-mycelium-400 hover:bg-gray-800'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-mycelium-600 dark:hover:text-mycelium-400 hover:bg-gray-200 dark:hover:bg-gray-800'
                   }`}
                 >
                   {label}
@@ -75,8 +89,8 @@ const currentPath = Astro.url.pathname.replace(base, '/').replace(/^\/(nl|en)\//
       <slot />
     </main>
 
-    <footer class="border-t border-gray-800 mt-16">
-      <div class="max-w-6xl mx-auto px-4 py-8 text-center text-gray-500">
+    <footer class="border-t border-gray-200 dark:border-gray-800 mt-16">
+      <div class="max-w-6xl mx-auto px-4 py-8 text-center text-gray-500 dark:text-gray-500">
         <p>{t.footer.builtWith}</p>
         <p class="text-sm mt-2">{t.footer.tagline}</p>
       </div>

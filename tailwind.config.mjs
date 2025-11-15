@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -19,6 +20,32 @@ export default {
       },
       typography: (theme) => ({
         DEFAULT: {
+          css: {
+            color: theme('colors.gray.700'),
+            a: {
+              color: theme('colors.mycelium.600'),
+              '&:hover': {
+                color: theme('colors.mycelium.700'),
+              },
+            },
+            h1: {
+              color: theme('colors.gray.900'),
+            },
+            h2: {
+              color: theme('colors.gray.900'),
+            },
+            h3: {
+              color: theme('colors.gray.800'),
+            },
+            code: {
+              color: theme('colors.mycelium.700'),
+            },
+            pre: {
+              backgroundColor: theme('colors.gray.50'),
+            },
+          },
+        },
+        invert: {
           css: {
             color: theme('colors.gray.300'),
             a: {

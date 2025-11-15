@@ -1,0 +1,88 @@
+---
+interface Props {
+  emoji: string;
+  title: string;
+  tagline: string;
+  category: string;
+  color: string;
+  slug: string;
+  fundingGoal: number;
+  fundingCurrency: string;
+}
+
+const { emoji, title, tagline, category, color, slug, fundingGoal, fundingCurrency } = Astro.props;
+
+const base = import.meta.env.BASE_URL;
+
+const borderColorClasses = {
+  red: 'hover:border-red-400 dark:hover:border-red-500',
+  amber: 'hover:border-amber-400 dark:hover:border-amber-500',
+  purple: 'hover:border-purple-400 dark:hover:border-purple-500',
+  cyan: 'hover:border-cyan-400 dark:hover:border-cyan-500',
+  mycelium: 'hover:border-mycelium-400 dark:hover:border-mycelium-500',
+  orange: 'hover:border-orange-400 dark:hover:border-orange-500',
+  teal: 'hover:border-teal-400 dark:hover:border-teal-500',
+  violet: 'hover:border-violet-400 dark:hover:border-violet-500',
+  fuchsia: 'hover:border-fuchsia-400 dark:hover:border-fuchsia-500',
+};
+
+const textColorClasses = {
+  red: 'text-red-700 dark:text-red-400',
+  amber: 'text-amber-700 dark:text-amber-400',
+  purple: 'text-purple-700 dark:text-purple-400',
+  cyan: 'text-cyan-700 dark:text-cyan-400',
+  mycelium: 'text-mycelium-700 dark:text-mycelium-400',
+  orange: 'text-orange-700 dark:text-orange-400',
+  teal: 'text-teal-700 dark:text-teal-400',
+  violet: 'text-violet-700 dark:text-violet-400',
+  fuchsia: 'text-fuchsia-700 dark:text-fuchsia-400',
+};
+
+const bgColorClasses = {
+  red: 'bg-red-50 dark:bg-red-900/10',
+  amber: 'bg-amber-50 dark:bg-amber-900/10',
+  purple: 'bg-purple-50 dark:bg-purple-900/10',
+  cyan: 'bg-cyan-50 dark:bg-cyan-900/10',
+  mycelium: 'bg-mycelium-50 dark:bg-mycelium-900/10',
+  orange: 'bg-orange-50 dark:bg-orange-900/10',
+  teal: 'bg-teal-50 dark:bg-teal-900/10',
+  violet: 'bg-violet-50 dark:bg-violet-900/10',
+  fuchsia: 'bg-fuchsia-50 dark:bg-fuchsia-900/10',
+};
+
+const borderColor = borderColorClasses[color as keyof typeof borderColorClasses] || borderColorClasses.mycelium;
+const textColor = textColorClasses[color as keyof typeof textColorClasses] || textColorClasses.mycelium;
+const bgColor = bgColorClasses[color as keyof typeof bgColorClasses] || bgColorClasses.mycelium;
+---
+
+<a
+  href={`${base}projects/${slug}`}
+  class={`group block bg-white dark:bg-gray-800 rounded-xl border-2 border-gray-200 dark:border-gray-700 ${borderColor} transition-all hover:shadow-lg hover:-translate-y-1 p-6`}
+>
+  <div class="flex items-start gap-4 mb-4">
+    <div class="text-4xl">{emoji}</div>
+    <div class="flex-1 min-w-0">
+      <h3 class={`text-xl font-bold mb-1 ${textColor} group-hover:underline`}>
+        {title}
+      </h3>
+      <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+        {tagline}
+      </p>
+    </div>
+  </div>
+
+  <div class="flex items-center justify-between">
+    <span class={`inline-block px-3 py-1 rounded-full text-xs font-medium ${bgColor} ${textColor}`}>
+      {category}
+    </span>
+    <span class="text-sm font-semibold text-gray-700 dark:text-gray-300">
+      {fundingGoal.toLocaleString()} {fundingCurrency}/an
+    </span>
+  </div>
+
+  <div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
+    <span class="text-sm text-mycelium-600 dark:text-mycelium-400 group-hover:text-mycelium-700 dark:group-hover:text-mycelium-300 font-medium">
+      En savoir plus →
+    </span>
+  </div>
+</a>

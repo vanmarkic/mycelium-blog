@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <!-- Cohousing illustration - Multiple houses -->
+  <path d="M120 120 L170 90 L220 120 L220 200 L120 200 Z" fill="#ccfbf1" stroke="#14b8a6" stroke-width="2"/>
+  <path d="M180 120 L230 90 L280 120 L280 200 L180 200 Z" fill="#ccfbf1" stroke="#14b8a6" stroke-width="2"/>
+  <circle cx="200" cy="150" r="30" fill="#14b8a6" opacity="0.2"/>
+  <path d="M185 145 L200 135 L215 145" stroke="#14b8a6" stroke-width="2" fill="none"/>
+  <path d="M185 155 L200 165 L215 155" stroke="#14b8a6" stroke-width="2" fill="none"/>
+</svg>

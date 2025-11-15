@@ -3,24 +3,61 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply antialiased;
+  :root {
+    /* Light mode colors (default) */
+    --color-bg-primary: 255 255 255;
+    --color-bg-secondary: 249 250 251;
+    --color-bg-tertiary: 243 244 246;
+    --color-text-primary: 17 24 39;
+    --color-text-secondary: 75 85 99;
+    --color-text-tertiary: 107 114 128;
+    --color-border: 229 231 235;
+    --color-border-hover: 209 213 219;
   }
 
-  /* Custom scrollbar */
+  .dark {
+    /* Dark mode colors */
+    --color-bg-primary: 17 24 39;
+    --color-bg-secondary: 31 41 55;
+    --color-bg-tertiary: 55 65 81;
+    --color-text-primary: 243 244 246;
+    --color-text-secondary: 209 213 219;
+    --color-text-tertiary: 156 163 175;
+    --color-border: 55 65 81;
+    --color-border-hover: 75 85 99;
+  }
+
+  body {
+    @apply antialiased transition-colors duration-200;
+  }
+
+  /* Custom scrollbar - Light mode */
   ::-webkit-scrollbar {
     @apply w-2;
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-gray-900;
+    @apply bg-gray-100;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-gray-700 rounded-full;
+    @apply bg-gray-300 rounded-full;
   }
 
   ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400;
+  }
+
+  /* Custom scrollbar - Dark mode */
+  .dark ::-webkit-scrollbar-track {
+    @apply bg-gray-900;
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    @apply bg-gray-700 rounded-full;
+  }
+
+  .dark ::-webkit-scrollbar-thumb:hover {
     @apply bg-gray-600;
   }
 }
@@ -28,16 +65,16 @@
 @layer components {
   /* Link styles */
   .link {
-    @apply text-mycelium-400 hover:text-mycelium-300 transition-colors underline;
+    @apply text-mycelium-600 hover:text-mycelium-700 dark:text-mycelium-400 dark:hover:text-mycelium-300 transition-colors underline;
   }
 
   /* Card styles */
   .card {
-    @apply border border-gray-800 rounded-lg p-6 hover:border-mycelium-600 transition-colors;
+    @apply border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-lg p-6 hover:border-mycelium-500 dark:hover:border-mycelium-600 transition-colors shadow-sm;
   }
 
   /* Tag styles */
   .tag {
-    @apply px-3 py-1 bg-gray-800 text-mycelium-300 rounded-full text-sm;
+    @apply px-3 py-1 bg-gray-100 dark:bg-gray-800 text-mycelium-700 dark:text-mycelium-300 rounded-full text-sm;
   }
 }
