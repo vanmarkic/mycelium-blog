@@ -55,7 +55,9 @@ const currentPath = Astro.url.pathname.replace(base, '/').replace(/^\/(nl|en)\//
           <a href={translatePath('')} class="text-2xl font-bold text-mycelium-600 dark:text-mycelium-400 hover:text-mycelium-700 dark:hover:text-mycelium-300 transition-colors">
             🍄 Mycelium
           </a>
-          <div class="flex items-center gap-6">
+
+          <!-- Desktop Navigation -->
+          <div class="hidden md:flex items-center gap-6">
             <a href={translatePath('')} class="text-gray-700 dark:text-gray-300 hover:text-mycelium-600 dark:hover:text-mycelium-400 transition-colors">{t.nav.posts}</a>
             <a href={translatePath('skills')} class="text-gray-700 dark:text-gray-300 hover:text-mycelium-600 dark:hover:text-mycelium-400 transition-colors">{t.nav.skills}</a>
             <a href={translatePath('patterns')} class="text-gray-700 dark:text-gray-300 hover:text-mycelium-600 dark:hover:text-mycelium-400 transition-colors">{t.nav.patterns}</a>
@@ -81,9 +83,90 @@ const currentPath = Astro.url.pathname.replace(base, '/').replace(/^\/(nl|en)\//
               ))}
             </div>
           </div>
+
+          <!-- Mobile Menu Button -->
+          <button
+            id="mobile-menu-button"
+            class="md:hidden flex flex-col gap-1.5 p-2 hover:bg-gray-200 dark:hover:bg-gray-800 rounded transition-colors"
+            aria-label="Toggle menu"
+          >
+            <span class="block w-6 h-0.5 bg-gray-700 dark:bg-gray-300 transition-all"></span>
+            <span class="block w-6 h-0.5 bg-gray-700 dark:bg-gray-300 transition-all"></span>
+            <span class="block w-6 h-0.5 bg-gray-700 dark:bg-gray-300 transition-all"></span>
+          </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pt-4 border-t border-gray-200 dark:border-gray-800">
+          <div class="flex flex-col gap-4">
+            <a href={translatePath('')} class="text-gray-700 dark:text-gray-300 hover:text-mycelium-600 dark:hover:text-mycelium-400 transition-colors py-2">{t.nav.posts}</a>
+            <a href={translatePath('skills')} class="text-gray-700 dark:text-gray-300 hover:text-mycelium-600 dark:hover:text-mycelium-400 transition-colors py-2">{t.nav.skills}</a>
+            <a href={translatePath('patterns')} class="text-gray-700 dark:text-gray-300 hover:text-mycelium-600 dark:hover:text-mycelium-400 transition-colors py-2">{t.nav.patterns}</a>
+            <a href={translatePath('graph')} class="text-gray-700 dark:text-gray-300 hover:text-mycelium-600 dark:hover:text-mycelium-400 transition-colors py-2">{t.nav.graph}</a>
+            <a href={translatePath('support')} class="text-gray-700 dark:text-gray-300 hover:text-mycelium-600 dark:hover:text-mycelium-400 transition-colors py-2">{t.nav.support}</a>
+
+            <!-- Mobile Theme Toggle and Language Switcher -->
+            <div class="flex items-center gap-4 pt-2 border-t border-gray-200 dark:border-gray-800">
+              <ThemeToggle />
+              <div class="flex gap-2">
+                {languages.map(({ code, label }) => (
+                  <a
+                    href={translatePath(currentPath, code)}
+                    class={`px-2 py-1 rounded text-sm transition-colors ${
+                      lang === code
+                        ? 'bg-mycelium-600 text-white font-semibold'
+                        : 'text-gray-600 dark:text-gray-400 hover:text-mycelium-600 dark:hover:text-mycelium-400 hover:bg-gray-200 dark:hover:bg-gray-800'
+                    }`}
+                  >
+                    {label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </nav>
+
+    <script>
+      // Mobile menu toggle functionality
+      const mobileMenuButton = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+
+      if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', () => {
+          const isHidden = mobileMenu.classList.contains('hidden');
+
+          if (isHidden) {
+            mobileMenu.classList.remove('hidden');
+            // Animate hamburger to X
+            const spans = mobileMenuButton.querySelectorAll('span');
+            spans[0].style.transform = 'rotate(45deg) translateY(8px)';
+            spans[1].style.opacity = '0';
+            spans[2].style.transform = 'rotate(-45deg) translateY(-8px)';
+          } else {
+            mobileMenu.classList.add('hidden');
+            // Animate X back to hamburger
+            const spans = mobileMenuButton.querySelectorAll('span');
+            spans[0].style.transform = 'none';
+            spans[1].style.opacity = '1';
+            spans[2].style.transform = 'none';
+          }
+        });
+
+        // Close mobile menu when clicking a link
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+            const spans = mobileMenuButton.querySelectorAll('span');
+            spans[0].style.transform = 'none';
+            spans[1].style.opacity = '1';
+            spans[2].style.transform = 'none';
+          });
+        });
+      }
+    </script>
 
     <main class="max-w-6xl mx-auto px-4 py-8">
       <slot />
