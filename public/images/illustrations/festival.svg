@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <!-- Festival illustration - Tent -->
+  <path d="M200 60 L280 200 L120 200 Z" fill="#cffafe" stroke="#06b6d4" stroke-width="3"/>
+  <line x1="200" y1="60" x2="200" y2="200" stroke="#06b6d4" stroke-width="2" opacity="0.5"/>
+  <path d="M160 140 Q200 120 240 140" stroke="#06b6d4" stroke-width="2" fill="none" opacity="0.5"/>
+  <circle cx="150" cy="80" r="5" fill="#06b6d4"/>
+  <circle cx="250" cy="80" r="5" fill="#06b6d4"/>
+  <line x1="120" y1="200" x2="280" y2="200" stroke="#06b6d4" stroke-width="4"/>
+</svg>

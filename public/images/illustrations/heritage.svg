@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <!-- Heritage illustration - Building -->
+  <path d="M200 50 L280 100 L280 240 L120 240 L120 100 Z" fill="#fef3c7" stroke="#f59e0b" stroke-width="3"/>
+  <rect x="160" y="150" width="30" height="50" fill="#f59e0b" opacity="0.3"/>
+  <rect x="210" y="150" width="30" height="50" fill="#f59e0b" opacity="0.3"/>
+  <rect x="170" y="200" width="60" height="40" fill="#f59e0b" opacity="0.5"/>
+  <path d="M110 100 L200 40 L290 100" stroke="#f59e0b" stroke-width="3" fill="none"/>
+  <circle cx="200" cy="120" r="8" fill="#f59e0b"/>
+</svg>

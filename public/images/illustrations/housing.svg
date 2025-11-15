@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <!-- Housing illustration - House -->
+  <path d="M200 80 L320 160 L280 160 L280 240 L120 240 L120 160 L80 160 Z" fill="#fed7aa" stroke="#f97316" stroke-width="3"/>
+  <rect x="150" y="180" width="40" height="60" fill="#f97316" opacity="0.3"/>
+  <rect x="210" y="180" width="40" height="40" fill="#f97316" opacity="0.3"/>
+  <path d="M140 240 L140 180 Q140 170 150 170 L250 170 Q260 170 260 180 L260 240" fill="#f97316" opacity="0.2"/>
+  <circle cx="190" cy="210" r="4" fill="#f97316"/>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <!-- Journalism illustration - Newspaper -->
+  <rect x="80" y="60" width="240" height="180" rx="8" fill="#fee" stroke="#dc2626" stroke-width="3"/>
+  <rect x="100" y="80" width="200" height="30" rx="4" fill="#dc2626" opacity="0.2"/>
+  <line x1="100" y1="130" x2="300" y2="130" stroke="#dc2626" stroke-width="2" opacity="0.3"/>
+  <line x1="100" y1="150" x2="300" y2="150" stroke="#dc2626" stroke-width="2" opacity="0.3"/>
+  <line x1="100" y1="170" x2="240" y2="170" stroke="#dc2626" stroke-width="2" opacity="0.3"/>
+  <line x1="100" y1="200" x2="200" y2="200" stroke="#dc2626" stroke-width="2" opacity="0.3"/>
+  <line x1="220" y1="200" x2="300" y2="200" stroke="#dc2626" stroke-width="2" opacity="0.3"/>
+</svg>
