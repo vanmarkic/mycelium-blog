@@ -1,7 +1,7 @@
 ---
 title: Building mycelium-blog with React and static-site-generation
 date: '2025-11-14'
-status: draft
+status: published
 privacy: public
 tags:
   - static-site-generation
