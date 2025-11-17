@@ -16,6 +16,14 @@ patterns:
   - static-site-generation
   - functional-programming
 relatedTo:
+  - 2025-11-03-credit-castor
+  - 2025-11-03-loyer.brussels
+  - 2025-11-03-mycelium-blog
+  - 2025-11-04-domain-modeling-with-claude-and-xstate
+  - 2025-11-14-credit-castor
+  - 2025-11-14-lagendwa
+  - 2025-11-14-mycelium-blog
+  - 2025-11-14-womb
   - static-site-generation
 description: >-
   A pure functional approach to building a real estate calculator for Belgian

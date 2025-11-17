@@ -18,6 +18,13 @@ patterns:
   - jamstack
 relatedTo:
   - 2025-11-02-example-draft
+  - 2025-11-03-credit-castor
+  - 2025-11-03-mycelium-blog
+  - 2025-11-04-domain-modeling-with-claude-and-xstate
+  - 2025-11-14-credit-castor
+  - 2025-11-14-lagendwa
+  - 2025-11-14-mycelium-blog
+  - 2025-11-14-womb
 description: >-
   Architectural pattern for building high-performance websites with pre-rendered
   static HTML

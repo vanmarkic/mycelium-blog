@@ -17,7 +17,21 @@ skills:
   - blog-workflow
 patterns:
   - static-site-generation
-relatedTo: []
+relatedTo:
+  - 2025-11-02-example-draft
+  - 2025-11-03-claude-config
+  - 2025-11-03-credit-castor
+  - 2025-11-03-loyer.brussels
+  - 2025-11-03-touchepas
+  - 2025-11-14-3DSoundViz
+  - 2025-11-14-claude-config
+  - 2025-11-14-credit-castor
+  - 2025-11-14-lagendwa
+  - 2025-11-14-loyer.brussels
+  - 2025-11-14-mycelium-blog
+  - 2025-11-14-touchepas
+  - 2025-11-14-womb
+  - static-site-generation
 description: Exploring static-site-generation in mycelium-blog
 ---
 ## Introduction

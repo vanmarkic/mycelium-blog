@@ -1,5 +1,5 @@
 ---
-title: "Capturing Business Domains with Claude: From Assertions to State Machines"
+title: 'Capturing Business Domains with Claude: From Assertions to State Machines'
 date: '2025-11-04'
 status: published
 privacy: public
@@ -18,8 +18,14 @@ patterns:
   - domain-driven-design
   - state-machines
   - clean-architecture
-relatedTo: []
-description: 'A methodology for using Claude and xstate to capture complex business domains through structured assertions, questions, and state machine generation - demonstrated with Belgian real estate cohousing law'
+relatedTo:
+  - 2025-11-02-example-draft
+  - 2025-11-03-credit-castor
+  - static-site-generation
+description: >-
+  A methodology for using Claude and xstate to capture complex business domains
+  through structured assertions, questions, and state machine generation -
+  demonstrated with Belgian real estate cohousing law
 ---
 
 ## Introduction
