@@ -23,9 +23,9 @@ export default {
           css: {
             color: theme('colors.gray.700'),
             a: {
-              color: theme('colors.mycelium.600'),
+              color: theme('colors.mycelium.700'),
               '&:hover': {
-                color: theme('colors.mycelium.700'),
+                color: theme('colors.mycelium.800'),
               },
             },
             h1: {
