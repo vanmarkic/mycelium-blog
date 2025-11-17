@@ -1,14 +1,24 @@
 ---
-title: "Event Sourcing Patterns for State Management"
-date: "2025-10-28"
+title: Event Sourcing Patterns for State Management
+date: '2025-10-28'
 status: published
 privacy: public
-tags: [event-sourcing, architecture, state-management, domain-driven-design]
+tags:
+  - event-sourcing
+  - architecture
+  - state-management
+  - domain-driven-design
 repos: []
 skills: []
-patterns: [event-sourcing, cqrs, event-driven-architecture]
-relatedTo: []
-description: "Exploring event sourcing patterns and when to apply them in modern application architecture"
+patterns:
+  - event-sourcing
+  - cqrs
+  - event-driven-architecture
+relatedTo:
+  - 2025-11-14-lagendwa
+description: >-
+  Exploring event sourcing patterns and when to apply them in modern application
+  architecture
 ---
 
 ## Introduction

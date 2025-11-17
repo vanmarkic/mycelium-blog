@@ -1,6 +1,19 @@
 {
   "nodes": [
     {
+      "id": "2025-10-28-event-sourcing-patterns",
+      "type": "post",
+      "title": "Event Sourcing Patterns for State Management",
+      "tags": [
+        "event-sourcing",
+        "architecture",
+        "state-management",
+        "domain-driven-design"
+      ],
+      "path": "/posts/2025-10-28-event-sourcing-patterns",
+      "date": "2025-10-28"
+    },
+    {
       "id": "2025-11-02-example-draft",
       "type": "post",
       "title": "Building a Belgian Real Estate Calculator with Astro and Pure Functions",
@@ -29,6 +42,60 @@
       "date": "2025-11-03"
     },
     {
+      "id": "2025-11-03-credit-castor",
+      "type": "post",
+      "title": "Building credit-castor with React and test-driven-development",
+      "tags": [
+        "test-driven-development",
+        "static-site-generation",
+        "react",
+        "astro",
+        "vitest",
+        "tailwind-css"
+      ],
+      "path": "/posts/2025-11-03-credit-castor",
+      "date": "2025-11-03"
+    },
+    {
+      "id": "2025-11-03-loyer.brussels",
+      "type": "post",
+      "title": "Building loyer.brussels with React and test-driven-development",
+      "tags": [
+        "test-driven-development",
+        "static-site-generation",
+        "react",
+        "next.js",
+        "typescript",
+        "vitest",
+        "tailwind-css"
+      ],
+      "path": "/posts/2025-11-03-loyer.brussels",
+      "date": "2025-11-03"
+    },
+    {
+      "id": "2025-11-03-mycelium-blog",
+      "type": "post",
+      "title": "Building mycelium-blog with React and static-site-generation",
+      "tags": [
+        "static-site-generation",
+        "react",
+        "astro",
+        "typescript",
+        "tailwind-css",
+        "d3.js"
+      ],
+      "path": "/posts/2025-11-03-mycelium-blog",
+      "date": "2025-11-03"
+    },
+    {
+      "id": "2025-11-03-stadium-check",
+      "type": "post",
+      "title": "Building stadium-check with Development and Project",
+      "tags": [],
+      "path": "/posts/2025-11-03-stadium-check",
+      "date": "2025-11-03"
+    },
+    {
       "id": "2025-11-03-touchepas",
       "type": "post",
       "title": "Building touchepas with React and test-driven-development",
@@ -39,6 +106,165 @@
       ],
       "path": "/posts/2025-11-03-touchepas",
       "date": "2025-11-03"
+    },
+    {
+      "id": "2025-11-04-domain-modeling-with-claude-and-xstate",
+      "type": "post",
+      "title": "Capturing Business Domains with Claude: From Assertions to State Machines",
+      "tags": [
+        "domain-driven-design",
+        "xstate",
+        "state-machines",
+        "clean-architecture",
+        "domain-modeling",
+        "llm-assisted-development",
+        "belgian-real-estate"
+      ],
+      "path": "/posts/2025-11-04-domain-modeling-with-claude-and-xstate",
+      "date": "2025-11-04"
+    },
+    {
+      "id": "2025-11-14-3DSoundViz",
+      "type": "post",
+      "title": "Building 3DSoundViz with TypeScript and Project",
+      "tags": [
+        "typescript"
+      ],
+      "path": "/posts/2025-11-14-3DSoundViz",
+      "date": "2025-11-14"
+    },
+    {
+      "id": "2025-11-14-claude-config",
+      "type": "post",
+      "title": "Building claude-config with React and test-driven-development",
+      "tags": [
+        "test-driven-development",
+        "react",
+        "typescript",
+        "vitest",
+        "tailwind-css"
+      ],
+      "path": "/posts/2025-11-14-claude-config",
+      "date": "2025-11-14"
+    },
+    {
+      "id": "2025-11-14-credit-castor",
+      "type": "post",
+      "title": "Building credit-castor with React and test-driven-development",
+      "tags": [
+        "test-driven-development",
+        "static-site-generation",
+        "functional-programming",
+        "react",
+        "astro",
+        "vitest",
+        "tailwind-css"
+      ],
+      "path": "/posts/2025-11-14-credit-castor",
+      "date": "2025-11-14"
+    },
+    {
+      "id": "2025-11-14-deuxmains",
+      "type": "post",
+      "title": "Building deuxmains with Development and Project",
+      "tags": [],
+      "path": "/posts/2025-11-14-deuxmains",
+      "date": "2025-11-14"
+    },
+    {
+      "id": "2025-11-14-lagendwa",
+      "type": "post",
+      "title": "Building lagendwa with React and test-driven-development",
+      "tags": [
+        "test-driven-development",
+        "static-site-generation",
+        "event-sourcing",
+        "react",
+        "astro",
+        "vitest",
+        "playwright",
+        "tailwind-css"
+      ],
+      "path": "/posts/2025-11-14-lagendwa",
+      "date": "2025-11-14"
+    },
+    {
+      "id": "2025-11-14-localGPT",
+      "type": "post",
+      "title": "Building localGPT with Python and Project",
+      "tags": [
+        "python"
+      ],
+      "path": "/posts/2025-11-14-localGPT",
+      "date": "2025-11-14"
+    },
+    {
+      "id": "2025-11-14-loyer.brussels",
+      "type": "post",
+      "title": "Building loyer.brussels with React and static-site-generation",
+      "tags": [
+        "static-site-generation",
+        "react",
+        "next.js",
+        "typescript",
+        "tailwind-css"
+      ],
+      "path": "/posts/2025-11-14-loyer.brussels",
+      "date": "2025-11-14"
+    },
+    {
+      "id": "2025-11-14-mycelium-blog",
+      "type": "post",
+      "title": "Building mycelium-blog with React and static-site-generation",
+      "tags": [
+        "static-site-generation",
+        "react",
+        "astro",
+        "typescript",
+        "tailwind-css",
+        "d3.js"
+      ],
+      "path": "/posts/2025-11-14-mycelium-blog",
+      "date": "2025-11-14"
+    },
+    {
+      "id": "2025-11-14-n4",
+      "type": "post",
+      "title": "Building n4 with Development and Project",
+      "tags": [],
+      "path": "/posts/2025-11-14-n4",
+      "date": "2025-11-14"
+    },
+    {
+      "id": "2025-11-14-stadium-check",
+      "type": "post",
+      "title": "Building stadium-check with Development and Project",
+      "tags": [],
+      "path": "/posts/2025-11-14-stadium-check",
+      "date": "2025-11-14"
+    },
+    {
+      "id": "2025-11-14-touchepas",
+      "type": "post",
+      "title": "Building touchepas with React and test-driven-development",
+      "tags": [
+        "test-driven-development",
+        "react",
+        "typescript"
+      ],
+      "path": "/posts/2025-11-14-touchepas",
+      "date": "2025-11-14"
+    },
+    {
+      "id": "2025-11-14-womb",
+      "type": "post",
+      "title": "Building womb with Astro and static-site-generation",
+      "tags": [
+        "static-site-generation",
+        "astro"
+      ],
+      "path": "/posts/2025-11-14-womb",
+      "date": "2025-11-14"
     },
     {
       "id": "work-visibility",
@@ -70,6 +296,69 @@
   ],
   "edges": [
     {
+      "from": "2025-10-28-event-sourcing-patterns",
+      "to": "2025-11-14-lagendwa",
+      "type": "related",
+      "strength": 0.3433333333333334,
+      "reason": "1 shared tags, shared patterns: event-sourcing, recent proximity"
+    },
+    {
+      "from": "2025-11-02-example-draft",
+      "to": "2025-11-03-credit-castor",
+      "type": "related",
+      "strength": 0.6666666666666667,
+      "reason": "2 shared tags, shared repos: credit-castor, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-02-example-draft",
+      "to": "2025-11-03-loyer.brussels",
+      "type": "related",
+      "strength": 0.3766666666666667,
+      "reason": "1 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-02-example-draft",
+      "to": "2025-11-03-mycelium-blog",
+      "type": "related",
+      "strength": 0.3766666666666667,
+      "reason": "1 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-02-example-draft",
+      "to": "2025-11-04-domain-modeling-with-claude-and-xstate",
+      "type": "related",
+      "strength": 0.30333333333333334,
+      "reason": "shared repos: credit-castor, recent proximity"
+    },
+    {
+      "from": "2025-11-02-example-draft",
+      "to": "2025-11-14-credit-castor",
+      "type": "related",
+      "strength": 0.6300000000000001,
+      "reason": "2 shared tags, shared repos: credit-castor, shared patterns: static-site-generation, functional-programming, recent proximity"
+    },
+    {
+      "from": "2025-11-02-example-draft",
+      "to": "2025-11-14-lagendwa",
+      "type": "related",
+      "strength": 0.42000000000000004,
+      "reason": "2 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-02-example-draft",
+      "to": "2025-11-14-mycelium-blog",
+      "type": "related",
+      "strength": 0.34,
+      "reason": "1 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-02-example-draft",
+      "to": "2025-11-14-womb",
+      "type": "related",
+      "strength": 0.46,
+      "reason": "1 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
       "from": "2025-11-02-example-draft",
       "to": "static-site-generation",
       "type": "implements",
@@ -78,11 +367,550 @@
     },
     {
       "from": "2025-11-03-claude-config",
+      "to": "2025-11-03-credit-castor",
+      "type": "related",
+      "strength": 0.62,
+      "reason": "4 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-03-claude-config",
+      "to": "2025-11-03-loyer.brussels",
+      "type": "related",
+      "strength": 0.7000000000000001,
+      "reason": "5 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-03-claude-config",
+      "to": "2025-11-03-mycelium-blog",
+      "type": "related",
+      "strength": 0.33999999999999997,
+      "reason": "3 shared tags, recent proximity"
+    },
+    {
+      "from": "2025-11-03-claude-config",
       "to": "2025-11-03-touchepas",
       "type": "related",
       "strength": 0.7000000000000001,
       "reason": "3 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-03-claude-config",
+      "to": "2025-11-14-3DSoundViz",
+      "type": "related",
+      "strength": 0.4633333333333334,
+      "reason": "1 shared tags, recent proximity"
+    },
+    {
+      "from": "2025-11-03-claude-config",
+      "to": "2025-11-14-claude-config",
+      "type": "related",
+      "strength": 0.8733333333333334,
+      "reason": "5 shared tags, shared repos: claude-config, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-03-claude-config",
+      "to": "2025-11-14-credit-castor",
+      "type": "related",
+      "strength": 0.5833333333333334,
+      "reason": "4 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-03-claude-config",
+      "to": "2025-11-14-lagendwa",
+      "type": "related",
+      "strength": 0.5833333333333334,
+      "reason": "4 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-03-claude-config",
+      "to": "2025-11-14-loyer.brussels",
+      "type": "related",
+      "strength": 0.30333333333333334,
+      "reason": "3 shared tags, recent proximity"
+    },
+    {
+      "from": "2025-11-03-claude-config",
+      "to": "2025-11-14-mycelium-blog",
+      "type": "related",
+      "strength": 0.30333333333333334,
+      "reason": "3 shared tags, recent proximity"
+    },
+    {
+      "from": "2025-11-03-claude-config",
+      "to": "2025-11-14-touchepas",
+      "type": "related",
+      "strength": 0.6633333333333334,
+      "reason": "3 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-03-credit-castor",
+      "to": "2025-11-03-loyer.brussels",
+      "type": "related",
+      "strength": 0.6333333333333334,
+      "reason": "5 shared tags, shared patterns: test-driven-development, static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-03-credit-castor",
+      "to": "2025-11-03-mycelium-blog",
+      "type": "related",
+      "strength": 0.5666666666666667,
+      "reason": "4 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-03-credit-castor",
+      "to": "2025-11-03-touchepas",
+      "type": "related",
+      "strength": 0.5666666666666667,
+      "reason": "2 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-03-credit-castor",
+      "to": "2025-11-04-domain-modeling-with-claude-and-xstate",
+      "type": "related",
+      "strength": 0.30666666666666664,
+      "reason": "shared repos: credit-castor, recent proximity"
+    },
+    {
+      "from": "2025-11-03-credit-castor",
+      "to": "2025-11-14-claude-config",
+      "type": "related",
+      "strength": 0.5833333333333334,
+      "reason": "4 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-03-credit-castor",
+      "to": "2025-11-14-credit-castor",
+      "type": "related",
+      "strength": 1,
+      "reason": "6 shared tags, shared repos: credit-castor, shared skills: verify-business-logic.md, shared patterns: test-driven-development, static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-03-credit-castor",
+      "to": "2025-11-14-lagendwa",
+      "type": "related",
+      "strength": 0.6633333333333334,
+      "reason": "6 shared tags, shared patterns: test-driven-development, static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-03-credit-castor",
+      "to": "2025-11-14-loyer.brussels",
+      "type": "related",
+      "strength": 0.5033333333333333,
+      "reason": "3 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-03-credit-castor",
+      "to": "2025-11-14-mycelium-blog",
+      "type": "related",
+      "strength": 0.53,
+      "reason": "4 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-03-credit-castor",
+      "to": "2025-11-14-touchepas",
+      "type": "related",
+      "strength": 0.53,
+      "reason": "2 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-03-credit-castor",
+      "to": "2025-11-14-womb",
+      "type": "related",
+      "strength": 0.6633333333333334,
+      "reason": "2 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-03-credit-castor",
+      "to": "static-site-generation",
+      "type": "implements",
+      "strength": 0.5866666666666667,
+      "reason": "1 shared tags, shared repos: credit-castor, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-03-loyer.brussels",
+      "to": "2025-11-03-mycelium-blog",
+      "type": "related",
+      "strength": 0.5666666666666667,
+      "reason": "4 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-03-loyer.brussels",
+      "to": "2025-11-03-touchepas",
+      "type": "related",
+      "strength": 0.7000000000000001,
+      "reason": "3 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-03-loyer.brussels",
+      "to": "2025-11-14-3DSoundViz",
+      "type": "related",
+      "strength": 0.4633333333333334,
+      "reason": "1 shared tags, recent proximity"
+    },
+    {
+      "from": "2025-11-03-loyer.brussels",
+      "to": "2025-11-14-claude-config",
+      "type": "related",
+      "strength": 0.6633333333333334,
+      "reason": "5 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-03-loyer.brussels",
+      "to": "2025-11-14-credit-castor",
+      "type": "related",
+      "strength": 0.5490476190476191,
+      "reason": "5 shared tags, shared patterns: test-driven-development, static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-03-loyer.brussels",
+      "to": "2025-11-14-lagendwa",
+      "type": "related",
+      "strength": 0.5490476190476191,
+      "reason": "5 shared tags, shared patterns: test-driven-development, static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-03-loyer.brussels",
+      "to": "2025-11-14-loyer.brussels",
+      "type": "related",
+      "strength": 0.8733333333333334,
+      "reason": "5 shared tags, shared repos: loyer.brussels, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-03-loyer.brussels",
+      "to": "2025-11-14-mycelium-blog",
+      "type": "related",
+      "strength": 0.53,
+      "reason": "4 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-03-loyer.brussels",
+      "to": "2025-11-14-touchepas",
+      "type": "related",
+      "strength": 0.6633333333333334,
+      "reason": "3 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-03-loyer.brussels",
+      "to": "2025-11-14-womb",
+      "type": "related",
+      "strength": 0.4633333333333334,
+      "reason": "1 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-03-mycelium-blog",
+      "to": "2025-11-03-touchepas",
+      "type": "related",
+      "strength": 0.3666666666666667,
+      "reason": "2 shared tags, recent proximity"
+    },
+    {
+      "from": "2025-11-03-mycelium-blog",
+      "to": "2025-11-14-3DSoundViz",
+      "type": "related",
+      "strength": 0.4633333333333334,
+      "reason": "1 shared tags, recent proximity"
+    },
+    {
+      "from": "2025-11-03-mycelium-blog",
+      "to": "2025-11-14-claude-config",
+      "type": "related",
+      "strength": 0.30333333333333334,
+      "reason": "3 shared tags, recent proximity"
+    },
+    {
+      "from": "2025-11-03-mycelium-blog",
+      "to": "2025-11-14-credit-castor",
+      "type": "related",
+      "strength": 0.53,
+      "reason": "4 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-03-mycelium-blog",
+      "to": "2025-11-14-lagendwa",
+      "type": "related",
+      "strength": 0.53,
+      "reason": "4 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-03-mycelium-blog",
+      "to": "2025-11-14-loyer.brussels",
+      "type": "related",
+      "strength": 0.5833333333333334,
+      "reason": "4 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-03-mycelium-blog",
+      "to": "2025-11-14-mycelium-blog",
+      "type": "related",
+      "strength": 1,
+      "reason": "6 shared tags, shared repos: mycelium-blog, shared skills: blog-post-writer, blog-workflow, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-03-mycelium-blog",
+      "to": "2025-11-14-touchepas",
+      "type": "related",
+      "strength": 0.33,
+      "reason": "2 shared tags, recent proximity"
+    },
+    {
+      "from": "2025-11-03-mycelium-blog",
+      "to": "2025-11-14-womb",
+      "type": "related",
+      "strength": 0.6633333333333334,
+      "reason": "2 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-03-mycelium-blog",
+      "to": "static-site-generation",
+      "type": "implements",
+      "strength": 0.5866666666666667,
+      "reason": "1 shared tags, shared repos: mycelium-blog, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-03-touchepas",
+      "to": "2025-11-14-3DSoundViz",
+      "type": "related",
+      "strength": 0.4633333333333334,
+      "reason": "1 shared tags, recent proximity"
+    },
+    {
+      "from": "2025-11-03-touchepas",
+      "to": "2025-11-14-claude-config",
+      "type": "related",
+      "strength": 0.6633333333333334,
+      "reason": "3 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-03-touchepas",
+      "to": "2025-11-14-credit-castor",
+      "type": "related",
+      "strength": 0.53,
+      "reason": "2 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-03-touchepas",
+      "to": "2025-11-14-lagendwa",
+      "type": "related",
+      "strength": 0.53,
+      "reason": "2 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-03-touchepas",
+      "to": "2025-11-14-loyer.brussels",
+      "type": "related",
+      "strength": 0.33,
+      "reason": "2 shared tags, recent proximity"
+    },
+    {
+      "from": "2025-11-03-touchepas",
+      "to": "2025-11-14-mycelium-blog",
+      "type": "related",
+      "strength": 0.33,
+      "reason": "2 shared tags, recent proximity"
+    },
+    {
+      "from": "2025-11-03-touchepas",
+      "to": "2025-11-14-touchepas",
+      "type": "related",
+      "strength": 0.8733333333333334,
+      "reason": "3 shared tags, shared repos: touchepas, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-04-domain-modeling-with-claude-and-xstate",
+      "to": "static-site-generation",
+      "type": "implements",
+      "strength": 0.30333333333333334,
+      "reason": "shared repos: credit-castor, recent proximity"
+    },
+    {
+      "from": "2025-11-14-3DSoundViz",
+      "to": "2025-11-14-claude-config",
+      "type": "related",
+      "strength": 0.5,
+      "reason": "1 shared tags, recent proximity"
+    },
+    {
+      "from": "2025-11-14-3DSoundViz",
+      "to": "2025-11-14-loyer.brussels",
+      "type": "related",
+      "strength": 0.5,
+      "reason": "1 shared tags, recent proximity"
+    },
+    {
+      "from": "2025-11-14-3DSoundViz",
+      "to": "2025-11-14-mycelium-blog",
+      "type": "related",
+      "strength": 0.5,
+      "reason": "1 shared tags, recent proximity"
+    },
+    {
+      "from": "2025-11-14-3DSoundViz",
+      "to": "2025-11-14-touchepas",
+      "type": "related",
+      "strength": 0.5,
+      "reason": "1 shared tags, recent proximity"
+    },
+    {
+      "from": "2025-11-14-claude-config",
+      "to": "2025-11-14-credit-castor",
+      "type": "related",
+      "strength": 0.62,
+      "reason": "4 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-14-claude-config",
+      "to": "2025-11-14-lagendwa",
+      "type": "related",
+      "strength": 0.62,
+      "reason": "4 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-14-claude-config",
+      "to": "2025-11-14-loyer.brussels",
+      "type": "related",
+      "strength": 0.33999999999999997,
+      "reason": "3 shared tags, recent proximity"
+    },
+    {
+      "from": "2025-11-14-claude-config",
+      "to": "2025-11-14-mycelium-blog",
+      "type": "related",
+      "strength": 0.33999999999999997,
+      "reason": "3 shared tags, recent proximity"
+    },
+    {
+      "from": "2025-11-14-claude-config",
+      "to": "2025-11-14-touchepas",
+      "type": "related",
+      "strength": 0.7000000000000001,
+      "reason": "3 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-14-credit-castor",
+      "to": "2025-11-14-lagendwa",
+      "type": "related",
+      "strength": 0.6428571428571429,
+      "reason": "6 shared tags, shared patterns: test-driven-development, static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-14-credit-castor",
+      "to": "2025-11-14-loyer.brussels",
+      "type": "related",
+      "strength": 0.54,
+      "reason": "3 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-14-credit-castor",
+      "to": "2025-11-14-mycelium-blog",
+      "type": "related",
+      "strength": 0.5666666666666667,
+      "reason": "4 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-14-credit-castor",
+      "to": "2025-11-14-touchepas",
+      "type": "related",
+      "strength": 0.5666666666666667,
+      "reason": "2 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-14-credit-castor",
+      "to": "2025-11-14-womb",
+      "type": "related",
+      "strength": 0.7000000000000001,
+      "reason": "2 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-14-credit-castor",
+      "to": "static-site-generation",
+      "type": "implements",
+      "strength": 0.55,
+      "reason": "1 shared tags, shared repos: credit-castor, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-14-lagendwa",
+      "to": "2025-11-14-loyer.brussels",
+      "type": "related",
+      "strength": 0.54,
+      "reason": "3 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-14-lagendwa",
+      "to": "2025-11-14-mycelium-blog",
+      "type": "related",
+      "strength": 0.5666666666666667,
+      "reason": "4 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-14-lagendwa",
+      "to": "2025-11-14-touchepas",
+      "type": "related",
+      "strength": 0.5666666666666667,
+      "reason": "2 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-14-lagendwa",
+      "to": "2025-11-14-womb",
+      "type": "related",
+      "strength": 0.7000000000000001,
+      "reason": "2 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-14-lagendwa",
+      "to": "static-site-generation",
+      "type": "implements",
+      "strength": 0.34,
+      "reason": "1 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-14-loyer.brussels",
+      "to": "2025-11-14-mycelium-blog",
+      "type": "related",
+      "strength": 0.62,
+      "reason": "4 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-14-loyer.brussels",
+      "to": "2025-11-14-touchepas",
+      "type": "related",
+      "strength": 0.3666666666666667,
+      "reason": "2 shared tags, recent proximity"
+    },
+    {
+      "from": "2025-11-14-loyer.brussels",
+      "to": "2025-11-14-womb",
+      "type": "related",
+      "strength": 0.5,
+      "reason": "1 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-14-mycelium-blog",
+      "to": "2025-11-14-touchepas",
+      "type": "related",
+      "strength": 0.3666666666666667,
+      "reason": "2 shared tags, recent proximity"
+    },
+    {
+      "from": "2025-11-14-mycelium-blog",
+      "to": "2025-11-14-womb",
+      "type": "related",
+      "strength": 0.7000000000000001,
+      "reason": "2 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-14-mycelium-blog",
+      "to": "static-site-generation",
+      "type": "implements",
+      "strength": 0.55,
+      "reason": "1 shared tags, shared repos: mycelium-blog, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-14-womb",
+      "to": "static-site-generation",
+      "type": "implements",
+      "strength": 0.46,
+      "reason": "1 shared tags, shared patterns: static-site-generation, recent proximity"
     }
   ],
-  "lastUpdated": "2025-11-03T01:17:05.688Z"
+  "lastUpdated": "2025-11-17T11:50:07.391Z"
 }

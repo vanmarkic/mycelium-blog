@@ -17,7 +17,21 @@ skills:
 patterns:
   - test-driven-development
   - static-site-generation
-relatedTo: []
+relatedTo:
+  - 2025-11-02-example-draft
+  - 2025-11-03-claude-config
+  - 2025-11-03-loyer.brussels
+  - 2025-11-03-mycelium-blog
+  - 2025-11-03-touchepas
+  - 2025-11-04-domain-modeling-with-claude-and-xstate
+  - 2025-11-14-claude-config
+  - 2025-11-14-credit-castor
+  - 2025-11-14-lagendwa
+  - 2025-11-14-loyer.brussels
+  - 2025-11-14-mycelium-blog
+  - 2025-11-14-touchepas
+  - 2025-11-14-womb
+  - static-site-generation
 description: 'Exploring test-driven-development, static-site-generation in credit-castor'
 ---
 ## Introduction
