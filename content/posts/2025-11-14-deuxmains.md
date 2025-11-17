@@ -1,7 +1,7 @@
 ---
 title: Building deuxmains with Development and Project
 date: '2025-11-14'
-status: draft
+status: published
 privacy: public
 tags: []
 repos:

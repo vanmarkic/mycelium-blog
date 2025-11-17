@@ -65,7 +65,7 @@
 @layer components {
   /* Link styles */
   .link {
-    @apply text-mycelium-600 hover:text-mycelium-700 dark:text-mycelium-400 dark:hover:text-mycelium-300 transition-colors underline;
+    @apply text-mycelium-700 hover:text-mycelium-800 dark:text-mycelium-400 dark:hover:text-mycelium-300 transition-colors underline;
   }
 
   /* Card styles */
