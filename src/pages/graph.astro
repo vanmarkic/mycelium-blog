@@ -21,25 +21,25 @@ const emptyGraph = {
   <div class="max-w-6xl mx-auto">
     <!-- Header -->
     <header class="mb-12">
-      <h1 class="text-4xl font-bold text-gray-100 mb-4">
+      <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
         Knowledge Graph
       </h1>
-      <p class="text-xl text-gray-400">
+      <p class="text-xl text-gray-600 dark:text-gray-400">
         Explore the mycelium network of interconnected posts, skills, and patterns
       </p>
     </header>
 
     <!-- Graph Visualization -->
     <section class="mb-12">
-      <h2 class="text-2xl font-bold text-gray-100 mb-6">Interactive Graph</h2>
-      <div class="bg-gray-800 p-6 rounded-lg">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Interactive Graph</h2>
+      <div class="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg">
         <GraphVisualization client:load graph={emptyGraph} width={1000} height={600} />
       </div>
-      <div class="mt-4 text-sm text-gray-500">
+      <div class="mt-4 text-sm text-gray-500 dark:text-gray-500">
         <p>The graph visualization will load dynamically. If you see an empty graph:</p>
         <ol class="list-decimal list-inside mt-2 space-y-1">
-          <li>Run <code class="bg-gray-800 px-2 py-0.5 rounded">npm run graph</code> to generate the graph data</li>
-          <li>Rebuild the site with <code class="bg-gray-800 px-2 py-0.5 rounded">npm run build</code></li>
+          <li>Run <code class="bg-gray-200 dark:bg-gray-800 px-2 py-0.5 rounded">npm run graph</code> to generate the graph data</li>
+          <li>Rebuild the site with <code class="bg-gray-200 dark:bg-gray-800 px-2 py-0.5 rounded">npm run build</code></li>
         </ol>
       </div>
     </section>
@@ -61,17 +61,17 @@ const emptyGraph = {
 
     <!-- Statistics -->
     <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="bg-gray-800 rounded-lg p-6">
-        <div class="text-3xl font-bold text-mycelium-400">{posts.length}</div>
-        <div class="text-gray-400 mt-1">Published Posts</div>
+      <div class="bg-gray-100 dark:bg-gray-800 rounded-lg p-6">
+        <div class="text-3xl font-bold text-mycelium-600 dark:text-mycelium-400">{posts.length}</div>
+        <div class="text-gray-600 dark:text-gray-400 mt-1">Published Posts</div>
       </div>
-      <div class="bg-gray-800 rounded-lg p-6">
-        <div class="text-3xl font-bold text-mycelium-400">{skills.length}</div>
-        <div class="text-gray-400 mt-1">Claude Skills</div>
+      <div class="bg-gray-100 dark:bg-gray-800 rounded-lg p-6">
+        <div class="text-3xl font-bold text-mycelium-600 dark:text-mycelium-400">{skills.length}</div>
+        <div class="text-gray-600 dark:text-gray-400 mt-1">Claude Skills</div>
       </div>
-      <div class="bg-gray-800 rounded-lg p-6">
-        <div class="text-3xl font-bold text-mycelium-400">{patterns.length}</div>
-        <div class="text-gray-400 mt-1">Technical Patterns</div>
+      <div class="bg-gray-100 dark:bg-gray-800 rounded-lg p-6">
+        <div class="text-3xl font-bold text-mycelium-600 dark:text-mycelium-400">{patterns.length}</div>
+        <div class="text-gray-600 dark:text-gray-400 mt-1">Technical Patterns</div>
       </div>
     </section>
   </div>
