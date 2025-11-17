@@ -23,11 +23,11 @@ const base = import.meta.env.BASE_URL;
   <article class="max-w-4xl mx-auto">
     <!-- Header -->
     <header class="mb-8">
-      <h1 class="text-4xl font-bold text-gray-100 mb-4">
+      <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
         {frontmatter.title}
       </h1>
 
-      <div class="flex items-center gap-4 text-sm text-gray-400">
+      <div class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
         <time datetime={frontmatter.date}>
           {new Date(frontmatter.date).toLocaleDateString('en-US', {
             year: 'numeric',
@@ -37,7 +37,7 @@ const base = import.meta.env.BASE_URL;
         </time>
 
         {frontmatter.privacy === 'internal' && (
-          <span class="px-2 py-1 bg-gray-700 text-gray-300 rounded text-xs">
+          <span class="px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs">
             Internal
           </span>
         )}
@@ -46,7 +46,7 @@ const base = import.meta.env.BASE_URL;
       <!-- Tags -->
       <div class="flex flex-wrap gap-2 mt-4">
         {frontmatter.tags.map(tag => (
-          <span class="px-3 py-1 bg-gray-800 text-mycelium-300 rounded-full text-sm">
+          <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 text-mycelium-600 dark:text-mycelium-300 rounded-full text-sm">
             {tag}
           </span>
         ))}
@@ -54,19 +54,19 @@ const base = import.meta.env.BASE_URL;
 
       <!-- Metadata -->
       {(frontmatter.repos.length > 0 || frontmatter.skills.length > 0 || frontmatter.patterns.length > 0) && (
-        <div class="mt-6 p-4 bg-gray-800 rounded-lg space-y-2 text-sm">
+        <div class="mt-6 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg space-y-2 text-sm">
           {frontmatter.repos.length > 0 && (
             <div>
-              <span class="text-gray-400">Repos:</span>{' '}
-              <span class="text-gray-200">{frontmatter.repos.join(', ')}</span>
+              <span class="text-gray-600 dark:text-gray-400">Repos:</span>{' '}
+              <span class="text-gray-800 dark:text-gray-200">{frontmatter.repos.join(', ')}</span>
             </div>
           )}
           {frontmatter.skills.length > 0 && (
             <div>
-              <span class="text-gray-400">Skills:</span>{' '}
+              <span class="text-gray-600 dark:text-gray-400">Skills:</span>{' '}
               {frontmatter.skills.map((skill, i) => (
                 <span>
-                  <a href={`${base}skills/${skill}`} class="text-mycelium-400 hover:text-mycelium-300">
+                  <a href={`${base}skills/${skill}`} class="text-mycelium-600 dark:text-mycelium-400 hover:text-mycelium-700 dark:hover:text-mycelium-300">
                     {skill}
                   </a>
                   {i < frontmatter.skills.length - 1 && ', '}
@@ -76,10 +76,10 @@ const base = import.meta.env.BASE_URL;
           )}
           {frontmatter.patterns.length > 0 && (
             <div>
-              <span class="text-gray-400">Patterns:</span>{' '}
+              <span class="text-gray-600 dark:text-gray-400">Patterns:</span>{' '}
               {frontmatter.patterns.map((pattern, i) => (
                 <span>
-                  <a href={`${base}patterns/${pattern}`} class="text-mycelium-400 hover:text-mycelium-300">
+                  <a href={`${base}patterns/${pattern}`} class="text-mycelium-600 dark:text-mycelium-400 hover:text-mycelium-700 dark:hover:text-mycelium-300">
                     {pattern}
                   </a>
                   {i < frontmatter.patterns.length - 1 && ', '}
@@ -92,26 +92,26 @@ const base = import.meta.env.BASE_URL;
     </header>
 
     <!-- Content -->
-    <div class="prose prose-invert prose-lg max-w-none">
+    <div class="prose dark:prose-invert prose-lg max-w-none">
       <div set:html={content} />
     </div>
 
     <!-- Related Posts (Mycelium Links) -->
     {frontmatter.relatedTo && frontmatter.relatedTo.length > 0 && (
-      <section class="mt-12 pt-8 border-t border-gray-800">
-        <h2 class="text-2xl font-bold text-gray-100 mb-4">
+      <section class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
           🍄 Mycelium Links
         </h2>
-        <p class="text-gray-400 mb-6">
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
           Connected through shared concepts, tools, and patterns
         </p>
         <div class="space-y-3">
           {frontmatter.relatedTo.map(relatedSlug => (
             <a
               href={`${base}posts/${relatedSlug}`}
-              class="block p-4 bg-gray-800 rounded-lg hover:bg-gray-750 hover:border-mycelium-600 border border-transparent transition-all"
+              class="block p-4 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-750 hover:border-mycelium-600 border border-transparent transition-all"
             >
-              <span class="text-mycelium-400 hover:text-mycelium-300">
+              <span class="text-mycelium-600 dark:text-mycelium-400 hover:text-mycelium-700 dark:hover:text-mycelium-300">
                 {relatedSlug}
               </span>
             </a>
@@ -124,7 +124,7 @@ const base = import.meta.env.BASE_URL;
     <div class="mt-12">
       <a
         href={base}
-        class="text-mycelium-400 hover:text-mycelium-300 transition-colors"
+        class="text-mycelium-600 dark:text-mycelium-400 hover:text-mycelium-700 dark:hover:text-mycelium-300 transition-colors"
       >
         ← Back to all posts
       </a>

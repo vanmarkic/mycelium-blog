@@ -30,7 +30,7 @@ export default function Timeline({ nodes }: TimelineProps) {
 
   return (
     <section>
-      <h2 className="text-2xl font-bold text-gray-100 mb-6">Timeline</h2>
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Timeline</h2>
       <div className="space-y-8">
         {Object.entries(byMonth).map(([monthKey, monthNodes]) => {
           const [year, month] = monthKey.split('-');
@@ -41,13 +41,13 @@ export default function Timeline({ nodes }: TimelineProps) {
 
           return (
             <div key={monthKey}>
-              <h3 className="text-lg font-semibold text-gray-300 mb-3">{monthName}</h3>
-              <div className="space-y-2 pl-4 border-l-2 border-gray-700">
+              <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">{monthName}</h3>
+              <div className="space-y-2 pl-4 border-l-2 border-gray-300 dark:border-gray-700">
                 {monthNodes.map((node) => (
                   <a
                     key={node.id}
                     href={node.path}
-                    className="block p-3 hover:bg-gray-800 rounded transition-colors group"
+                    className="block p-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors group"
                   >
                     <div className="flex items-start gap-3">
                       <div className="flex-shrink-0 mt-1">
@@ -62,10 +62,10 @@ export default function Timeline({ nodes }: TimelineProps) {
                         />
                       </div>
                       <div className="flex-1">
-                        <div className="text-mycelium-400 group-hover:text-mycelium-300 transition-colors font-medium">
+                        <div className="text-mycelium-600 dark:text-mycelium-400 group-hover:text-mycelium-700 dark:group-hover:text-mycelium-300 transition-colors font-medium">
                           {node.title}
                         </div>
-                        <div className="text-xs text-gray-500 mt-1 capitalize">
+                        <div className="text-xs text-gray-500 dark:text-gray-500 mt-1 capitalize">
                           {node.type} • {new Date(node.date!).toLocaleDateString()}
                         </div>
                         {node.tags.length > 0 && (
@@ -73,7 +73,7 @@ export default function Timeline({ nodes }: TimelineProps) {
                             {node.tags.slice(0, 3).map((tag) => (
                               <span
                                 key={tag}
-                                className="text-xs px-2 py-0.5 bg-gray-700 text-gray-400 rounded"
+                                className="text-xs px-2 py-0.5 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded"
                               >
                                 {tag}
                               </span>

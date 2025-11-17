@@ -21,31 +21,31 @@ const base = import.meta.env.BASE_URL;
 <BaseLayout title={frontmatter.title} description={frontmatter.description}>
   <article class="max-w-4xl mx-auto">
     <header class="mb-8">
-      <div class="inline-block px-3 py-1 bg-mycelium-900 text-mycelium-300 rounded-full text-sm mb-4">
+      <div class="inline-block px-3 py-1 bg-mycelium-100 dark:bg-mycelium-900 text-mycelium-700 dark:text-mycelium-300 rounded-full text-sm mb-4">
         Claude Code Skill
       </div>
 
-      <h1 class="text-4xl font-bold text-gray-100 mb-4">
+      <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
         {frontmatter.title}
       </h1>
 
       <div class="flex flex-wrap gap-2">
         {frontmatter.tags.map(tag => (
-          <span class="px-3 py-1 bg-gray-800 text-mycelium-300 rounded-full text-sm">
+          <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 text-mycelium-600 dark:text-mycelium-300 rounded-full text-sm">
             {tag}
           </span>
         ))}
       </div>
     </header>
 
-    <div class="prose prose-invert prose-lg max-w-none">
+    <div class="prose dark:prose-invert prose-lg max-w-none">
       <div set:html={content} />
     </div>
 
     <div class="mt-12">
       <a
         href={`${base}skills`}
-        class="text-mycelium-400 hover:text-mycelium-300 transition-colors"
+        class="text-mycelium-600 dark:text-mycelium-400 hover:text-mycelium-700 dark:hover:text-mycelium-300 transition-colors"
       >
         ← Back to all skills
       </a>

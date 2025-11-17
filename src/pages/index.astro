@@ -21,7 +21,7 @@ posts.forEach(post => {
       <h1 class="text-5xl font-bold text-mycelium-400 mb-4">
         Welcome to the Mycelium
       </h1>
-      <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+      <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
         A digital garden where ideas grow and connect like mycelium networks -
         exploring technical patterns, Claude Code workflows, and the invisible work of software engineering.
       </p>
@@ -30,10 +30,10 @@ posts.forEach(post => {
     <!-- Tag Cloud -->
     {allTags.size > 0 && (
       <section>
-        <h2 class="text-2xl font-bold mb-4 text-gray-100">Explore by Topic</h2>
+        <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">Explore by Topic</h2>
         <div class="flex flex-wrap gap-2">
           {Array.from(allTags).sort().map(tag => (
-            <span class="px-3 py-1 bg-gray-800 text-mycelium-300 rounded-full text-sm hover:bg-gray-700 transition-colors cursor-pointer">
+            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 text-mycelium-600 dark:text-mycelium-300 rounded-full text-sm hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors cursor-pointer">
               {tag}
             </span>
           ))}
@@ -43,24 +43,24 @@ posts.forEach(post => {
 
     <!-- Recent Posts -->
     <section>
-      <h2 class="text-2xl font-bold mb-6 text-gray-100">Recent Posts</h2>
+      <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">Recent Posts</h2>
       {posts.length === 0 ? (
-        <p class="text-gray-400">No posts yet. Run the scanner to generate content!</p>
+        <p class="text-gray-600 dark:text-gray-400">No posts yet. Run the scanner to generate content!</p>
       ) : (
         <div class="space-y-6">
           {posts.map(post => (
-            <article class="border border-gray-800 rounded-lg p-6 hover:border-mycelium-600 transition-colors">
+            <article class="border border-gray-200 dark:border-gray-800 rounded-lg p-6 hover:border-mycelium-600 transition-colors">
               <div class="flex items-start justify-between">
                 <div class="flex-1">
-                  <a href={`${base}posts/${post.slug}`} class="text-2xl font-bold text-gray-100 hover:text-mycelium-400 transition-colors">
+                  <a href={`${base}posts/${post.slug}`} class="text-2xl font-bold text-gray-900 dark:text-gray-100 hover:text-mycelium-600 dark:hover:text-mycelium-400 transition-colors">
                     {post.frontmatter.title}
                   </a>
                   {post.frontmatter.privacy === 'internal' && (
-                    <span class="ml-2 text-xs px-2 py-1 bg-gray-700 text-gray-300 rounded">
+                    <span class="ml-2 text-xs px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded">
                       Internal
                     </span>
                   )}
-                  <div class="text-sm text-gray-500 mt-2">
+                  <div class="text-sm text-gray-500 dark:text-gray-500 mt-2">
                     {new Date(post.frontmatter.date).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'long',
@@ -68,13 +68,13 @@ posts.forEach(post => {
                     })}
                   </div>
                   {post.frontmatter.description && (
-                    <p class="text-gray-400 mt-3">
+                    <p class="text-gray-600 dark:text-gray-400 mt-3">
                       {post.frontmatter.description}
                     </p>
                   )}
                   <div class="flex flex-wrap gap-2 mt-4">
                     {post.frontmatter.tags.map(tag => (
-                      <span class="text-xs px-2 py-1 bg-gray-800 text-mycelium-300 rounded">
+                      <span class="text-xs px-2 py-1 bg-gray-200 dark:bg-gray-800 text-mycelium-600 dark:text-mycelium-300 rounded">
                         {tag}
                       </span>
                     ))}
@@ -88,15 +88,15 @@ posts.forEach(post => {
     </section>
 
     <!-- About Section -->
-    <section class="bg-gray-800 rounded-lg p-6">
-      <h2 class="text-2xl font-bold mb-4 text-gray-100">About This Garden</h2>
-      <div class="prose prose-invert max-w-none">
-        <p class="text-gray-300">
+    <section class="bg-gray-100 dark:bg-gray-800 rounded-lg p-6">
+      <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">About This Garden</h2>
+      <div class="prose dark:prose-invert max-w-none">
+        <p class="text-gray-700 dark:text-gray-300">
           This blog automatically aggregates technical work across multiple repositories,
           showcasing patterns, solutions, and Claude Code workflows. Like mycelium networks
           that connect forest ecosystems, posts here link through shared concepts, tools, and patterns.
         </p>
-        <p class="text-gray-300 mt-4">
+        <p class="text-gray-700 dark:text-gray-300 mt-4">
           Content is semi-automated: AI scans repositories and generates drafts, which are
           reviewed and curated before publication. The knowledge graph reveals hidden connections
           between seemingly unrelated projects.
