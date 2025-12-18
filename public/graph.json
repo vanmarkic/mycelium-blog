@@ -356,6 +356,33 @@
       "date": "2025-12-18"
     },
     {
+      "id": "exhaustive-verification",
+      "type": "skill",
+      "title": "Exhaustive Verification Skill",
+      "tags": [
+        "claude-code",
+        "verification",
+        "quality-assurance",
+        "workflow"
+      ],
+      "path": "/skills/exhaustive-verification",
+      "date": "2025-12-18"
+    },
+    {
+      "id": "kirby-cms-specialist",
+      "type": "skill",
+      "title": "Kirby CMS Specialist Skill",
+      "tags": [
+        "claude-code",
+        "kirby-cms",
+        "php",
+        "yaml",
+        "file-based-cms"
+      ],
+      "path": "/skills/kirby-cms-specialist",
+      "date": "2025-12-18"
+    },
+    {
       "id": "kirby-content-fixer",
       "type": "skill",
       "title": "Kirby CMS Content Fixer Skill",
@@ -411,6 +438,21 @@
       "date": "2025-12-18"
     },
     {
+      "id": "temporal-workflow-apification",
+      "type": "skill",
+      "title": "Temporal Workflow Apification Skill",
+      "tags": [
+        "claude-code",
+        "temporal",
+        "typescript",
+        "api-design",
+        "zod",
+        "openapi"
+      ],
+      "path": "/skills/temporal-workflow-apification",
+      "date": "2025-12-18"
+    },
+    {
       "id": "ui-debugger",
       "type": "skill",
       "title": "UI Debugger Skill",
@@ -422,6 +464,35 @@
         "keyboard-events"
       ],
       "path": "/skills/ui-debugger",
+      "date": "2025-12-18"
+    },
+    {
+      "id": "ui-testing",
+      "type": "skill",
+      "title": "UI Testing Skill",
+      "tags": [
+        "claude-code",
+        "testing",
+        "chrome-devtools",
+        "automation",
+        "quality-assurance"
+      ],
+      "path": "/skills/ui-testing",
+      "date": "2025-12-18"
+    },
+    {
+      "id": "user-centered-design-brainstorming",
+      "type": "skill",
+      "title": "User-Centered Design Brainstorming Skill",
+      "tags": [
+        "claude-code",
+        "ux",
+        "user-experience",
+        "design",
+        "personas",
+        "user-journeys"
+      ],
+      "path": "/skills/user-centered-design-brainstorming",
       "date": "2025-12-18"
     },
     {
@@ -1056,6 +1127,13 @@
       "reason": "1 shared tags"
     },
     {
+      "from": "2025-11-14-3DSoundViz",
+      "to": "temporal-workflow-apification",
+      "type": "uses",
+      "strength": 0.4,
+      "reason": "1 shared tags"
+    },
+    {
       "from": "2025-11-14-claude-config",
       "to": "2025-11-14-credit-castor",
       "type": "related",
@@ -1364,6 +1442,20 @@
       "reason": "1 shared tags, shared patterns: test-driven-development, recent proximity"
     },
     {
+      "from": "exhaustive-verification",
+      "to": "ui-testing",
+      "type": "related",
+      "strength": 0.30000000000000004,
+      "reason": "2 shared tags, recent proximity"
+    },
+    {
+      "from": "kirby-cms-specialist",
+      "to": "kirby-content-fixer",
+      "type": "related",
+      "strength": 0.63,
+      "reason": "4 shared tags, shared repos: kirby-gen, recent proximity"
+    },
+    {
       "from": "kirby-content-fixer",
       "to": "ui-debugger",
       "type": "related",
@@ -1371,5 +1463,5 @@
       "reason": "2 shared tags, shared patterns: systematic-debugging, recent proximity"
     }
   ],
-  "lastUpdated": "2025-12-18T21:00:11.111Z"
+  "lastUpdated": "2025-12-18T21:09:19.620Z"
 }

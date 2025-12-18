@@ -16,6 +16,7 @@ skills:
 patterns:
   - systematic-debugging
 relatedTo:
+  - kirby-cms-specialist
   - ui-debugger
 description: >-
   Claude Code skill for diagnosing and fixing malformed Kirby CMS content files
