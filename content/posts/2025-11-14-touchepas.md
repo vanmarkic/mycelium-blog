@@ -24,6 +24,10 @@ relatedTo:
   - 2025-11-14-lagendwa
   - 2025-11-14-loyer.brussels
   - 2025-11-14-mycelium-blog
+  - 2025-11-17-kirby-gen
+  - 2025-12-18-how-not-to-diet-en
+  - 2025-12-18-obsidian-mcp-tools-nl
+  - property-based-regression-testing
 description: Exploring test-driven-development in touchepas
 ---
 ## Introduction

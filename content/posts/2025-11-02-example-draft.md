@@ -24,6 +24,7 @@ relatedTo:
   - 2025-11-14-lagendwa
   - 2025-11-14-mycelium-blog
   - 2025-11-14-womb
+  - 2025-12-18-how-not-to-diet-en
   - static-site-generation
 description: >-
   A pure functional approach to building a real estate calculator for Belgian

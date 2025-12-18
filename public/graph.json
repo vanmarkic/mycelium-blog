@@ -267,6 +267,164 @@
       "date": "2025-11-14"
     },
     {
+      "id": "2025-11-17-bonplan",
+      "type": "post",
+      "title": "Le Syndicat des Tox - Building Anonymous Peer Support for Addiction Communities",
+      "tags": [
+        "civic-tech",
+        "nodejs",
+        "privacy",
+        "security",
+        "social-impact"
+      ],
+      "path": "/posts/2025-11-17-bonplan",
+      "date": "2025-11-17"
+    },
+    {
+      "id": "2025-11-17-kirby-gen",
+      "type": "post",
+      "title": "Introducing Kirby-Gen - AI-Powered Portfolio Generation",
+      "tags": [
+        "ai",
+        "typescript",
+        "kirby-cms",
+        "portfolio",
+        "react"
+      ],
+      "path": "/posts/2025-11-17-kirby-gen",
+      "date": "2025-11-17"
+    },
+    {
+      "id": "2025-11-17-paa",
+      "type": "post",
+      "title": "Building PAA - Encoding Belgian Social Logic into Executable Code",
+      "tags": [
+        "civic-tech",
+        "typescript",
+        "xstate",
+        "gherkin",
+        "social-impact"
+      ],
+      "path": "/posts/2025-11-17-paa",
+      "date": "2025-11-17"
+    },
+    {
+      "id": "2025-12-18-how-not-to-diet-en",
+      "type": "post",
+      "title": "Building a Nutrition Synergy App with TDD and Astro",
+      "tags": [
+        "test-driven-development",
+        "static-site-generation",
+        "functional-programming",
+        "react",
+        "astro",
+        "typescript",
+        "vitest",
+        "nutrition"
+      ],
+      "path": "/posts/2025-12-18-how-not-to-diet-en",
+      "date": "2025-12-18"
+    },
+    {
+      "id": "2025-12-18-loyer-brussels-fr",
+      "type": "post",
+      "title": "Calculateur de Loyer Bruxellois : Rendre la Grille Accessible",
+      "tags": [
+        "static-site-generation",
+        "react",
+        "next.js",
+        "typescript",
+        "tailwind-css",
+        "i18n",
+        "accessibility"
+      ],
+      "path": "/posts/2025-12-18-loyer-brussels-fr",
+      "date": "2025-12-18"
+    },
+    {
+      "id": "2025-12-18-obsidian-mcp-tools-nl",
+      "type": "post",
+      "title": "Obsidian MCP Tools: Je Notities Verbinden met AI",
+      "tags": [
+        "test-driven-development",
+        "mcp",
+        "obsidian",
+        "typescript",
+        "open-source"
+      ],
+      "path": "/posts/2025-12-18-obsidian-mcp-tools-nl",
+      "date": "2025-12-18"
+    },
+    {
+      "id": "kirby-content-fixer",
+      "type": "skill",
+      "title": "Kirby CMS Content Fixer Skill",
+      "tags": [
+        "claude-code",
+        "kirby-cms",
+        "yaml",
+        "debugging",
+        "php"
+      ],
+      "path": "/skills/kirby-content-fixer",
+      "date": "2025-12-18"
+    },
+    {
+      "id": "knowledge-converter",
+      "type": "skill",
+      "title": "Knowledge Converter Skill",
+      "tags": [
+        "claude-code",
+        "data-extraction",
+        "knowledge-management",
+        "astro",
+        "typescript"
+      ],
+      "path": "/skills/knowledge-converter",
+      "date": "2025-12-18"
+    },
+    {
+      "id": "obsitask",
+      "type": "skill",
+      "title": "ObsiTask - Spécialiste Obsidian Tasks",
+      "tags": [
+        "claude-code",
+        "obsidian",
+        "task-management",
+        "productivity"
+      ],
+      "path": "/skills/obsitask",
+      "date": "2025-12-18"
+    },
+    {
+      "id": "property-based-regression-testing",
+      "type": "skill",
+      "title": "Property-Based Regression Testing Skill",
+      "tags": [
+        "claude-code",
+        "testing",
+        "fast-check",
+        "refactoring",
+        "typescript"
+      ],
+      "path": "/skills/property-based-regression-testing",
+      "date": "2025-12-18"
+    },
+    {
+      "id": "ui-debugger",
+      "type": "skill",
+      "title": "UI Debugger Skill",
+      "tags": [
+        "claude-code",
+        "debugging",
+        "playwright",
+        "chrome-devtools",
+        "keyboard-events"
+      ],
+      "path": "/skills/ui-debugger",
+      "date": "2025-12-18"
+    },
+    {
       "id": "work-visibility",
       "type": "skill",
       "title": "Work Visibility Skill",
@@ -360,6 +518,13 @@
     },
     {
       "from": "2025-11-02-example-draft",
+      "to": "2025-12-18-how-not-to-diet-en",
+      "type": "related",
+      "strength": 0.36000000000000004,
+      "reason": "2 shared tags, shared patterns: static-site-generation, functional-programming"
+    },
+    {
+      "from": "2025-11-02-example-draft",
       "to": "static-site-generation",
       "type": "implements",
       "strength": 0.5900000000000001,
@@ -443,6 +608,20 @@
       "reason": "3 shared tags, shared patterns: test-driven-development, recent proximity"
     },
     {
+      "from": "2025-11-03-claude-config",
+      "to": "2025-12-18-how-not-to-diet-en",
+      "type": "related",
+      "strength": 0.52,
+      "reason": "4 shared tags, shared patterns: test-driven-development"
+    },
+    {
+      "from": "2025-11-03-claude-config",
+      "to": "2025-12-18-obsidian-mcp-tools-nl",
+      "type": "related",
+      "strength": 0.36000000000000004,
+      "reason": "2 shared tags, shared patterns: test-driven-development"
+    },
+    {
       "from": "2025-11-03-credit-castor",
       "to": "2025-11-03-loyer.brussels",
       "type": "related",
@@ -518,6 +697,20 @@
       "type": "related",
       "strength": 0.6633333333333334,
       "reason": "2 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-03-credit-castor",
+      "to": "2025-12-18-how-not-to-diet-en",
+      "type": "related",
+      "strength": 0.5333333333333334,
+      "reason": "5 shared tags, shared patterns: test-driven-development, static-site-generation"
+    },
+    {
+      "from": "2025-11-03-credit-castor",
+      "to": "2025-12-18-loyer-brussels-fr",
+      "type": "related",
+      "strength": 0.4,
+      "reason": "3 shared tags, shared patterns: static-site-generation"
     },
     {
       "from": "2025-11-03-credit-castor",
@@ -597,6 +790,27 @@
       "reason": "1 shared tags, shared patterns: static-site-generation, recent proximity"
     },
     {
+      "from": "2025-11-03-loyer.brussels",
+      "to": "2025-12-18-how-not-to-diet-en",
+      "type": "related",
+      "strength": 0.48571428571428577,
+      "reason": "5 shared tags, shared patterns: test-driven-development, static-site-generation"
+    },
+    {
+      "from": "2025-11-03-loyer.brussels",
+      "to": "2025-12-18-loyer-brussels-fr",
+      "type": "related",
+      "strength": 0.6957142857142857,
+      "reason": "5 shared tags, shared repos: loyer.brussels, shared patterns: static-site-generation"
+    },
+    {
+      "from": "2025-11-03-loyer.brussels",
+      "to": "2025-12-18-obsidian-mcp-tools-nl",
+      "type": "related",
+      "strength": 0.36000000000000004,
+      "reason": "2 shared tags, shared patterns: test-driven-development"
+    },
+    {
       "from": "2025-11-03-mycelium-blog",
       "to": "2025-11-03-touchepas",
       "type": "related",
@@ -661,6 +875,20 @@
     },
     {
       "from": "2025-11-03-mycelium-blog",
+      "to": "2025-12-18-how-not-to-diet-en",
+      "type": "related",
+      "strength": 0.4666666666666667,
+      "reason": "4 shared tags, shared patterns: static-site-generation"
+    },
+    {
+      "from": "2025-11-03-mycelium-blog",
+      "to": "2025-12-18-loyer-brussels-fr",
+      "type": "related",
+      "strength": 0.4666666666666667,
+      "reason": "4 shared tags, shared patterns: static-site-generation"
+    },
+    {
+      "from": "2025-11-03-mycelium-blog",
       "to": "static-site-generation",
       "type": "implements",
       "strength": 0.5866666666666667,
@@ -716,6 +944,34 @@
       "reason": "3 shared tags, shared repos: touchepas, shared patterns: test-driven-development, recent proximity"
     },
     {
+      "from": "2025-11-03-touchepas",
+      "to": "2025-11-17-kirby-gen",
+      "type": "related",
+      "strength": 0.32,
+      "reason": "2 shared tags, recent proximity"
+    },
+    {
+      "from": "2025-11-03-touchepas",
+      "to": "2025-12-18-how-not-to-diet-en",
+      "type": "related",
+      "strength": 0.6000000000000001,
+      "reason": "3 shared tags, shared patterns: test-driven-development"
+    },
+    {
+      "from": "2025-11-03-touchepas",
+      "to": "2025-12-18-obsidian-mcp-tools-nl",
+      "type": "related",
+      "strength": 0.4666666666666667,
+      "reason": "2 shared tags, shared patterns: test-driven-development"
+    },
+    {
+      "from": "2025-11-03-touchepas",
+      "to": "property-based-regression-testing",
+      "type": "uses",
+      "strength": 0.33333333333333337,
+      "reason": "1 shared tags, shared patterns: test-driven-development"
+    },
+    {
       "from": "2025-11-04-domain-modeling-with-claude-and-xstate",
       "to": "static-site-generation",
       "type": "implements",
@@ -751,6 +1007,55 @@
       "reason": "1 shared tags, recent proximity"
     },
     {
+      "from": "2025-11-14-3DSoundViz",
+      "to": "2025-11-17-kirby-gen",
+      "type": "related",
+      "strength": 0.49000000000000005,
+      "reason": "1 shared tags, recent proximity"
+    },
+    {
+      "from": "2025-11-14-3DSoundViz",
+      "to": "2025-11-17-paa",
+      "type": "related",
+      "strength": 0.49000000000000005,
+      "reason": "1 shared tags, recent proximity"
+    },
+    {
+      "from": "2025-11-14-3DSoundViz",
+      "to": "2025-12-18-how-not-to-diet-en",
+      "type": "related",
+      "strength": 0.4,
+      "reason": "1 shared tags"
+    },
+    {
+      "from": "2025-11-14-3DSoundViz",
+      "to": "2025-12-18-loyer-brussels-fr",
+      "type": "related",
+      "strength": 0.4,
+      "reason": "1 shared tags"
+    },
+    {
+      "from": "2025-11-14-3DSoundViz",
+      "to": "2025-12-18-obsidian-mcp-tools-nl",
+      "type": "related",
+      "strength": 0.4,
+      "reason": "1 shared tags"
+    },
+    {
+      "from": "2025-11-14-3DSoundViz",
+      "to": "knowledge-converter",
+      "type": "uses",
+      "strength": 0.4,
+      "reason": "1 shared tags"
+    },
+    {
+      "from": "2025-11-14-3DSoundViz",
+      "to": "property-based-regression-testing",
+      "type": "uses",
+      "strength": 0.4,
+      "reason": "1 shared tags"
+    },
+    {
       "from": "2025-11-14-claude-config",
       "to": "2025-11-14-credit-castor",
       "type": "related",
@@ -784,6 +1089,20 @@
       "type": "related",
       "strength": 0.7000000000000001,
       "reason": "3 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-11-14-claude-config",
+      "to": "2025-12-18-how-not-to-diet-en",
+      "type": "related",
+      "strength": 0.52,
+      "reason": "4 shared tags, shared patterns: test-driven-development"
+    },
+    {
+      "from": "2025-11-14-claude-config",
+      "to": "2025-12-18-obsidian-mcp-tools-nl",
+      "type": "related",
+      "strength": 0.36000000000000004,
+      "reason": "2 shared tags, shared patterns: test-driven-development"
     },
     {
       "from": "2025-11-14-credit-castor",
@@ -822,6 +1141,20 @@
     },
     {
       "from": "2025-11-14-credit-castor",
+      "to": "2025-12-18-how-not-to-diet-en",
+      "type": "related",
+      "strength": 0.5428571428571429,
+      "reason": "6 shared tags, shared patterns: test-driven-development, static-site-generation, functional-programming"
+    },
+    {
+      "from": "2025-11-14-credit-castor",
+      "to": "2025-12-18-loyer-brussels-fr",
+      "type": "related",
+      "strength": 0.37142857142857144,
+      "reason": "3 shared tags, shared patterns: static-site-generation"
+    },
+    {
+      "from": "2025-11-14-credit-castor",
       "to": "static-site-generation",
       "type": "implements",
       "strength": 0.55,
@@ -857,6 +1190,20 @@
     },
     {
       "from": "2025-11-14-lagendwa",
+      "to": "2025-12-18-how-not-to-diet-en",
+      "type": "related",
+      "strength": 0.45,
+      "reason": "5 shared tags, shared patterns: test-driven-development, static-site-generation"
+    },
+    {
+      "from": "2025-11-14-lagendwa",
+      "to": "2025-12-18-loyer-brussels-fr",
+      "type": "related",
+      "strength": 0.37142857142857144,
+      "reason": "3 shared tags, shared patterns: static-site-generation"
+    },
+    {
+      "from": "2025-11-14-lagendwa",
       "to": "static-site-generation",
       "type": "implements",
       "strength": 0.34,
@@ -884,6 +1231,20 @@
       "reason": "1 shared tags, shared patterns: static-site-generation, recent proximity"
     },
     {
+      "from": "2025-11-14-loyer.brussels",
+      "to": "2025-12-18-how-not-to-diet-en",
+      "type": "related",
+      "strength": 0.44,
+      "reason": "3 shared tags, shared patterns: static-site-generation"
+    },
+    {
+      "from": "2025-11-14-loyer.brussels",
+      "to": "2025-12-18-loyer-brussels-fr",
+      "type": "related",
+      "strength": 0.81,
+      "reason": "5 shared tags, shared repos: loyer.brussels, shared patterns: static-site-generation"
+    },
+    {
       "from": "2025-11-14-mycelium-blog",
       "to": "2025-11-14-touchepas",
       "type": "related",
@@ -899,10 +1260,66 @@
     },
     {
       "from": "2025-11-14-mycelium-blog",
+      "to": "2025-12-18-how-not-to-diet-en",
+      "type": "related",
+      "strength": 0.4666666666666667,
+      "reason": "4 shared tags, shared patterns: static-site-generation"
+    },
+    {
+      "from": "2025-11-14-mycelium-blog",
+      "to": "2025-12-18-loyer-brussels-fr",
+      "type": "related",
+      "strength": 0.4666666666666667,
+      "reason": "4 shared tags, shared patterns: static-site-generation"
+    },
+    {
+      "from": "2025-11-14-mycelium-blog",
       "to": "static-site-generation",
       "type": "implements",
       "strength": 0.55,
       "reason": "1 shared tags, shared repos: mycelium-blog, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-11-14-touchepas",
+      "to": "2025-11-17-kirby-gen",
+      "type": "related",
+      "strength": 0.3566666666666667,
+      "reason": "2 shared tags, recent proximity"
+    },
+    {
+      "from": "2025-11-14-touchepas",
+      "to": "2025-12-18-how-not-to-diet-en",
+      "type": "related",
+      "strength": 0.6000000000000001,
+      "reason": "3 shared tags, shared patterns: test-driven-development"
+    },
+    {
+      "from": "2025-11-14-touchepas",
+      "to": "2025-12-18-obsidian-mcp-tools-nl",
+      "type": "related",
+      "strength": 0.4666666666666667,
+      "reason": "2 shared tags, shared patterns: test-driven-development"
+    },
+    {
+      "from": "2025-11-14-touchepas",
+      "to": "property-based-regression-testing",
+      "type": "uses",
+      "strength": 0.33333333333333337,
+      "reason": "1 shared tags, shared patterns: test-driven-development"
+    },
+    {
+      "from": "2025-11-14-womb",
+      "to": "2025-12-18-how-not-to-diet-en",
+      "type": "related",
+      "strength": 0.6000000000000001,
+      "reason": "2 shared tags, shared patterns: static-site-generation"
+    },
+    {
+      "from": "2025-11-14-womb",
+      "to": "2025-12-18-loyer-brussels-fr",
+      "type": "related",
+      "strength": 0.4,
+      "reason": "1 shared tags, shared patterns: static-site-generation"
     },
     {
       "from": "2025-11-14-womb",
@@ -910,7 +1327,49 @@
       "type": "implements",
       "strength": 0.46,
       "reason": "1 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-12-18-how-not-to-diet-en",
+      "to": "2025-12-18-loyer-brussels-fr",
+      "type": "related",
+      "strength": 0.4714285714285714,
+      "reason": "3 shared tags, shared patterns: static-site-generation, recent proximity"
+    },
+    {
+      "from": "2025-12-18-how-not-to-diet-en",
+      "to": "2025-12-18-obsidian-mcp-tools-nl",
+      "type": "related",
+      "strength": 0.4600000000000001,
+      "reason": "2 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-12-18-how-not-to-diet-en",
+      "to": "knowledge-converter",
+      "type": "uses",
+      "strength": 0.67,
+      "reason": "2 shared tags, shared repos: how-not-to-diet, shared skills: knowledge-converter, recent proximity"
+    },
+    {
+      "from": "2025-12-18-how-not-to-diet-en",
+      "to": "property-based-regression-testing",
+      "type": "uses",
+      "strength": 0.38,
+      "reason": "1 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "2025-12-18-obsidian-mcp-tools-nl",
+      "to": "property-based-regression-testing",
+      "type": "uses",
+      "strength": 0.38,
+      "reason": "1 shared tags, shared patterns: test-driven-development, recent proximity"
+    },
+    {
+      "from": "kirby-content-fixer",
+      "to": "ui-debugger",
+      "type": "related",
+      "strength": 0.4600000000000001,
+      "reason": "2 shared tags, shared patterns: systematic-debugging, recent proximity"
     }
   ],
-  "lastUpdated": "2025-11-17T12:41:24.100Z"
+  "lastUpdated": "2025-12-18T21:00:11.111Z"
 }

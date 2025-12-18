@@ -31,6 +31,8 @@ relatedTo:
   - 2025-11-14-mycelium-blog
   - 2025-11-14-touchepas
   - 2025-11-14-womb
+  - 2025-12-18-how-not-to-diet-en
+  - 2025-12-18-loyer-brussels-fr
   - static-site-generation
 description: Exploring static-site-generation in mycelium-blog
 ---

@@ -26,6 +26,8 @@ relatedTo:
   - 2025-11-14-loyer.brussels
   - 2025-11-14-mycelium-blog
   - 2025-11-14-touchepas
+  - 2025-12-18-how-not-to-diet-en
+  - 2025-12-18-obsidian-mcp-tools-nl
 description: Exploring test-driven-development in claude-config
 ---
 ## Introduction
