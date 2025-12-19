@@ -40,8 +40,20 @@ export default {
             code: {
               color: theme('colors.mycelium.700'),
             },
+            'code::before': {
+              content: '""',
+            },
+            'code::after': {
+              content: '""',
+            },
             pre: {
-              backgroundColor: theme('colors.gray.50'),
+              backgroundColor: theme('colors.gray.900'),
+              color: theme('colors.gray.100'),
+            },
+            'pre code': {
+              backgroundColor: 'transparent',
+              color: theme('colors.gray.100'),
+              fontWeight: '400',
             },
           },
         },
@@ -66,8 +78,20 @@ export default {
             code: {
               color: theme('colors.mycelium.300'),
             },
+            'code::before': {
+              content: '""',
+            },
+            'code::after': {
+              content: '""',
+            },
             pre: {
-              backgroundColor: theme('colors.gray.900'),
+              backgroundColor: theme('colors.gray.800'),
+              color: theme('colors.gray.100'),
+            },
+            'pre code': {
+              backgroundColor: 'transparent',
+              color: theme('colors.gray.100'),
+              fontWeight: '400',
             },
           },
         },
