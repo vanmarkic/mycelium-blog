@@ -7,7 +7,7 @@ category: "Knowledge"
 tagline: "Jardin numérique de savoirs interconnectés"
 website: "https://vanmarkic.github.io/mycelium-blog"
 status: "active"
-fundingGoal: 2000
+fundingGoal: 1000
 fundingCurrency: "EUR"
 fundingPeriod: "annuel"
 screenshot: "/images/projects/mycelium-screenshot.jpg"

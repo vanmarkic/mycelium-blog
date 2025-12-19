@@ -7,7 +7,7 @@ category: "AI Tools"
 tagline: "Bibliothèque de skills pour Claude Code"
 website: "https://vanmarkic.github.io/claude-code-skills"
 status: "active"
-fundingGoal: 3000
+fundingGoal: 1500
 fundingCurrency: "EUR"
 fundingPeriod: "annuel"
 screenshot: "/images/projects/claude-skills-screenshot.jpg"

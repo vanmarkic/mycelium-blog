@@ -7,7 +7,7 @@ category: "Civic Tech"
 tagline: "Simplifier l'accès aux aides sociales belges par l'automatisation"
 website: "https://github.com/vanmarkic/PAA"
 status: "active"
-fundingGoal: 7500
+fundingGoal: 3750
 fundingCurrency: "EUR"
 fundingPeriod: "annuel"
 screenshot: "/images/projects/paa-screenshot.jpg"

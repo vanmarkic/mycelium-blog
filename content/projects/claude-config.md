@@ -7,7 +7,7 @@ category: "Dev Tools"
 tagline: "Configuration intelligente pour projets de développement"
 website: "https://vanmarkic.github.io/claude-config"
 status: "active"
-fundingGoal: 2000
+fundingGoal: 1000
 fundingCurrency: "EUR"
 fundingPeriod: "annuel"
 screenshot: "/images/projects/claude-config-screenshot.jpg"

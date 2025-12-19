@@ -7,7 +7,7 @@ category: "Civic Tech"
 tagline: "Calculateur fourchette loyer - défense locataires"
 website: "https://vanmarkic.github.io/loyer.brussels"
 status: "active"
-fundingGoal: 4000
+fundingGoal: 2000
 fundingCurrency: "EUR"
 fundingPeriod: "annuel"
 screenshot: "/images/projects/loyer-screenshot.jpg"

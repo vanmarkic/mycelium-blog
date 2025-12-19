@@ -7,7 +7,7 @@ category: "Social & Santé"
 tagline: "Plateforme d'entraide anonyme pour personnes en situation d'addiction"
 website: "https://github.com/vanmarkic/bonplan"
 status: "active"
-fundingGoal: 8500
+fundingGoal: 4250
 fundingCurrency: "EUR"
 fundingPeriod: "annuel"
 screenshot: "/images/projects/bonplan-screenshot.jpg"

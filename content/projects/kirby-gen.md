@@ -7,7 +7,7 @@ category: "DevTools & AI"
 tagline: "Générateur de sites portfolio Kirby CMS piloté par IA"
 website: "https://github.com/vanmarkic/kirby-gen"
 status: "active"
-fundingGoal: 6000
+fundingGoal: 3000
 fundingCurrency: "EUR"
 fundingPeriod: "annuel"
 screenshot: "/images/projects/kirby-gen-screenshot.jpg"

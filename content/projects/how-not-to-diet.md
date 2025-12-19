@@ -7,7 +7,7 @@ category: "Health & Nutrition"
 tagline: "Science-based weekly menu planner with food synergies and nutrition timing"
 website: "https://vanmarkic.github.io/how-not-to-diet/"
 status: "active"
-fundingGoal: 500
+fundingGoal: 250
 fundingCurrency: "EUR"
 fundingPeriod: "annuel"
 illustration: "/images/illustrations/nutrition.svg"

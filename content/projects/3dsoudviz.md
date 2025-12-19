@@ -7,7 +7,7 @@ category: "Creative Tech"
 tagline: "Visualisateur audio 3D créatif"
 website: "https://vanmarkic.github.io/3dsoudviz"
 status: "active"
-fundingGoal: 2500
+fundingGoal: 1250
 fundingCurrency: "EUR"
 fundingPeriod: "annuel"
 screenshot: "/images/projects/3ds-screenshot.jpg"

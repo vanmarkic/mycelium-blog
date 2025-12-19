@@ -7,7 +7,7 @@ category: "Media"
 tagline: "Journalisme indépendant et investigation"
 website: "https://vanmarkic.github.io/nationale4"
 status: "active"
-fundingGoal: 5000
+fundingGoal: 2500
 fundingCurrency: "EUR"
 fundingPeriod: "annuel"
 screenshot: "/images/projects/nationale4-screenshot.jpg"

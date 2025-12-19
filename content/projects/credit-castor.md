@@ -7,7 +7,7 @@ category: "Housing"
 tagline: "Calculateur de crédit pour habitat groupé"
 website: "https://vanmarkic.github.io/credit-castor"
 status: "active"
-fundingGoal: 3500
+fundingGoal: 1750
 fundingCurrency: "EUR"
 fundingPeriod: "annuel"
 screenshot: "/images/projects/credit-castor-screenshot.jpg"

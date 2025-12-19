@@ -7,7 +7,7 @@ category: "Events & Culture"
 tagline: "App festival open source pour événements culturels"
 website: "https://vanmarkic.github.io/lagendwa"
 status: "active"
-fundingGoal: 4500
+fundingGoal: 2250
 fundingCurrency: "EUR"
 fundingPeriod: "annuel"
 screenshot: "/images/projects/lagendwa-screenshot.jpg"

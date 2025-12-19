@@ -7,7 +7,7 @@ category: "AI & Privacy"
 tagline: "GPT local et privé pour documents sensibles"
 website: "https://github.com/vanmarkic/localGPT"
 status: "active"
-fundingGoal: 3600
+fundingGoal: 900
 fundingCurrency: "EUR"
 fundingPeriod: "annuel"
 screenshot: "/images/projects/localgpt-screenshot.jpg"

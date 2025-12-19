@@ -7,7 +7,7 @@ category: "Sport Tech"
 tagline: "Vérification et data des stades sportifs"
 website: "https://vanmarkic.github.io/stadium-check"
 status: "active"
-fundingGoal: 2500
+fundingGoal: 1250
 fundingCurrency: "EUR"
 fundingPeriod: "annuel"
 screenshot: "/images/projects/stadium-check-screenshot.jpg"

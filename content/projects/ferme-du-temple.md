@@ -7,7 +7,7 @@ category: "Heritage"
 tagline: "Écosystème restauration du patrimoine"
 website: "https://vanmarkic.github.io/ferme-du-temple"
 status: "active"
-fundingGoal: 8000
+fundingGoal: 2000
 fundingCurrency: "EUR"
 fundingPeriod: "annuel"
 screenshot: "/images/projects/ferme-screenshot.jpg"

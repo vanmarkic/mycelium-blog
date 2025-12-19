@@ -7,7 +7,7 @@ category: "Music & Wellness"
 tagline: "Musique thérapeutique pour introvertis"
 website: "https://vanmarkic.github.io/womb"
 status: "active"
-fundingGoal: 3000
+fundingGoal: 1500
 fundingCurrency: "EUR"
 fundingPeriod: "annuel"
 screenshot: "/images/projects/womb-screenshot.jpg"

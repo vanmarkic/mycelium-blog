@@ -7,7 +7,7 @@ category: "Civic Tech"
 tagline: "Calculateur de loyer pour la Wallonie"
 website: "https://touchepas.vercel.app"
 status: "active"
-fundingGoal: 1800
+fundingGoal: 900
 fundingCurrency: "EUR"
 fundingPeriod: "annuel"
 screenshot: "/images/projects/touchepas-screenshot.jpg"
