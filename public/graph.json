@@ -356,6 +356,22 @@
       "date": "2025-12-18"
     },
     {
+      "id": "2026-07-01-argocd-harbor-oci-helm-fr",
+      "type": "post",
+      "title": "ArgoCD et Harbor : récupérer des charts Helm depuis un registry OCI",
+      "tags": [
+        "argocd",
+        "harbor",
+        "helm",
+        "oci",
+        "kubernetes",
+        "gitops",
+        "devops"
+      ],
+      "path": "/posts/2026-07-01-argocd-harbor-oci-helm-fr",
+      "date": "2026-07-01"
+    },
+    {
       "id": "exhaustive-verification",
       "type": "skill",
       "title": "Exhaustive Verification Skill",
@@ -1463,5 +1479,5 @@
       "reason": "2 shared tags, shared patterns: systematic-debugging, recent proximity"
     }
   ],
-  "lastUpdated": "2025-12-18T21:09:19.620Z"
+  "lastUpdated": "2026-07-01T14:01:49.768Z"
 }
