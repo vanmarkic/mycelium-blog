@@ -25,7 +25,7 @@ description: >-
   input tokens back to a missing context limit.
 ---
 
-> This is a real debugging session, published as-is (no translation — it runs from English into French and back). It walks from "how do I set thinking and rate limiting" all the way to the root cause of a runaway token bill: a missing `limit.context` letting compaction fire far too late.
+> This is a real debugging session, lightly reformatted from the original transcript. It walks from "how do I set thinking and rate limiting" all the way to the root cause of a runaway token bill: a missing `limit.context` letting compaction fire far too late.
 
 ## Setting thinking and rate limiting (with vLLM)
 
@@ -215,43 +215,43 @@ Don't guess — measure. Order of likely impact:
 
 Bottom line: skills are a real but secondary cost (per-request baseline inflation). The 40M figure points at conversation-length growth plus, most likely, subagent fan-out during that window.
 
-## « J'ai 621 KB de skills »
+## « I have 621 KB of skills »
 
-> j'ai 621kb de skills
+> i have 621kb of skills
 
-621 KB, c'est la taille sur disque de tes skills — pas ce qui entre dans le contexte. La distinction est le point clé, donc attention à ne pas confondre les deux.
+621 KB is the on-disk size of your skills — not what enters the context. The distinction is the key point, so be careful not to conflate the two.
 
-### Ce qui compte vraiment
+### What actually counts
 
-Seules les descriptions (frontmatter : `name` + `description`) sont injectées à chaque requête. Les corps (SKILL.md complets, fichiers `references/`, `scripts/`) restent sur disque et ne se chargent que si un skill est déclenché.
+Only the descriptions (frontmatter: `name` + `description`) are injected on every request. The bodies (full SKILL.md, `references/` files, `scripts/`) stay on disk and only load when a skill is triggered.
 
-Donc tes 621 KB se décomposent en :
+So your 621 KB breaks down into:
 
-- une petite fraction = descriptions → coût par requête, répété à chaque appel ;
-- le gros = corps → coût ponctuel, seulement quand un skill est invoqué.
+- a small fraction = descriptions → per-request cost, repeated on every call;
+- the bulk = bodies → one-off cost, only when a skill is invoked.
 
-### Ordre de grandeur
+### Order of magnitude
 
-Inférence, à vérifier : en anglais, ~4 caractères par token. Si les 621 KB étaient tous dans le contexte, ça ferait ~155k tokens. Mais ce n'est pas le cas — seules les descriptions le sont en permanence.
+Inference, to verify: in English, ~4 characters per token. If the 621 KB were all in context, that would be ~155k tokens. But that's not the case — only the descriptions are, permanently.
 
-Estimation grossière : si tu as ~15–25 skills avec des descriptions de 100–300 mots chacune, le bloc de descriptions injecté en permanence est de l'ordre de 3–8k tokens par requête. Sur une session de 2h avec, disons, 300–500 requêtes, ça donne ~1,5–4M tokens cumulés rien que pour les descriptions.
+Rough estimate: if you have ~15–25 skills with descriptions of 100–300 words each, the permanently-injected description block is on the order of 3–8k tokens per request. Over a 2h session with, say, 300–500 requests, that's ~1.5–4M tokens cumulatively just for the descriptions.
 
-C'est réel, mais ça n'explique pas 40M. Au mieux 10 % environ de ton total. Le reste vient de la croissance du contexte (historique complet renvoyé à chaque étape) et, très probablement, du fan-out des subagents pendant cette fenêtre.
+It's real, but it doesn't explain 40M. At best ~10% of your total. The rest comes from context growth (full history re-sent at every step) and, most likely, subagent fan-out during that window.
 
-### Ce qu'il faut mesurer, pas deviner
+### What to measure, not guess
 
-Pour isoler la part réelle des descriptions dans le contexte :
+To isolate the real share of the descriptions in the context:
 
 ```bash
-# Total descriptions frontmatter de tous les skills chargés
+# Total frontmatter descriptions across all loaded skills
 find .opencode/skills ~/.config/opencode/skills -name "SKILL.md" 2>/dev/null \
   | xargs awk '/^---/{f=!f; next} f' \
   | wc -w
 ```
 
-Multiplie le nombre de mots par ~1,3 pour approcher les tokens. Si c'est >3–4k mots, tu as un vrai levier : élague les descriptions ou désactive les skills inutiles dans ce projet.
+Multiply the word count by ~1.3 to approximate tokens. If it's >3–4k words, you have a real lever: prune the descriptions or disable the skills you don't use in this project.
 
-**Verdict :** 621 KB sur disque ≠ 621 KB dans le contexte. Les skills contribuent, mais comme coût de base par requête, pas comme cause dominante. Pour 40M en 2h, mon ordre de suspicion reste : (1) subagents en parallèle (si `task` était encore actif), (2) croissance quadratique de l'historique, (3) descriptions de skills — secondaire.
+**Verdict:** 621 KB on disk ≠ 621 KB in context. Skills contribute, but as a per-request baseline cost, not as the dominant cause. For 40M in 2h, my order of suspicion remains: (1) parallel subagents (if `task` was still active), (2) quadratic history growth, (3) skill descriptions — secondary.
 
 ## Superpowers and the plugin list
 
