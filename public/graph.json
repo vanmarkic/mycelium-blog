@@ -356,6 +356,23 @@
       "date": "2025-12-18"
     },
     {
+      "id": "2026-07-01-angular-21-testing-library-vitest-en",
+      "type": "post",
+      "title": "Angular 21 testing: RTL-style with Testing Library + Vitest (and the templateUrl gotcha)",
+      "tags": [
+        "angular",
+        "testing",
+        "vitest",
+        "testing-library",
+        "playwright",
+        "e2e",
+        "frontend",
+        "typescript"
+      ],
+      "path": "/posts/2026-07-01-angular-21-testing-library-vitest-en",
+      "date": "2026-07-01"
+    },
+    {
       "id": "2026-07-01-argocd-harbor-oci-helm-fr",
       "type": "post",
       "title": "ArgoCD et Harbor : récupérer des charts Helm depuis un registry OCI",
@@ -369,6 +386,42 @@
         "devops"
       ],
       "path": "/posts/2026-07-01-argocd-harbor-oci-helm-fr",
+      "date": "2026-07-01"
+    },
+    {
+      "id": "2026-07-01-cilium-observability-opentelemetry-en",
+      "type": "post",
+      "title": "Cilium, observability, and where OpenTelemetry fits in a low-load cluster",
+      "tags": [
+        "cilium",
+        "kubernetes",
+        "observability",
+        "opentelemetry",
+        "hubble",
+        "ebpf",
+        "gitops",
+        "prometheus",
+        "devops"
+      ],
+      "path": "/posts/2026-07-01-cilium-observability-opentelemetry-en",
+      "date": "2026-07-01"
+    },
+    {
+      "id": "2026-07-01-opencode-vllm-token-hygiene-en",
+      "type": "post",
+      "title": "OpenCode + vLLM: thinking, rate limiting, and hunting down a billion input tokens",
+      "tags": [
+        "opencode",
+        "vllm",
+        "llm",
+        "tokens",
+        "context-management",
+        "rate-limiting",
+        "agentic-development",
+        "cost-optimization",
+        "devops"
+      ],
+      "path": "/posts/2026-07-01-opencode-vllm-token-hygiene-en",
       "date": "2026-07-01"
     },
     {
@@ -1130,6 +1183,13 @@
     },
     {
       "from": "2025-11-14-3DSoundViz",
+      "to": "2026-07-01-angular-21-testing-library-vitest-en",
+      "type": "related",
+      "strength": 0.4,
+      "reason": "1 shared tags"
+    },
+    {
+      "from": "2025-11-14-3DSoundViz",
       "to": "knowledge-converter",
       "type": "uses",
       "strength": 0.4,
@@ -1479,5 +1539,5 @@
       "reason": "2 shared tags, shared patterns: systematic-debugging, recent proximity"
     }
   ],
-  "lastUpdated": "2026-07-01T14:01:49.768Z"
+  "lastUpdated": "2026-07-01T14:13:39.517Z"
 }
