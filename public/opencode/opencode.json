@@ -7,8 +7,8 @@
   // ...or drop it in a project root as ./opencode.json (project overrides global).
   //
   // OpenCode reads JSONC, so the // comments below are fine to keep.
-  // Companion plugins (token budget, context guard, session hygiene) live in
-  // ~/.config/opencode/plugins/ and are documented in README.md.
+  // Companion plugins (daily-usage display, context guard, session hygiene) live
+  // in ~/.config/opencode/plugins/ and are documented in README.md.
 
   "$schema": "https://opencode.ai/config.json",
 
@@ -74,7 +74,7 @@
   "model": "ornith/deepreinforce-ai/Ornith-1.0-35B",
 
   // small_model handles the cheap, frequent side calls (title generation, summaries,
-  // compaction). Routing these to a small/local model keeps them off your token budget.
+  // compaction). Routing these to a small/local model keeps them off your daily total.
   "small_model": "ornith/deepreinforce-ai/Ornith-1.0-9B",
 
   // ----------------------------------------------------------------------------

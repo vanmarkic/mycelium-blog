@@ -1,0 +1,41 @@
+{
+  "name": "opencode-daily-usage",
+  "version": "0.1.0",
+  "description": "OpenCode plugin that continuously displays your total token usage for the day (Brussels/any timezone). Display only — never blocks.",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "opencode-daily-usage": "bin/opencode-daily-usage.js"
+  },
+  "exports": {
+    ".": "./index.js"
+  },
+  "files": [
+    "index.js",
+    "bin/",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "opencode",
+    "plugin",
+    "tokens",
+    "token-usage",
+    "usage",
+    "cost",
+    "context-management",
+    "agentic",
+    "llm"
+  ],
+  "license": "MIT",
+  "author": "vanmarkic",
+  "homepage": "https://vanmarkic.github.io/mycelium-blog/posts/2026-07-01-opencode-context-plugins-en",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vanmarkic/mycelium-blog.git",
+    "directory": "packages/opencode-daily-usage"
+  }
+}

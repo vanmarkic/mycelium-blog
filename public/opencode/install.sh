@@ -29,7 +29,7 @@ case "${1:-}" in
 esac
 TARGET="${OPENCODE_CONFIG_DIR:-$TARGET}"
 
-PLUGINS=(token-budget.js context-guard.js session-hygiene.js)
+PLUGINS=(daily-usage.js context-guard.js session-hygiene.js)
 
 echo "Installing OpenCode bundle from: $BASE"
 echo "Target config dir:              $TARGET"
@@ -71,17 +71,17 @@ Done. Next steps:
        export ORNITH_BASE_URL=http://localhost:8000/v1   # your Ornith server
        export ORNITH_API_KEY=...               # any non-empty value if unauth'd
 
-  2. (Optional) Tune the daily token budget (default 40,000,000):
+  2. (Optional) Daily-usage display settings (it only DISPLAYS, never blocks):
 
-       export OPENCODE_DAILY_TOKEN_BUDGET=40000000
-       export OPENCODE_BUDGET_MODE=block       # or "warn"
-       # export OPENCODE_BUDGET_WINDOW=08:00-18:00
+       export OPENCODE_USAGE_TZ=Europe/Brussels        # day boundary + clock
+       export OPENCODE_DAILY_TOKEN_TARGET=40000000     # shown as "X% of 40M"; 0 hides it
+       # export OPENCODE_USAGE_TOAST=0                  # logs only, no toast
 
   3. Restart OpenCode. Verify the plugins loaded:
 
-       opencode run --print-logs "hi" 2>&1 | grep -i "token-budget active"
+       opencode run --print-logs "hi" 2>&1 | grep -i "daily-usage active"
 
   Config:  $TARGET/opencode.json
   Plugins: $TARGET/plugins/{${PLUGINS[*]}}
-  State:   \${XDG_DATA_HOME:-\$HOME/.local/share}/opencode/token-budget.json
+  State:   \${XDG_DATA_HOME:-\$HOME/.local/share}/opencode/daily-usage.json
 EOF

@@ -409,13 +409,13 @@
     {
       "id": "2026-07-01-opencode-context-plugins-en",
       "type": "post",
-      "title": "A 40M/day token budget for OpenCode: downloadable config + context plugins",
+      "title": "A live daily token counter for OpenCode (Brussels time): config + context plugins",
       "tags": [
         "opencode",
         "llm",
         "tokens",
         "context-management",
-        "token-budget",
+        "token-usage",
         "plugins",
         "qwen",
         "ornith",
@@ -1565,5 +1565,5 @@
       "reason": "2 shared tags, shared patterns: systematic-debugging, recent proximity"
     }
   ],
-  "lastUpdated": "2026-07-01T20:52:20.647Z"
+  "lastUpdated": "2026-07-01T21:20:18.267Z"
 }
