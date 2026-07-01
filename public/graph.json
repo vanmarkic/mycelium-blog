@@ -407,6 +407,25 @@
       "date": "2026-07-01"
     },
     {
+      "id": "2026-07-01-opencode-context-plugins-en",
+      "type": "post",
+      "title": "A 40M/day token budget for OpenCode: downloadable config + context plugins",
+      "tags": [
+        "opencode",
+        "llm",
+        "tokens",
+        "context-management",
+        "token-budget",
+        "plugins",
+        "qwen",
+        "ornith",
+        "agentic-development",
+        "cost-optimization"
+      ],
+      "path": "/posts/2026-07-01-opencode-context-plugins-en",
+      "date": "2026-07-01"
+    },
+    {
       "id": "2026-07-01-opencode-vllm-token-hygiene-en",
       "type": "post",
       "title": "OpenCode + vLLM: thinking, rate limiting, and hunting down a billion input tokens",
@@ -1518,6 +1537,13 @@
       "reason": "1 shared tags, shared patterns: test-driven-development, recent proximity"
     },
     {
+      "from": "2026-07-01-opencode-context-plugins-en",
+      "to": "2026-07-01-opencode-vllm-token-hygiene-en",
+      "type": "related",
+      "strength": 0.3666666666666667,
+      "reason": "6 shared tags, recent proximity"
+    },
+    {
       "from": "exhaustive-verification",
       "to": "ui-testing",
       "type": "related",
@@ -1539,5 +1565,5 @@
       "reason": "2 shared tags, shared patterns: systematic-debugging, recent proximity"
     }
   ],
-  "lastUpdated": "2026-07-01T14:25:03.644Z"
+  "lastUpdated": "2026-07-01T20:52:20.647Z"
 }

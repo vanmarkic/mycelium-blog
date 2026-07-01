@@ -1,5 +1,7 @@
 ---
-title: 'OpenCode + vLLM: thinking, rate limiting, and hunting down a billion input tokens'
+title: >-
+  OpenCode + vLLM: thinking, rate limiting, and hunting down a billion input
+  tokens
 date: '2026-07-01'
 status: published
 privacy: public
@@ -17,12 +19,13 @@ tags:
 repos: []
 skills: []
 patterns: []
-relatedTo: []
+relatedTo:
+  - 2026-07-01-opencode-context-plugins-en
 description: >-
   A debugging session on OpenCode CLI against a self-hosted vLLM backend:
   configuring thinking and rate limiting, disabling subagents, removing
-  Superpowers, tracking token usage locally, and finally tracing 1 billion
-  input tokens back to a missing context limit.
+  Superpowers, tracking token usage locally, and finally tracing 1 billion input
+  tokens back to a missing context limit.
 ---
 
 > This is a real debugging session, lightly reformatted from the original transcript. It walks from "how do I set thinking and rate limiting" all the way to the root cause of a runaway token bill: a missing `limit.context` letting compaction fire far too late.

@@ -1,0 +1,115 @@
+{
+  // OpenCode reference config for token-frugal agentic coding.
+  // Models: Qwen (via an OpenAI-compatible API) and Ornith 1.0 (self-hosted, OpenAI-compatible).
+  //
+  // Install to the GLOBAL config so it applies everywhere:
+  //   ~/.config/opencode/opencode.json
+  // ...or drop it in a project root as ./opencode.json (project overrides global).
+  //
+  // OpenCode reads JSONC, so the // comments below are fine to keep.
+  // Companion plugins (token budget, context guard, session hygiene) live in
+  // ~/.config/opencode/plugins/ and are documented in README.md.
+
+  "$schema": "https://opencode.ai/config.json",
+
+  // ----------------------------------------------------------------------------
+  // Providers. Both are OpenAI-compatible, wired through @ai-sdk/openai-compatible.
+  // API keys are read from the environment via {env:VAR} (never hard-code secrets).
+  // ----------------------------------------------------------------------------
+  "provider": {
+    // --- Qwen through Alibaba Cloud Model Studio (DashScope) OpenAI-compatible API ---
+    // International endpoint below; use https://dashscope.aliyuncs.com/compatible-mode/v1
+    // for the mainland-China endpoint, or point baseURL at OpenRouter / your own gateway.
+    "qwen": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Qwen (DashScope)",
+      "options": {
+        "baseURL": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
+        "apiKey": "{env:DASHSCOPE_API_KEY}"
+      },
+      "models": {
+        "qwen3-coder-plus": {
+          "name": "Qwen3 Coder Plus",
+          // limit.context is THE lever: OpenCode compacts at ~(context - output) * 0.9.
+          // Keep it low and explicit so compaction fires early instead of near the
+          // model's advertised max (which is what runs input tokens into the billions).
+          "limit": { "context": 32768, "output": 8192 }
+        },
+        "qwen3-coder-480b-a35b-instruct": {
+          "name": "Qwen3 Coder 480B A35B",
+          "limit": { "context": 32768, "output": 8192 }
+        }
+      }
+    },
+
+    // --- Ornith 1.0 (DeepReinforce AI), self-hosted behind an OpenAI-compatible server ---
+    // Ornith has no public hosted API: run it with vLLM / SGLang / Ollama / LM Studio and
+    // point baseURL at that endpoint (or your internal gateway). Model id = whatever your
+    // server advertises at GET /v1/models. Defaults below assume a local vLLM on :8000.
+    // Example serve command:
+    //   vllm serve deepreinforce-ai/Ornith-1.0-35B \
+    //     --enable-auto-tool-choice --tool-call-parser hermes \
+    //     --max-model-len 32768 --enable-prefix-caching
+    "ornith": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ornith 1.0 (self-hosted)",
+      "options": {
+        "baseURL": "{env:ORNITH_BASE_URL}",
+        "apiKey": "{env:ORNITH_API_KEY}"
+      },
+      "models": {
+        "deepreinforce-ai/Ornith-1.0-35B": {
+          "name": "Ornith 1.0 35B (MoE)",
+          "limit": { "context": 32768, "output": 8192 }
+        },
+        "deepreinforce-ai/Ornith-1.0-9B": {
+          "name": "Ornith 1.0 9B (Dense)",
+          "limit": { "context": 32768, "output": 4096 }
+        }
+      }
+    }
+  },
+
+  // The main coding model. Switch freely with /models in the TUI.
+  "model": "ornith/deepreinforce-ai/Ornith-1.0-35B",
+
+  // small_model handles the cheap, frequent side calls (title generation, summaries,
+  // compaction). Routing these to a small/local model keeps them off your token budget.
+  "small_model": "ornith/deepreinforce-ai/Ornith-1.0-9B",
+
+  // ----------------------------------------------------------------------------
+  // Context management. auto compaction + pruning of stale tool outputs, with a
+  // reserved headroom so the model never gets packed to the very edge of context.
+  // ----------------------------------------------------------------------------
+  "compaction": {
+    "auto": true,
+    "prune": true,
+    "reserved": 8000
+  },
+
+  // Extra always-on instructions. AGENTS.md is auto-loaded by OpenCode already;
+  // keep it lean — everything here is re-sent on every turn.
+  "instructions": ["AGENTS.md"],
+
+  // Don't auto-update mid-session (keeps behaviour reproducible across a work day).
+  "autoupdate": false,
+
+  // ----------------------------------------------------------------------------
+  // Permissions / agents.
+  //
+  // Subagents (the `task` tool) are the single biggest request-rate multiplier.
+  // They're LEFT ENABLED here because the real token driver is context size, not
+  // fan-out (see the write-up). If you're on a hard RPM cap and want to kill
+  // parallel fan-out, uncomment the `task: "deny"` blocks below.
+  // ----------------------------------------------------------------------------
+  "permission": {
+    "edit": "allow",
+    "bash": "ask",
+    "webfetch": "allow"
+  }
+
+  // ,"agent": {
+  //   "build": { "permission": { "task": "deny" } },
+  //   "plan":  { "permission": { "task": "deny" } }
+  // }
+}
