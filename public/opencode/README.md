@@ -1,9 +1,9 @@
 # OpenCode: token-frugal config + context-management plugins
 
 A small, self-contained bundle for running [OpenCode](https://opencode.ai) against
-**Qwen** and **Ornith 1.0** through OpenAI-compatible APIs, with a **live daily
-token counter** (Brussels time) and smart context management so an agent loop
-can't quietly burn a billion input tokens without you noticing.
+**Qwen** and **Ornith 1.0** through OpenAI-compatible APIs, with **non-blocking
+usage tracking** (via `opencode-token-tracker`) and smart context management so an
+agent loop can't quietly burn a billion input tokens without you noticing.
 
 Background and the debugging story behind these defaults:
 <https://vanmarkic.github.io/mycelium-blog/posts/2026-07-01-opencode-vllm-token-hygiene-en>
@@ -12,12 +12,12 @@ Background and the debugging story behind these defaults:
 
 | File | Where it goes | What it does |
 |------|---------------|--------------|
-| `opencode.json` | `~/.config/opencode/` (or project root) | Qwen + Ornith providers, explicit `limit.context` (the key fix), auto-compaction + pruning, a cheap `small_model` for side calls. |
-| `plugins/daily-usage.js` | `~/.config/opencode/plugins/` | **Continuously displays** today's total token usage (Brussels time) after each response. Display only — never blocks. Also on npm as `opencode-daily-usage`. |
+| `opencode.json` | `~/.config/opencode/` (or project root) | Qwen + Ornith providers, explicit `limit.context` (the key fix), auto-compaction + pruning, a cheap `small_model`, and `"plugin": ["opencode-token-tracker"]` for usage tracking. |
+| `opencode-token-tracker` (npm) | referenced in the config's `plugin` array | Non-blocking token/cost tracker. Per-response + session toast; daily view via `opencode-tokens today`. OpenCode auto-installs it at startup. |
 | `plugins/context-guard.js` | `~/.config/opencode/plugins/` | Truncates oversized tool output (grep/bash/read/…); nudges ranged reads over whole-file reads. |
 | `plugins/session-hygiene.js` | `~/.config/opencode/plugins/` | Nudges `/new` once a session gets long/expensive ("one task, one session"). |
 | `AGENTS.md` | project root | Lean template — a reminder that this file is re-sent every turn. |
-| `install.sh` | — | Fetches all of the above into the right directories. |
+| `install.sh` | — | Fetches the config + local plugins into the right directories. |
 
 ## Quick install
 
@@ -37,10 +37,12 @@ for local files.
 mkdir -p ~/.config/opencode/plugins
 BASE=https://vanmarkic.github.io/mycelium-blog/opencode
 curl -fsSL $BASE/opencode.json                 -o ~/.config/opencode/opencode.json
-curl -fsSL $BASE/plugins/daily-usage.js        -o ~/.config/opencode/plugins/daily-usage.js
 curl -fsSL $BASE/plugins/context-guard.js      -o ~/.config/opencode/plugins/context-guard.js
 curl -fsSL $BASE/plugins/session-hygiene.js    -o ~/.config/opencode/plugins/session-hygiene.js
 ```
+
+`opencode-token-tracker` is not a file — it's the npm entry in the config's
+`plugin` array. OpenCode installs it automatically at startup (via Bun).
 
 ## Configure your providers
 
@@ -62,32 +64,37 @@ export ORNITH_API_KEY=local   # any non-empty value if your server is unauthenti
 
 Switch models any time with `/models` in the TUI.
 
-## Daily usage display
+## Usage tracking (opencode-token-tracker)
 
-`daily-usage.js` shows a toast after every response with today's running total,
-e.g. `Today 2026-07-01: 12.3M tokens (in 12.0M · out 0.3M) · 31% of 40M · 14:23 CEST`.
-It **only displays — it never blocks a request.** "Today" is a calendar day in
-Brussels time by default. Environment variables (all optional):
+Usage tracking is handled by [`opencode-token-tracker`](https://github.com/tongsh6/opencode-token-tracker),
+referenced in the config's `plugin` array. It's **non-blocking** — purely
+observational (it never blocks, throttles, or interrupts a session). After each
+response it toasts that response's usage plus the running **session** total, e.g.
+`12.5K tokens $0.023 | Session: $0.156`.
 
-| Variable | Default | Meaning |
-|----------|---------|---------|
-| `OPENCODE_USAGE_TZ` | `Europe/Brussels` | IANA timezone for the day boundary and clock. |
-| `OPENCODE_DAILY_TOKEN_TARGET` | `40000000` | Informational reference shown as `X% of TARGET`. `0` hides it. Never blocks. |
-| `OPENCODE_USAGE_TOAST` | _(on)_ | `0` disables the toast (logs still emitted). |
-| `OPENCODE_USAGE_COUNT_CACHE` | _(unset)_ | `1` to also count cache read/write tokens. |
-| `OPENCODE_USAGE_FILE` | `$XDG_DATA_HOME/opencode/daily-usage.json` | State file location. |
-
-The running total is persisted (with a rolling 30-day history) and rolls over at
-midnight Brussels time. Check it any time — the npm package also ships a CLI:
+For the **daily** number, use its CLI:
 
 ```bash
-cat "${XDG_DATA_HOME:-$HOME/.local/share}/opencode/daily-usage.json"
-npx opencode-daily-usage          # formatted: today + recent days
+opencode-tokens today          # today's total
+opencode-tokens --by daily     # day-by-day breakdown
 ```
 
-Prefer an off-the-shelf tool? `opencode-token-tracker` (npm) shows a per-response
-toast too, but it's oriented around USD cost + warn thresholds and uses system-local
-time, not a configurable timezone.
+Config lives in `~/.config/opencode/token-tracker.json` (manage it with
+`opencode-tokens config`):
+
+| Key | Meaning |
+|-----|---------|
+| `budget.daily` / `budget.weekly` / `budget.monthly` | Budgets **in USD**. Warn-only — never block. |
+| `budget.warnAt` | Warn threshold, e.g. `0.8` = 80%. Shows a `Daily: $x/$y` status toast. |
+| `toast.enabled` / `toast.duration` / `toast.showOnIdle` | Toast behaviour. |
+
+Two honest limitations for the "daily total in Brussels time" goal:
+
+- The **live toast shows the session total, not the daily total** — read the daily
+  figure with `opencode-tokens today`.
+- Day boundaries follow your **machine's local time** (there's no timezone option).
+  Set your system clock to `Europe/Brussels` if you want a Brussels-midnight rollover
+  (`timedatectl set-timezone Europe/Brussels` on Linux).
 
 ## Context guard & session hygiene
 
@@ -102,7 +109,7 @@ time, not a configurable timezone.
 ## Verify it loaded
 
 ```bash
-opencode run --print-logs "hi" 2>&1 | grep -Ei "daily-usage|context-guard|session-hygiene"
+opencode run --print-logs "hi" 2>&1 | grep -Ei "token-tracker|context-guard|session-hygiene"
 ```
 
 ## Notes & caveats
@@ -110,11 +117,9 @@ opencode run --print-logs "hi" 2>&1 | grep -Ei "daily-usage|context-guard|sessio
 - **Tuning `limit.context` is the real fix.** The plugins are a safety net; the
   structural saving comes from the low, explicit `limit.context` in `opencode.json`,
   which makes compaction fire early instead of near the model's advertised max.
-- The daily total counts tokens OpenCode reports on finished assistant messages
-  (`event.properties.info.tokens`). If a provider under-reports usage on streamed
-  responses, the count is a lower bound.
-- `daily-usage.js` is display-only — it never blocks a request. If you want a hard
-  ceiling instead, that's a different tool; this one is deliberately non-blocking.
-- Plugins are wrapped in try/catch so a plugin error can't wedge your session.
+- Usage tracking is display-only — `opencode-token-tracker` never blocks a request.
+  If you ever want a hard ceiling, that's a deliberately different tool.
+- The two local plugins (`context-guard`, `session-hygiene`) are wrapped in
+  try/catch so a plugin error can't wedge your session.
 
 Requires a recent OpenCode (plugin API + `compaction` config). MIT-licensed like the rest of the blog.

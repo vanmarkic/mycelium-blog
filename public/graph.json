@@ -409,7 +409,7 @@
     {
       "id": "2026-07-01-opencode-context-plugins-en",
       "type": "post",
-      "title": "A live daily token counter for OpenCode (Brussels time): config + context plugins",
+      "title": "Token-frugal OpenCode: config, context plugins, and usage tracking",
       "tags": [
         "opencode",
         "llm",
@@ -1565,5 +1565,5 @@
       "reason": "2 shared tags, shared patterns: systematic-debugging, recent proximity"
     }
   ],
-  "lastUpdated": "2026-07-01T21:20:18.267Z"
+  "lastUpdated": "2026-07-01T21:52:41.459Z"
 }

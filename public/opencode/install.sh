@@ -29,7 +29,10 @@ case "${1:-}" in
 esac
 TARGET="${OPENCODE_CONFIG_DIR:-$TARGET}"
 
-PLUGINS=(daily-usage.js context-guard.js session-hygiene.js)
+# Local file-drop plugins. Usage tracking (opencode-token-tracker) is an npm
+# plugin referenced in opencode.json's "plugin" array — OpenCode installs it
+# automatically at startup, so it isn't fetched here.
+PLUGINS=(context-guard.js session-hygiene.js)
 
 echo "Installing OpenCode bundle from: $BASE"
 echo "Target config dir:              $TARGET"
@@ -71,17 +74,24 @@ Done. Next steps:
        export ORNITH_BASE_URL=http://localhost:8000/v1   # your Ornith server
        export ORNITH_API_KEY=...               # any non-empty value if unauth'd
 
-  2. (Optional) Daily-usage display settings (it only DISPLAYS, never blocks):
+  2. Usage tracking is opencode-token-tracker (in the "plugin" array of the
+     config). It only DISPLAYS — it never blocks. It groups by day in your
+     machine's local time, so set your clock to Brussels if that's what you want:
 
-       export OPENCODE_USAGE_TZ=Europe/Brussels        # day boundary + clock
-       export OPENCODE_DAILY_TOKEN_TARGET=40000000     # shown as "X% of 40M"; 0 hides it
-       # export OPENCODE_USAGE_TOAST=0                  # logs only, no toast
+       timedatectl set-timezone Europe/Brussels   # (Linux) or however your OS does it
 
-  3. Restart OpenCode. Verify the plugins loaded:
+     After first run, see totals with its CLI:
 
-       opencode run --print-logs "hi" 2>&1 | grep -i "daily-usage active"
+       opencode-tokens today          # today's usage
+       opencode-tokens --by daily     # day-by-day breakdown
+       # optional daily budget status toast (USD, warn-only, never blocks):
+       opencode-tokens config set budget.daily 20
 
-  Config:  $TARGET/opencode.json
-  Plugins: $TARGET/plugins/{${PLUGINS[*]}}
-  State:   \${XDG_DATA_HOME:-\$HOME/.local/share}/opencode/daily-usage.json
+  3. Restart OpenCode. Verify plugins loaded:
+
+       opencode run --print-logs "hi" 2>&1 | grep -Ei "token-tracker|context-guard|session-hygiene"
+
+  Config:        $TARGET/opencode.json
+  Local plugins: $TARGET/plugins/{${PLUGINS[*]}}
+  Tracker config: $TARGET/token-tracker.json   (managed via 'opencode-tokens config')
 EOF

@@ -7,10 +7,17 @@
   // ...or drop it in a project root as ./opencode.json (project overrides global).
   //
   // OpenCode reads JSONC, so the // comments below are fine to keep.
-  // Companion plugins (daily-usage display, context guard, session hygiene) live
-  // in ~/.config/opencode/plugins/ and are documented in README.md.
+  // Local companion plugins (context guard, session hygiene) live in
+  // ~/.config/opencode/plugins/ and auto-load. Usage tracking is the npm
+  // plugin in the "plugin" array below. All documented in README.md.
 
   "$schema": "https://opencode.ai/config.json",
+
+  // Token/cost usage tracking (non-blocking). opencode-token-tracker shows a
+  // per-response + session toast and records daily usage; see it with
+  // `opencode-tokens today`. OpenCode installs npm plugins automatically at
+  // startup. Budgets are USD and warn-only (they never block).
+  "plugin": ["opencode-token-tracker"],
 
   // ----------------------------------------------------------------------------
   // Providers. Both are OpenAI-compatible, wired through @ai-sdk/openai-compatible.
