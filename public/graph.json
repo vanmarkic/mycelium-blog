@@ -444,6 +444,22 @@
       "date": "2026-07-01"
     },
     {
+      "id": "2026-07-02-empreinte-carbone-eau-quatre-activites-fr",
+      "type": "post",
+      "title": "Empreinte carbone et eau : quatre activités comparées, fabrication comprise",
+      "tags": [
+        "empreinte-carbone",
+        "empreinte-eau",
+        "analyse-cycle-de-vie",
+        "numerique-responsable",
+        "alimentation",
+        "mobilite",
+        "externalites"
+      ],
+      "path": "/posts/2026-07-02-empreinte-carbone-eau-quatre-activites-fr",
+      "date": "2026-07-02"
+    },
+    {
       "id": "exhaustive-verification",
       "type": "skill",
       "title": "Exhaustive Verification Skill",
@@ -1565,5 +1581,5 @@
       "reason": "2 shared tags, shared patterns: systematic-debugging, recent proximity"
     }
   ],
-  "lastUpdated": "2026-07-01T21:52:41.459Z"
+  "lastUpdated": "2026-07-02T05:54:54.810Z"
 }
