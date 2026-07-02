@@ -53,6 +53,83 @@ En prenant l'heure de transcription comme unité (= 1) :
 
 Le message tient en une phrase : les quatre activités s'étalent sur **quatre à cinq ordres de grandeur** en carbone et **six** en eau. Les deux activités numériques sont des erreurs d'arrondi face au bœuf ; la voiture se loge entre les deux. Attention toutefois : plus l'écart est grand, plus le dénominateur (la transcription) est incertain — ces ratios donnent la forme du paysage, pas une précision au pourcent.
 
+<figure class="fp-viz not-prose" style="margin:2rem 0">
+<style>
+.fp-viz{--bar:#256abf;--ink:#1a1a19;--muted:#6b6a66;--grid:rgba(11,11,11,0.13);--surface:#ffffff}
+.dark .fp-viz{--bar:#3987e5;--ink:#ededed;--muted:#9a988f;--grid:rgba(255,255,255,0.15);--surface:#111827}
+.fp-viz figcaption{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;font-size:0.8rem;color:var(--muted);margin-top:0.5rem;line-height:1.4}
+</style>
+<svg viewBox="0 0 760 228" width="100%" role="img" aria-label="Carbone par unité fonctionnelle : transcription environ 3 g, Netflix environ 50 g, voiture environ 18 000 g, bœuf environ 80 000 g de CO2e" style="max-width:760px;height:auto;font-family:system-ui,-apple-system,'Segoe UI',sans-serif">
+  <title>Carbone par unité fonctionnelle</title>
+  <desc>transcription environ 3 g, Netflix environ 50 g, voiture environ 18 000 g, bœuf environ 80 000 g de CO2e</desc>
+  <text x="8" y="20" font-size="12.5" font-weight="600" fill="var(--ink)">Carbone par unité fonctionnelle</text>
+  <text x="8" y="36" font-size="10.5" fill="var(--muted)">grammes de CO₂e · échelle logarithmique (chaque graduation = ×10)</text>
+  <line x1="176.0" y1="52" x2="176.0" y2="200" stroke="var(--grid)" stroke-width="1"/>
+  <text x="176.0" y="214" text-anchor="middle" font-size="10" fill="var(--muted)" style="font-variant-numeric:tabular-nums">10⁰</text>
+  <line x1="276.0" y1="52" x2="276.0" y2="200" stroke="var(--grid)" stroke-width="1"/>
+  <text x="276.0" y="214" text-anchor="middle" font-size="10" fill="var(--muted)" style="font-variant-numeric:tabular-nums">10¹</text>
+  <line x1="376.0" y1="52" x2="376.0" y2="200" stroke="var(--grid)" stroke-width="1"/>
+  <text x="376.0" y="214" text-anchor="middle" font-size="10" fill="var(--muted)" style="font-variant-numeric:tabular-nums">10²</text>
+  <line x1="476.0" y1="52" x2="476.0" y2="200" stroke="var(--grid)" stroke-width="1"/>
+  <text x="476.0" y="214" text-anchor="middle" font-size="10" fill="var(--muted)" style="font-variant-numeric:tabular-nums">10³</text>
+  <line x1="576.0" y1="52" x2="576.0" y2="200" stroke="var(--grid)" stroke-width="1"/>
+  <text x="576.0" y="214" text-anchor="middle" font-size="10" fill="var(--muted)" style="font-variant-numeric:tabular-nums">10⁴</text>
+  <line x1="676.0" y1="52" x2="676.0" y2="200" stroke="var(--grid)" stroke-width="1"/>
+  <text x="676.0" y="214" text-anchor="middle" font-size="10" fill="var(--muted)" style="font-variant-numeric:tabular-nums">10⁵</text>
+  <line x1="176" y1="200" x2="676" y2="200" stroke="var(--grid)" stroke-width="1"/>
+  <text x="162" y="74.5" text-anchor="end" font-size="11.5" fill="var(--ink)">Transcription IA — 1 h</text>
+  <circle cx="223.7" cy="70.5" r="7" fill="var(--bar)" stroke="var(--surface)" stroke-width="2"/>
+  <text x="236.7" y="74.5" text-anchor="start" font-size="11.5" font-weight="600" fill="var(--ink)" style="font-variant-numeric:tabular-nums">≈ 3 g</text>
+  <text x="162" y="111.5" text-anchor="end" font-size="11.5" fill="var(--ink)">Netflix 1080p — 1 h</text>
+  <circle cx="345.9" cy="107.5" r="7" fill="var(--bar)" stroke="var(--surface)" stroke-width="2"/>
+  <text x="358.9" y="111.5" text-anchor="start" font-size="11.5" font-weight="600" fill="var(--ink)" style="font-variant-numeric:tabular-nums">≈ 50 g</text>
+  <text x="162" y="148.5" text-anchor="end" font-size="11.5" fill="var(--ink)">Voiture essence — 100 km</text>
+  <circle cx="601.5" cy="144.5" r="7" fill="var(--bar)" stroke="var(--surface)" stroke-width="2"/>
+  <text x="614.5" y="148.5" text-anchor="start" font-size="11.5" font-weight="600" fill="var(--ink)" style="font-variant-numeric:tabular-nums">≈ 18 000 g</text>
+  <text x="162" y="185.5" text-anchor="end" font-size="11.5" fill="var(--ink)">Bœuf bio — 1 kg</text>
+  <circle cx="666.3" cy="181.5" r="7" fill="var(--bar)" stroke="var(--surface)" stroke-width="2"/>
+  <text x="679.3" y="185.5" text-anchor="start" font-size="11.5" font-weight="600" fill="var(--ink)" style="font-variant-numeric:tabular-nums">≈ 80 000 g</text>
+</svg>
+<svg viewBox="0 0 760 228" width="100%" role="img" aria-label="Eau par unité fonctionnelle : transcription environ 0,01 L, Netflix environ 0,5 L, voiture environ 15 L, bœuf environ 15 400 L" style="max-width:760px;height:auto;font-family:system-ui,-apple-system,'Segoe UI',sans-serif">
+  <title>Eau par unité fonctionnelle</title>
+  <desc>transcription environ 0,01 L, Netflix environ 0,5 L, voiture environ 15 L, bœuf environ 15 400 L</desc>
+  <text x="8" y="20" font-size="12.5" font-weight="600" fill="var(--ink)">Eau par unité fonctionnelle</text>
+  <text x="8" y="36" font-size="10.5" fill="var(--muted)">litres · échelle logarithmique (chaque graduation = ×10)</text>
+  <line x1="176.0" y1="52" x2="176.0" y2="200" stroke="var(--grid)" stroke-width="1"/>
+  <text x="176.0" y="214" text-anchor="middle" font-size="10" fill="var(--muted)" style="font-variant-numeric:tabular-nums">10⁻³</text>
+  <line x1="238.5" y1="52" x2="238.5" y2="200" stroke="var(--grid)" stroke-width="1"/>
+  <text x="238.5" y="214" text-anchor="middle" font-size="10" fill="var(--muted)" style="font-variant-numeric:tabular-nums">10⁻²</text>
+  <line x1="301.0" y1="52" x2="301.0" y2="200" stroke="var(--grid)" stroke-width="1"/>
+  <text x="301.0" y="214" text-anchor="middle" font-size="10" fill="var(--muted)" style="font-variant-numeric:tabular-nums">10⁻¹</text>
+  <line x1="363.5" y1="52" x2="363.5" y2="200" stroke="var(--grid)" stroke-width="1"/>
+  <text x="363.5" y="214" text-anchor="middle" font-size="10" fill="var(--muted)" style="font-variant-numeric:tabular-nums">10⁰</text>
+  <line x1="426.0" y1="52" x2="426.0" y2="200" stroke="var(--grid)" stroke-width="1"/>
+  <text x="426.0" y="214" text-anchor="middle" font-size="10" fill="var(--muted)" style="font-variant-numeric:tabular-nums">10¹</text>
+  <line x1="488.5" y1="52" x2="488.5" y2="200" stroke="var(--grid)" stroke-width="1"/>
+  <text x="488.5" y="214" text-anchor="middle" font-size="10" fill="var(--muted)" style="font-variant-numeric:tabular-nums">10²</text>
+  <line x1="551.0" y1="52" x2="551.0" y2="200" stroke="var(--grid)" stroke-width="1"/>
+  <text x="551.0" y="214" text-anchor="middle" font-size="10" fill="var(--muted)" style="font-variant-numeric:tabular-nums">10³</text>
+  <line x1="613.5" y1="52" x2="613.5" y2="200" stroke="var(--grid)" stroke-width="1"/>
+  <text x="613.5" y="214" text-anchor="middle" font-size="10" fill="var(--muted)" style="font-variant-numeric:tabular-nums">10⁴</text>
+  <line x1="676.0" y1="52" x2="676.0" y2="200" stroke="var(--grid)" stroke-width="1"/>
+  <text x="676.0" y="214" text-anchor="middle" font-size="10" fill="var(--muted)" style="font-variant-numeric:tabular-nums">10⁵</text>
+  <line x1="176" y1="200" x2="676" y2="200" stroke="var(--grid)" stroke-width="1"/>
+  <text x="162" y="74.5" text-anchor="end" font-size="11.5" fill="var(--ink)">Transcription IA — 1 h</text>
+  <circle cx="238.5" cy="70.5" r="7" fill="var(--bar)" stroke="var(--surface)" stroke-width="2"/>
+  <text x="251.5" y="74.5" text-anchor="start" font-size="11.5" font-weight="600" fill="var(--ink)" style="font-variant-numeric:tabular-nums">≈ 0,01 L</text>
+  <text x="162" y="111.5" text-anchor="end" font-size="11.5" fill="var(--ink)">Netflix 1080p — 1 h</text>
+  <circle cx="344.7" cy="107.5" r="7" fill="var(--bar)" stroke="var(--surface)" stroke-width="2"/>
+  <text x="357.7" y="111.5" text-anchor="start" font-size="11.5" font-weight="600" fill="var(--ink)" style="font-variant-numeric:tabular-nums">≈ 0,5 L</text>
+  <text x="162" y="148.5" text-anchor="end" font-size="11.5" fill="var(--ink)">Voiture essence — 100 km</text>
+  <circle cx="437.0" cy="144.5" r="7" fill="var(--bar)" stroke="var(--surface)" stroke-width="2"/>
+  <text x="450.0" y="148.5" text-anchor="start" font-size="11.5" font-weight="600" fill="var(--ink)" style="font-variant-numeric:tabular-nums">≈ 15 L</text>
+  <text x="162" y="185.5" text-anchor="end" font-size="11.5" fill="var(--ink)">Bœuf bio — 1 kg</text>
+  <circle cx="625.2" cy="181.5" r="7" fill="var(--bar)" stroke="var(--surface)" stroke-width="2"/>
+  <text x="638.2" y="185.5" text-anchor="start" font-size="11.5" font-weight="600" fill="var(--ink)" style="font-variant-numeric:tabular-nums">≈ 15 400 L</text>
+</svg>
+<figcaption>Chaque activité est placée sur une échelle logarithmique : un pas vers la droite = un facteur 10. La voiture inclut l'usage <em>et</em> la fabrication amortie ; les valeurs reprennent le tableau de synthèse. La transcription porte une incertitude d'un ordre de grandeur.</figcaption>
+</figure>
+
 ## Une note de méthode
 
 Les frontières comptent autant que les chiffres. J'ai retenu trois principes :
