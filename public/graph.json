@@ -460,6 +460,28 @@
       "date": "2026-07-02"
     },
     {
+      "id": "2026-07-03-dox-openspec-scaffold-en",
+      "type": "post",
+      "title": "dox + OpenSpec scaffold — Angular 21 / FastAPI",
+      "tags": [
+        "dox",
+        "openspec",
+        "agents-md",
+        "adr",
+        "project-memory",
+        "opencode",
+        "angular",
+        "fastapi",
+        "frontend",
+        "testing",
+        "vitest",
+        "testing-library",
+        "agentic-development"
+      ],
+      "path": "/posts/2026-07-03-dox-openspec-scaffold-en",
+      "date": "2026-07-03"
+    },
+    {
       "id": "exhaustive-verification",
       "type": "skill",
       "title": "Exhaustive Verification Skill",
@@ -1553,6 +1575,13 @@
       "reason": "1 shared tags, shared patterns: test-driven-development, recent proximity"
     },
     {
+      "from": "2026-07-01-angular-21-testing-library-vitest-en",
+      "to": "2026-07-03-dox-openspec-scaffold-en",
+      "type": "related",
+      "strength": 0.3433333333333333,
+      "reason": "5 shared tags, recent proximity"
+    },
+    {
       "from": "2026-07-01-opencode-context-plugins-en",
       "to": "2026-07-01-opencode-vllm-token-hygiene-en",
       "type": "related",
@@ -1581,5 +1610,5 @@
       "reason": "2 shared tags, shared patterns: systematic-debugging, recent proximity"
     }
   ],
-  "lastUpdated": "2026-07-02T05:54:54.810Z"
+  "lastUpdated": "2026-07-03T14:10:09.224Z"
 }

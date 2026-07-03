@@ -20,6 +20,7 @@ skills: []
 patterns: []
 relatedTo:
   - 2025-11-14-3DSoundViz
+  - 2026-07-03-dox-openspec-scaffold-en
 description: >-
   Choosing a React-Testing-Library-style stack for Angular 21: Angular Testing
   Library on Vitest for components, Playwright for full pages — and why the
