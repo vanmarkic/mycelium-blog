@@ -1,0 +1,12 @@
+<!doctype html>
+<html>
+  <body>
+    <script>
+      // Keycloak loads this page inside a hidden iframe to check the SSO session
+      // without a full-page redirect, then reads the result from the URL.
+      // It must be served as a STATIC file from your app's own origin and its URL
+      // must be a Valid Redirect URI on the Keycloak client.
+      parent.postMessage(location.href, location.origin);
+    </script>
+  </body>
+</html>
