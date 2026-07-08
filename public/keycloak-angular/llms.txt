@@ -1,0 +1,36 @@
+# Keycloak in Angular 21 — implementation context pack
+
+> Everything a coding agent needs to add Keycloak authentication to an existing Angular 21 app (standalone, signals, zoneless) using keycloak-angular v21 + keycloak-js 26, following mid-2026 best practices: Authorization Code flow + PKCE S256, a URL-scoped bearer-token interceptor, functional route guards with role checks, signal-based auth state, and auto token refresh. Every linked file is small, self-contained, and imperative so a small/medium local model can load only what it needs.
+
+Start with APPLY.md for the ordered steps and acceptance checklist. Then load recipes in order (00→08); each is standalone. The `src/` files are ready to copy verbatim — change only `environment.ts`. Pin `keycloak-angular` to your Angular major (Angular 21 → `keycloak-angular@21`).
+
+## Apply
+- [APPLY.md](https://vanmarkic.github.io/mycelium-blog/keycloak-angular/APPLY.md): ordered steps + acceptance checklist. Read this first.
+
+## Recipes
+- [00 Overview & versions](https://vanmarkic.github.io/mycelium-blog/keycloak-angular/recipes/00-overview.md): versions to pin, the mental model, the default decisions.
+- [01 Install & files](https://vanmarkic.github.io/mycelium-blog/keycloak-angular/recipes/01-install.md): exact npm install and the files you will create.
+- [02 app.config.ts bootstrap](https://vanmarkic.github.io/mycelium-blog/keycloak-angular/recipes/02-app-config.md): provideKeycloak + initOptions + withAutoRefreshToken.
+- [03 Bearer interceptor](https://vanmarkic.github.io/mycelium-blog/keycloak-angular/recipes/03-bearer-interceptor.md): includeBearerTokenInterceptor, URL-scoped to your origins (security).
+- [04 Route guards](https://vanmarkic.github.io/mycelium-blog/keycloak-angular/recipes/04-route-guards.md): createAuthGuard + realm/client role checks.
+- [05 Auth store](https://vanmarkic.github.io/mycelium-blog/keycloak-angular/recipes/05-auth-store.md): signal-based AuthStore consuming KEYCLOAK_EVENT_SIGNAL.
+- [06 Silent check-sso](https://vanmarkic.github.io/mycelium-blog/keycloak-angular/recipes/06-silent-check-sso.md): the exact silent-check-sso.html and where it goes.
+- [07 Logout & token refresh](https://vanmarkic.github.io/mycelium-blog/keycloak-angular/recipes/07-logout-token.md): RP-initiated logout, updateToken.
+- [08 Keycloak server checklist](https://vanmarkic.github.io/mycelium-blog/keycloak-angular/recipes/08-keycloak-server.md): realm/client settings (flow, PKCE, redirect URIs, web origins, roles).
+
+## Ready-to-copy source
+- [app.config.ts](https://vanmarkic.github.io/mycelium-blog/keycloak-angular/src/app/app.config.ts): the bootstrap providers.
+- [bearer-token.conditions.ts](https://vanmarkic.github.io/mycelium-blog/keycloak-angular/src/app/core/auth/bearer-token.conditions.ts): URL-scoped token conditions.
+- [auth-role.guard.ts](https://vanmarkic.github.io/mycelium-blog/keycloak-angular/src/app/core/auth/auth-role.guard.ts): the role guard.
+- [auth.store.ts](https://vanmarkic.github.io/mycelium-blog/keycloak-angular/src/app/core/auth/auth.store.ts): the signal-based store.
+- [app.routes.ts](https://vanmarkic.github.io/mycelium-blog/keycloak-angular/src/app/app.routes.ts): guarded routes.
+- [environment.ts](https://vanmarkic.github.io/mycelium-blog/keycloak-angular/src/environments/environment.ts): config values to edit.
+- [silent-check-sso.html](https://vanmarkic.github.io/mycelium-blog/keycloak-angular/src/public/silent-check-sso.html): the static silent-SSO page.
+- [main.ts](https://vanmarkic.github.io/mycelium-blog/keycloak-angular/src/main.ts): standalone bootstrap.
+
+## Optional
+- [10 Gotchas](https://vanmarkic.github.io/mycelium-blog/keycloak-angular/recipes/10-gotchas.md): the 12 mistakes that break builds or leak tokens.
+- [09 Testing](https://vanmarkic.github.io/mycelium-blog/keycloak-angular/recipes/09-testing.md): unit-testing components/guards without booting the real adapter.
+- [llms-full.txt](https://vanmarkic.github.io/mycelium-blog/keycloak-angular/llms-full.txt): every file above concatenated into one document, for models that prefer a single blob.
+- [README.md](https://vanmarkic.github.io/mycelium-blog/keycloak-angular/README.md): human overview, download links, and how to point a local model at this pack.
+- [Article](https://vanmarkic.github.io/mycelium-blog/posts/2026-07-08-keycloak-angular-21-en): the narrative version with rationale.

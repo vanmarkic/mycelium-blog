@@ -482,6 +482,29 @@
       "date": "2026-07-03"
     },
     {
+      "id": "2026-07-08-keycloak-angular-21-en",
+      "type": "post",
+      "title": "Keycloak in Angular 21 — best-practice auth, packaged for a local AI to apply",
+      "tags": [
+        "keycloak",
+        "angular",
+        "authentication",
+        "oauth",
+        "oidc",
+        "pkce",
+        "security",
+        "signals",
+        "frontend",
+        "typescript",
+        "llms-txt",
+        "local-llm",
+        "agentic-development",
+        "context-engineering"
+      ],
+      "path": "/posts/2026-07-08-keycloak-angular-21-en",
+      "date": "2026-07-08"
+    },
+    {
       "id": "exhaustive-verification",
       "type": "skill",
       "title": "Exhaustive Verification Skill",
@@ -1247,6 +1270,13 @@
     },
     {
       "from": "2025-11-14-3DSoundViz",
+      "to": "2026-07-08-keycloak-angular-21-en",
+      "type": "related",
+      "strength": 0.4,
+      "reason": "1 shared tags"
+    },
+    {
+      "from": "2025-11-14-3DSoundViz",
       "to": "knowledge-converter",
       "type": "uses",
       "strength": 0.4,
@@ -1610,5 +1640,5 @@
       "reason": "2 shared tags, shared patterns: systematic-debugging, recent proximity"
     }
   ],
-  "lastUpdated": "2026-07-03T14:10:09.224Z"
+  "lastUpdated": "2026-07-08T16:23:30.775Z"
 }

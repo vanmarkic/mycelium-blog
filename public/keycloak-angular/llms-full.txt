@@ -1,0 +1,1256 @@
+# Keycloak in Angular 21 — full context pack (single document)
+
+> Concatenation of APPLY.md, every recipe, and every ready-to-copy source file.
+> Generated from the individual files. Prefer llms.txt + selective fetches if your
+> model has a small context window; use this blob if it prefers everything at once.
+
+
+================================================================================
+FILE: APPLY.md
+================================================================================
+
+# APPLY.md — ordered steps for a coding agent
+
+You are adding Keycloak authentication to an existing **Angular 21** app.
+Follow these steps in order. Each references a self-contained recipe. Do not skip
+the verification at the end of each step.
+
+## Preconditions
+- The project is Angular 21 (standalone bootstrap via `bootstrapApplication` and
+  an `ApplicationConfig` in `src/app/app.config.ts`). If it still uses NgModules,
+  migrate the bootstrap first.
+- You know the Keycloak `url`, `realm`, and `clientId` to target. If not, ask.
+
+## Steps
+1. **Install.** `npm install keycloak-angular@^21 keycloak-js@^26`. (Match the
+   major to the app's Angular major if not 21.) — recipe `01`.
+2. **Config values.** Add `keycloak` + `apiOrigins` to `src/environments/environment.ts`. — recipe `02`.
+3. **Bearer conditions.** Create `src/app/core/auth/bearer-token.conditions.ts`,
+   anchored to `apiOrigins` only. — recipe `03`.
+4. **Bootstrap.** Add `provideKeycloak(...)`, `provideHttpClient(withInterceptors([includeBearerTokenInterceptor]))`,
+   and the interceptor-config provider to `src/app/app.config.ts`. — recipe `02`.
+5. **Guard.** Create `src/app/core/auth/auth-role.guard.ts` and wire
+   `canActivateAuthRole` onto protected routes in `app.routes.ts`. — recipe `04`.
+6. **Auth state.** Create `src/app/core/auth/auth.store.ts`; use its signals in
+   the navbar / components. — recipe `05`.
+7. **Silent SSO.** Create `public/silent-check-sso.html`. — recipe `06`.
+8. **Keycloak server.** Configure the client (Standard Flow + PKCE S256, public,
+   redirect URIs, web origins, post-logout URIs). — recipe `08`.
+
+## Acceptance checklist (verify all)
+- [ ] `ng build` succeeds with no type errors.
+- [ ] Loading a protected route while logged out redirects to Keycloak and returns to the attempted URL after login.
+- [ ] A user without the required role is sent to `/forbidden`.
+- [ ] Requests to an `apiOrigins` host carry `Authorization: Bearer <token>`.
+- [ ] Requests to any other host do **not** carry the token.
+- [ ] `AuthStore.authenticated()` / `username()` / `roles()` reflect the logged-in user.
+- [ ] Logout returns to the app with no Keycloak confirmation screen.
+- [ ] `public/silent-check-sso.html` is present in the build output and its URL is a Valid Redirect URI.
+- [ ] `keycloak-angular` major matches the app's Angular major.
+
+## Non-negotiable rules
+- Never widen a bearer `urlPattern` to match hosts you don't own.
+- Never use implicit flow or a client secret in the browser.
+- `inject()` before the first `await` in the guard.
+- Import `Keycloak` from `keycloak-js`.
+- Treat all guards/interceptors as UX only; the API enforces auth server-side.
+
+See `recipes/10-gotchas.md` for the full list of traps.
+
+================================================================================
+FILE: recipes/00-overview.md
+================================================================================
+
+# 00 — Overview: Keycloak in Angular 21 (best practices, mid-2026)
+
+Goal: add Keycloak login, route protection, and authenticated API calls to an
+existing **Angular 21** app (standalone, signals, zoneless) using
+**keycloak-angular** + **keycloak-js**, following 2026 security best practices.
+
+## Versions to pin (July 2026)
+
+| Package | Version | Why |
+|---|---|---|
+| `keycloak-angular` | `^21` | Its major must match your Angular major. Angular 21 → keycloak-angular 21. (Latest overall is 22, for Angular 22.) |
+| `keycloak-js` | `^26` | Peer dependency. Latest is 26.2.x. |
+| Keycloak server | 26.x | Any 26.x realm works; server version is decoupled from `keycloak-js`. |
+
+Rule: **keycloak-angular's major version tracks Angular's major.** On Angular 20 use `keycloak-angular@20`; on 22 use `@22`. Do not install `latest` blindly.
+
+## The default decisions (all applied by this pack)
+
+- **Authorization Code flow + PKCE `S256`.** Never implicit flow.
+- **Public client**, no client secret (a browser cannot keep one).
+- **Silent SSO** (`onLoad: 'check-sso'`) so anonymous users can still load the app; switch to `'login-required'` to force login first.
+- **URL-scoped bearer token** — the token is attached only to your own API origins, never to third parties.
+- **Signal-based auth state** via `KEYCLOAK_EVENT_SIGNAL` (zoneless-friendly).
+- **Functional guards & interceptors** (`createAuthGuard`, `includeBearerTokenInterceptor`) — no NgModules, no class guards.
+- **Auto token refresh** with inactivity logout (`withAutoRefreshToken`).
+
+## The mental model
+
+1. `provideKeycloak(...)` in `app.config.ts` boots the adapter before the app renders and registers the `Keycloak` instance + an event `Signal` in DI.
+2. Components/services read auth state from a signal-based `AuthStore`.
+3. Route guards call `createAuthGuard` and check roles from route `data`.
+4. The HTTP interceptor adds `Authorization: Bearer <token>` — but only for URLs you allow-list.
+5. Keycloak (the server) must be configured as a public Standard-Flow client with correct redirect URIs and web origins.
+
+## Apply order
+
+Read `APPLY.md`, then the recipes in order: `01` → `08`. Recipes `09` (testing) and `10` (gotchas) are reference. Each recipe is self-contained; load only what you need.
+
+================================================================================
+FILE: recipes/01-install.md
+================================================================================
+
+# 01 — Install & files to create
+
+## Step 1: install (pin to your Angular major)
+
+```bash
+# Angular 21:
+npm install keycloak-angular@^21 keycloak-js@^26
+```
+
+If your app is on a different Angular major, match it: `keycloak-angular@20` for
+Angular 20, `@22` for Angular 22. Both packages come from npm; the old
+server-bundled `keycloak.js` adapter (served from `/auth/js/keycloak.js`) is
+deprecated — do not use it.
+
+## Step 2: files you will create or edit
+
+| File | Action | Recipe |
+|---|---|---|
+| `src/environments/environment.ts` | add `keycloak` + `apiOrigins` | 02 |
+| `src/app/core/auth/bearer-token.conditions.ts` | new | 03 |
+| `src/app/app.config.ts` | add providers | 02, 03 |
+| `src/app/core/auth/auth-role.guard.ts` | new | 04 |
+| `src/app/app.routes.ts` | wire guard onto routes | 04 |
+| `src/app/core/auth/auth.store.ts` | new | 05 |
+| `public/silent-check-sso.html` | new (static asset) | 06 |
+
+Ready-made versions of every file live under this pack's `src/` folder — copy
+them and change the `environment.ts` values. Paths above assume a standard
+`ng new` layout; adjust to your project structure.
+
+## Step 3: confirm `public/` is served at the web root
+
+`silent-check-sso.html` must be reachable at `https://<your-app>/silent-check-sso.html`.
+In Angular 21 anything in the `public/` folder is copied to the site root at
+build time. Verify `public/` is listed under `assets`/`public` in `angular.json`
+(the default `ng new` config already does this).
+
+## Step 4: verify it compiles
+
+```bash
+ng build
+```
+
+Then continue with recipe 02.
+
+================================================================================
+FILE: recipes/02-app-config.md
+================================================================================
+
+# 02 — Bootstrap Keycloak in `app.config.ts`
+
+`provideKeycloak(...)` initialises the adapter before the app renders and
+registers the `Keycloak` instance + event signal in DI.
+
+## Step 1: config values in `environment.ts`
+
+```typescript
+// src/environments/environment.ts
+export const environment = {
+  production: false,
+  keycloak: {
+    url: 'https://auth.myapp.com', // Keycloak base URL (no trailing /realms)
+    realm: 'my-realm',
+    clientId: 'my-angular-client',
+  },
+  apiOrigins: ['https://api.myapp.com'], // hosts allowed to receive the token
+};
+```
+
+There are no secrets here — a browser SPA is a **public** OAuth client, so
+`clientId` is not confidential.
+
+## Step 2: add the providers
+
+```typescript
+// src/app/app.config.ts
+import { ApplicationConfig } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import {
+  provideKeycloak,
+  withAutoRefreshToken,
+  AutoRefreshTokenService,
+  UserActivityService,
+  INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
+  includeBearerTokenInterceptor,
+} from 'keycloak-angular';
+import { routes } from './app.routes';
+import { environment } from '../environments/environment';
+import { bearerTokenConditions } from './core/auth/bearer-token.conditions';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideKeycloak({
+      config: {
+        url: environment.keycloak.url,
+        realm: environment.keycloak.realm,
+        clientId: environment.keycloak.clientId,
+      },
+      initOptions: {
+        onLoad: 'check-sso', // silent SSO; 'login-required' to force login first
+        silentCheckSsoRedirectUri:
+          window.location.origin + '/silent-check-sso.html',
+        redirectUri: window.location.origin + '/',
+        pkceMethod: 'S256', // 'S256' | false — there is NO 'plain'
+        checkLoginIframe: false, // session iframe needs 3rd-party cookies; off
+      },
+      features: [
+        withAutoRefreshToken({
+          sessionTimeout: 300000, // 5 min inactivity
+          onInactivityTimeout: 'logout', // 'login' | 'logout' | 'none'
+        }),
+      ],
+      providers: [
+        AutoRefreshTokenService, // required by withAutoRefreshToken
+        UserActivityService, // required by withAutoRefreshToken
+        {
+          provide: INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
+          useValue: bearerTokenConditions, // array — NOT multi: true
+        },
+      ],
+    }),
+    provideHttpClient(withInterceptors([includeBearerTokenInterceptor])),
+    provideRouter(routes),
+  ],
+};
+```
+
+## Key facts (do not get these wrong)
+
+- `provideKeycloak` returns `EnvironmentProviders`; put it directly in the root providers array.
+- Supplying `initOptions` makes it register an app initializer that runs `keycloak.init()`. **Omit `initOptions` only if you want to call `init()` yourself.**
+- `withAutoRefreshToken` **requires** `AutoRefreshTokenService` and `UserActivityService` in the nested `providers` array, or it throws at runtime.
+- `pkceMethod` is `'S256' | false`. `'plain'` does not exist and will fail type-check.
+- `onLoad: 'check-sso'` needs `silentCheckSsoRedirectUri` → see recipe 06.
+
+Next: recipe 03 (the bearer token conditions this file imports).
+
+================================================================================
+FILE: recipes/03-bearer-interceptor.md
+================================================================================
+
+# 03 — Bearer token interceptor (URL-scoped)
+
+The functional interceptor `includeBearerTokenInterceptor` attaches
+`Authorization: Bearer <token>` to outgoing requests — **but only** for URLs that
+match a condition you provide. It also refreshes the token before attaching it.
+
+## SECURITY: scope the token to your own origins
+
+A bearer token is a credential. If your interceptor matches every URL, the token
+is sent to any host you call — analytics, CDNs, third-party APIs — which leaks it.
+**Anchor every `urlPattern` to an origin you control.**
+
+## Step 1: define the conditions
+
+```typescript
+// src/app/core/auth/bearer-token.conditions.ts
+import {
+  createInterceptorCondition,
+  IncludeBearerTokenCondition,
+} from 'keycloak-angular';
+import { environment } from '../../../environments/environment';
+
+function escapeRegex(v: string): string {
+  return v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+function originToPattern(origin: string): RegExp {
+  return new RegExp(`^(${escapeRegex(origin.replace(/\/$/, ''))})(\\/.*)?$`, 'i');
+}
+
+export const bearerTokenConditions = environment.apiOrigins.map((origin) =>
+  createInterceptorCondition<IncludeBearerTokenCondition>({
+    urlPattern: originToPattern(origin),
+  }),
+);
+```
+
+Prefer explicit literals instead of the env indirection:
+
+```typescript
+export const bearerTokenConditions = [
+  createInterceptorCondition<IncludeBearerTokenCondition>({
+    urlPattern: /^(https:\/\/api\.myapp\.com)(\/.*)?$/i,
+    // Optional: bearerPrefix: 'Bearer', authorizationHeaderName: 'Authorization',
+    // httpMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+  }),
+];
+```
+
+## Step 2: register (done in app.config.ts, recipe 02)
+
+```typescript
+// providers:
+{ provide: INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG, useValue: bearerTokenConditions },
+// and:
+provideHttpClient(withInterceptors([includeBearerTokenInterceptor])),
+```
+
+## Key facts
+
+- `INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG` is a **single** `InjectionToken<IncludeBearerTokenCondition[]>`. Provide it with `useValue: [ ...conditions ]`. It is **not** a `multi: true` provider.
+- `urlPattern` is **required** on every condition.
+- Add more API hosts as **separate conditions**, not by widening one pattern.
+- Register `includeBearerTokenInterceptor` exactly once inside `withInterceptors([...])`.
+- The interceptor calls `keycloak.updateToken()` internally, so a near-expiry token is refreshed before the request goes out. You do not need a manual refresh in each service.
+
+## Verify
+
+Make an authenticated request to your API and confirm the `Authorization` header
+is present; make a request to a third-party URL and confirm it is **absent**.
+
+================================================================================
+FILE: recipes/04-route-guards.md
+================================================================================
+
+# 04 — Route guards with role checks
+
+Use `createAuthGuard` to build a functional `CanActivateFn`. Your callback
+receives `AuthGuardData` = `{ authenticated, grantedRoles, keycloak }`.
+
+## Step 1: the guard
+
+```typescript
+// src/app/core/auth/auth-role.guard.ts
+import { inject } from '@angular/core';
+import {
+  ActivatedRouteSnapshot,
+  CanActivateFn,
+  Router,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
+import { AuthGuardData, createAuthGuard } from 'keycloak-angular';
+
+const isAccessAllowed = async (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
+  authData: AuthGuardData,
+): Promise<boolean | UrlTree> => {
+  // GOTCHA: capture DI refs BEFORE the first await (injection context is sync).
+  const router = inject(Router);
+  const { authenticated, grantedRoles, keycloak } = authData;
+
+  if (!authenticated) {
+    await keycloak.login({ redirectUri: window.location.origin + state.url });
+    return false;
+  }
+
+  const requiredRealmRole = route.data['realmRole'] as string | undefined;
+  const requiredClientRole = route.data['clientRole'] as string | undefined;
+  const requiredClient = route.data['client'] as string | undefined;
+
+  if (!requiredRealmRole && !requiredClientRole) return true;
+
+  const hasRealmRole = (r: string) => grantedRoles.realmRoles.includes(r);
+  const hasClientRole = (r: string, client?: string) =>
+    client
+      ? (grantedRoles.resourceRoles[client]?.includes(r) ?? false)
+      : Object.values(grantedRoles.resourceRoles).some((roles) =>
+          roles.includes(r),
+        );
+
+  const allowed =
+    (requiredRealmRole ? hasRealmRole(requiredRealmRole) : false) ||
+    (requiredClientRole
+      ? hasClientRole(requiredClientRole, requiredClient)
+      : false);
+
+  return allowed ? true : router.parseUrl('/forbidden');
+};
+
+export const canActivateAuthRole =
+  createAuthGuard<CanActivateFn>(isAccessAllowed);
+```
+
+## Step 2: wire onto routes
+
+```typescript
+// src/app/app.routes.ts
+import { Routes } from '@angular/router';
+import { canActivateAuthRole } from './core/auth/auth-role.guard';
+
+export const routes: Routes = [
+  { path: 'account', canActivate: [canActivateAuthRole], /* any authed user */
+    loadComponent: () => import('./features/account/account.component').then(m => m.AccountComponent) },
+  { path: 'admin', canActivate: [canActivateAuthRole], data: { realmRole: 'admin' },
+    loadComponent: () => import('./features/admin/admin.component').then(m => m.AdminComponent) },
+  { path: 'books', canActivate: [canActivateAuthRole],
+    data: { clientRole: 'view-books', client: 'catalog-service' },
+    loadComponent: () => import('./features/books/books.component').then(m => m.BooksComponent) },
+  { path: 'forbidden',
+    loadComponent: () => import('./features/forbidden/forbidden.component').then(m => m.ForbiddenComponent) },
+];
+```
+
+## Key facts
+
+- `AuthGuardData.grantedRoles` is `{ realmRoles: string[]; resourceRoles: { [clientId]: string[] } }`.
+- The callback is **always async** (`Promise<boolean | UrlTree>`).
+- **Capture `inject(Router)` (and any DI) before the first `await`** — after an `await` the injection context is gone and `inject()` throws.
+- For child routes: `createAuthGuard<CanActivateChildFn>(isAccessAllowed)` + `canActivateChild`.
+- The class-based `KeycloakAuthGuard` is deprecated. Use `createAuthGuard`.
+- Route guards are defence-in-depth for UX; the **API must still enforce roles server-side**. A guard only hides UI.
+
+================================================================================
+FILE: recipes/05-auth-store.md
+================================================================================
+
+# 05 — Signal-based `AuthStore`
+
+A single injectable that exposes auth state as signals and keeps them in sync
+with Keycloak by listening to `KEYCLOAK_EVENT_SIGNAL`. Zoneless-friendly.
+
+## Step 1: the store
+
+```typescript
+// src/app/core/auth/auth.store.ts
+import { Injectable, Signal, computed, effect, inject, signal } from '@angular/core';
+import Keycloak from 'keycloak-js'; // instance type + DI token — NOT keycloak-angular
+import type { KeycloakProfile } from 'keycloak-js';
+import {
+  KEYCLOAK_EVENT_SIGNAL,
+  KeycloakEventType,
+  ReadyArgs,
+  typeEventArgs,
+} from 'keycloak-angular';
+
+@Injectable({ providedIn: 'root' })
+export class AuthStore {
+  private readonly keycloak = inject(Keycloak);
+  private readonly kcEvent = inject(KEYCLOAK_EVENT_SIGNAL);
+
+  private readonly _authenticated = signal(false);
+  private readonly _profile = signal<KeycloakProfile | null>(null);
+  private readonly _roles = signal<string[]>([]);
+
+  readonly authenticated: Signal<boolean> = this._authenticated.asReadonly();
+  readonly profile: Signal<KeycloakProfile | null> = this._profile.asReadonly();
+  readonly roles: Signal<string[]> = this._roles.asReadonly();
+  readonly username = computed(() => this._profile()?.username ?? null);
+
+  constructor() {
+    effect(() => {
+      const event = this.kcEvent(); // re-runs on every Keycloak event
+      switch (event.type) {
+        case KeycloakEventType.Ready:
+          this.setAuthenticated(typeEventArgs<ReadyArgs>(event.args)); // boolean
+          break;
+        case KeycloakEventType.AuthSuccess:
+        case KeycloakEventType.AuthRefreshSuccess:
+          this.setAuthenticated(true);
+          break;
+        case KeycloakEventType.AuthLogout:
+        case KeycloakEventType.AuthRefreshError:
+          this.setAuthenticated(false);
+          break;
+        case KeycloakEventType.TokenExpired:
+          void this.keycloak.updateToken(30);
+          break;
+      }
+    });
+  }
+
+  get token(): string | undefined { return this.keycloak.token; }
+  hasRole(role: string): boolean { return this._roles().includes(role); }
+  login(redirectUri: string = window.location.href) { return this.keycloak.login({ redirectUri }); }
+  logout(redirectUri: string = window.location.origin) { return this.keycloak.logout({ redirectUri }); }
+
+  private setAuthenticated(authed: boolean): void {
+    this._authenticated.set(authed);
+    if (authed) { this.syncRoles(); void this.refreshProfile(); }
+    else { this._profile.set(null); this._roles.set([]); }
+  }
+  private syncRoles(): void {
+    const realm = this.keycloak.realmAccess?.roles ?? [];
+    const id = this.keycloak.clientId;
+    const client = id ? (this.keycloak.resourceAccess?.[id]?.roles ?? []) : [];
+    this._roles.set([...new Set([...realm, ...client])]);
+  }
+  private async refreshProfile(): Promise<void> {
+    try { this._profile.set(await this.keycloak.loadUserProfile()); }
+    catch { this._profile.set(null); }
+  }
+}
+```
+
+## Step 2: use it in a component (new control flow)
+
+```typescript
+@Component({
+  selector: 'app-navbar',
+  template: `
+    @if (auth.authenticated()) {
+      <span>Hello {{ auth.username() }}</span>
+      @if (auth.hasRole('admin')) { <a routerLink="/admin">Admin</a> }
+      <button (click)="auth.logout()">Logout</button>
+    } @else {
+      <button (click)="auth.login()">Login</button>
+    }
+  `,
+})
+export class NavbarComponent {
+  readonly auth = inject(AuthStore);
+}
+```
+
+## Key facts
+
+- **Import `Keycloak` from `keycloak-js`, not `keycloak-angular`** — the class is not re-exported. `inject(Keycloak)` works because `provideKeycloak` registers the instance in DI.
+- `KEYCLOAK_EVENT_SIGNAL` is a `Signal<KeycloakEvent>`; **call it inside `effect()`** to react.
+- `KeycloakEventType` members: `Ready`, `AuthSuccess`, `AuthRefreshSuccess`, `AuthLogout`, `AuthError`, `AuthRefreshError`, `TokenExpired`, `ActionUpdate`, `KeycloakAngularInit`, `KeycloakAngularNotInitialized`.
+- `typeEventArgs<T>()` is a pure cast (no runtime check) — always `switch` on `event.type` first.
+- `AuthLogout` only fires reliably when the session iframe is on. With `checkLoginIframe: false` you mainly get `Ready` / `AuthSuccess` / `AuthRefreshSuccess` / `TokenExpired` — which is why the store also derives state from those.
+
+================================================================================
+FILE: recipes/06-silent-check-sso.md
+================================================================================
+
+# 06 — `silent-check-sso.html`
+
+`onLoad: 'check-sso'` checks the SSO session silently inside a hidden iframe
+instead of a full-page redirect. That iframe loads a tiny static page on your own
+origin whose only job is to hand the result URL back to the app.
+
+## Step 1: create the file
+
+```html
+<!-- public/silent-check-sso.html -->
+<!doctype html>
+<html>
+  <body>
+    <script>
+      parent.postMessage(location.href, location.origin);
+    </script>
+  </body>
+</html>
+```
+
+## Step 2: it must be served at the web root
+
+The URL you passed as `silentCheckSsoRedirectUri` in `app.config.ts` is
+`window.location.origin + '/silent-check-sso.html'`, so the file must resolve at
+`https://<your-app>/silent-check-sso.html`.
+
+In Angular 21 the `public/` folder is copied to the site root at build time — put
+the file there. Verify after `ng build` that `dist/<app>/browser/silent-check-sso.html`
+exists.
+
+## Step 3: allow-list its URL on the Keycloak client
+
+Add `https://<your-app>/silent-check-sso.html` to the client's **Valid Redirect
+URIs** (a wildcard like `https://<your-app>/*` also covers it). If it is missing,
+silent SSO fails and the user is treated as anonymous. See recipe 08.
+
+## Key facts
+
+- The file is intentionally trivial — do not add anything else to it.
+- `checkLoginIframe: false` (set in recipe 02) disables the separate periodic
+  *session-status* iframe, which is different from this one-shot silent-SSO
+  check. The silent-SSO check still runs at startup.
+- Silent SSO depends on third-party-cookie policy. In browsers with strict cookie
+  settings (Safari, hardened Chrome) it may fall back to treating the user as
+  logged out; `silentCheckSsoFallback` (default `true`) handles that. It is a
+  best-effort optimisation, not a guarantee.
+
+================================================================================
+FILE: recipes/07-logout-token.md
+================================================================================
+
+# 07 — Logout & token refresh
+
+## Login / logout
+
+Call through the injected `Keycloak` instance (or via `AuthStore`, recipe 05):
+
+```typescript
+private readonly keycloak = inject(Keycloak); // from 'keycloak-js'
+
+login()  { return this.keycloak.login({ redirectUri: window.location.href }); }
+logout() { return this.keycloak.logout({ redirectUri: window.location.origin }); }
+```
+
+- `logout({ redirectUri })` performs **RP-initiated logout**: keycloak-js maps
+  `redirectUri` to the OIDC `post_logout_redirect_uri` and attaches
+  `id_token_hint` automatically, so Keycloak skips the "Do you want to log out?"
+  confirmation screen and returns the user to your app.
+- The `redirectUri` you pass must be listed under the client's **Valid Post
+  Logout Redirect URIs** (or `+` to inherit the login redirect URIs). See recipe 08.
+
+## Token refresh — you rarely call this yourself
+
+Two mechanisms already keep the token fresh:
+
+1. **The bearer interceptor** (recipe 03) calls `keycloak.updateToken()` before
+   attaching the token, so API requests always send a valid token.
+2. **`withAutoRefreshToken`** (recipe 02) refreshes on user activity and logs the
+   user out after `sessionTimeout` of inactivity.
+
+If you need a token outside an HTTP call (e.g. for a WebSocket), refresh manually:
+
+```typescript
+async getFreshToken(minValiditySeconds = 30): Promise<string | undefined> {
+  try {
+    await this.keycloak.updateToken(minValiditySeconds); // refreshes if near expiry
+    return this.keycloak.token;
+  } catch {
+    await this.keycloak.login(); // refresh token expired -> re-authenticate
+    return undefined;
+  }
+}
+```
+
+## Key facts
+
+- `updateToken(minValidity)` is a no-op if the token still has more than
+  `minValidity` seconds left; otherwise it refreshes. On rejection the refresh
+  token is dead — send the user to `login()`.
+- Do not store tokens in `localStorage`. Keep them in memory (the adapter holds
+  them); this pack never persists tokens.
+- Access-token lifespan and SSO session idle/max are realm settings (recipe 08),
+  not app config.
+
+================================================================================
+FILE: recipes/08-keycloak-server.md
+================================================================================
+
+# 08 — Keycloak server: realm & client checklist
+
+Configure the SPA client in the Keycloak admin console (or via realm import).
+This is an OpenID Connect **public** client using **Standard Flow + PKCE S256**.
+
+## Client settings
+
+```
+Client ID:                       my-angular-client      (must match environment.ts)
+Client type / protocol:          OpenID Connect
+Client authentication:           OFF        (public client — no secret; PKCE replaces it)
+Standard flow:                   ON         (OAuth 2.0 Authorization Code Flow)
+Direct access grants:            OFF        (no password grant in a browser)
+Implicit flow:                   OFF        (deprecated; leaks tokens in the URL)
+PKCE Code Challenge Method:      S256       (Advanced tab)  + pkceMethod:'S256' in the app
+```
+
+## Redirect / origin settings
+
+```
+Valid Redirect URIs:
+  https://app.myapp.com/*
+  https://app.myapp.com/silent-check-sso.html   (covered by the wildcard above too)
+
+Valid Post Logout Redirect URIs:
+  https://app.myapp.com/*        (or '+' to inherit the redirect URIs)
+
+Web Origins:
+  https://app.myapp.com          (exact origin; or '+' ; NEVER '*')
+```
+
+Add `http://localhost:4200/*` and `http://localhost:4200` for local dev, in a
+dev realm — do not mix dev origins into a production client.
+
+## Realm session/token settings (starting points, tune to taste)
+
+```
+Access Token Lifespan:     ~5 minutes    (short; the refresh token covers gaps)
+SSO Session Idle:          ~30 minutes   (refresh-token idle timeout)
+SSO Session Max:           ~10 hours     (absolute session cap)
+```
+
+## Roles
+
+- **Realm role** (e.g. `admin`): assign to users; checked via `grantedRoles.realmRoles`.
+- **Client role** (e.g. `view-books` on `catalog-service`): checked via
+  `grantedRoles.resourceRoles['catalog-service']`.
+- For client roles to appear in the token, ensure the client's role/audience
+  mappers include them (default full-scope clients do).
+
+## Security rules
+
+- **Redirect URIs**: as specific as possible, always HTTPS in production. Broad
+  wildcards enable open-redirect / token-leak attacks.
+- **Web Origins** sets the CORS `Access-Control-Allow-Origin` for token/userinfo
+  calls. `'+'` allows origins already in Valid Redirect URIs; `'*'` allows any
+  site — never use `'*'`.
+- Only the frontend client needs Web Origins. A server-to-server backend client
+  (confidential) does not.
+- Consider a client policy profile: `oauth-2-1-for-public-client` or a
+  `pkce-enforcer` to enforce S256 server-side.
+
+## Verify
+
+1. Load the app → you are redirected to Keycloak, log in, land back on your app.
+2. Anonymous load with `onLoad: 'check-sso'` → app renders, `authenticated()` is false.
+3. Call your API → request carries `Authorization: Bearer …`; API validates it.
+4. Logout → returned to your app, `authenticated()` is false, no confirm screen.
+
+================================================================================
+FILE: recipes/09-testing.md
+================================================================================
+
+# 09 — Testing components that use auth (Angular 21 + Vitest)
+
+Angular 21's default test runner is **Vitest**, driven through the Angular build
+(`ng test`). Do not run `vitest run` directly — it bypasses Angular's compiler.
+The trick for auth: never boot the real Keycloak adapter in a unit test. Provide
+fakes for the two DI tokens the code depends on — `Keycloak` and, if you touch the
+store, `KEYCLOAK_EVENT_SIGNAL`.
+
+## Fake the `AuthStore` (simplest)
+
+Most components only need `AuthStore`. Provide a stub:
+
+```typescript
+import { signal } from '@angular/core';
+import { AuthStore } from './core/auth/auth.store';
+
+const fakeAuth: Partial<AuthStore> = {
+  authenticated: signal(true),
+  username: signal('alice') as any,
+  roles: signal(['admin']),
+  hasRole: (r: string) => r === 'admin',
+  login: async () => {},
+  logout: async () => {},
+};
+
+TestBed.configureTestingModule({
+  providers: [{ provide: AuthStore, useValue: fakeAuth }],
+});
+```
+
+## Fake `Keycloak` directly (for the store / guard)
+
+```typescript
+import Keycloak from 'keycloak-js';
+import { KEYCLOAK_EVENT_SIGNAL, KeycloakEventType } from 'keycloak-angular';
+import { signal } from '@angular/core';
+
+const fakeKeycloak = {
+  token: 'fake.jwt.token',
+  clientId: 'my-angular-client',
+  realmAccess: { roles: ['admin'] },
+  resourceAccess: { 'my-angular-client': { roles: ['view-books'] } },
+  login: async () => {},
+  logout: async () => {},
+  updateToken: async () => true,
+  loadUserProfile: async () => ({ username: 'alice' }),
+} as unknown as Keycloak;
+
+const eventSignal = signal({ type: KeycloakEventType.Ready, args: true });
+
+TestBed.configureTestingModule({
+  providers: [
+    { provide: Keycloak, useValue: fakeKeycloak },
+    { provide: KEYCLOAK_EVENT_SIGNAL, useValue: eventSignal },
+  ],
+});
+```
+
+Drive state by setting `eventSignal.set({ type: KeycloakEventType.AuthLogout })`
+and asserting the store's signals update.
+
+## Key facts
+
+- Provide `Keycloak` (from `keycloak-js`) and `KEYCLOAK_EVENT_SIGNAL` (from
+  `keycloak-angular`) as values; never call `provideKeycloak()` in a unit test.
+- Run via `ng test` so external `templateUrl`/`styleUrls` resolve correctly.
+- Guards run in an injection context — test them with
+  `TestBed.runInInjectionContext(() => canActivateAuthRole(route, state))`.
+
+================================================================================
+FILE: recipes/10-gotchas.md
+================================================================================
+
+# 10 — Gotchas & common mistakes
+
+The mistakes below are the ones that actually break builds or leak credentials.
+Each is a correction verified against `keycloak-angular@21` / `keycloak-js@26`.
+
+1. **Import `Keycloak` from `keycloak-js`, not `keycloak-angular`.**
+   `keycloak-angular` does not re-export the `Keycloak` class. Use
+   `import Keycloak from 'keycloak-js';`. `inject(Keycloak)` still works because
+   `provideKeycloak` registers the instance in DI.
+
+2. **`pkceMethod` is `'S256' | false`.** There is no `'plain'`. `'S256'` is the
+   default; set it explicitly anyway.
+
+3. **`INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG` is a single token holding an
+   array.** Provide it with `useValue: [ ...conditions ]`. Do **not** add
+   `multi: true` — it is not a multi-provider.
+
+4. **Scope the bearer token.** An unanchored `urlPattern` sends your access token
+   to every host you call. Anchor each pattern to an origin you own; add hosts as
+   separate conditions.
+
+5. **`inject()` before `await` in async guards.** Angular's injection context is
+   synchronous. Capture `inject(Router)` (and any DI) at the top of the guard,
+   before the first `await`, or it throws at runtime.
+
+6. **`withAutoRefreshToken` needs its services.** Add `AutoRefreshTokenService`
+   and `UserActivityService` to the nested `providers` array, or it fails at
+   runtime.
+
+7. **`silent-check-sso.html` must be at the web root and allow-listed.** Serve it
+   from `public/` and add its URL to the client's Valid Redirect URIs, or silent
+   SSO silently fails and every user looks anonymous.
+
+8. **`checkLoginIframe` and third-party cookies.** The session-status iframe
+   needs third-party cookies, which modern browsers block. Set
+   `checkLoginIframe: false` and rely on token refresh. Consequence: the
+   `AuthLogout` event fires less reliably, so derive auth state from `Ready` /
+   `AuthSuccess` / `AuthRefreshSuccess` too (the `AuthStore` already does).
+
+9. **Pin the matching major.** `keycloak-angular`'s major tracks Angular's major.
+   Installing `latest` on Angular 21 pulls v22 (for Angular 22) and produces peer
+   warnings / subtle breakage. Use `keycloak-angular@^21`.
+
+10. **The legacy API is deprecated, not removed.** `KeycloakService`,
+    `KeycloakAngularModule`, `KeycloakBearerInterceptor`, and `KeycloakAuthGuard`
+    still exist for backward compatibility but are deprecated since v19. Do not
+    build new code on them — use `provideKeycloak`, `includeBearerTokenInterceptor`,
+    and `createAuthGuard`.
+
+11. **Guards and interceptors are UX, not security.** They hide UI and add
+    convenience. The API server must independently validate the token and enforce
+    roles. A determined user can bypass any client-side check.
+
+12. **Don't persist tokens.** Keep them in memory (the adapter holds them). Do not
+    copy tokens into `localStorage`/`sessionStorage`.
+
+================================================================================
+FILE: src/environments/environment.ts
+================================================================================
+
+```typescript
+/**
+ * Angular environment config.  Keep Keycloak connection details here (or in a
+ * runtime-loaded config for multi-tenant deploys) — never hard-code them inside
+ * components.  `apiOrigins` lists the hosts that are allowed to receive the
+ * access token (see bearer-token.conditions.ts).
+ *
+ * Angular 21 uses a `src/environments/` file per build target and swaps them via
+ * `fileReplacements` in angular.json.  There are no secrets here: a browser SPA
+ * is a PUBLIC OAuth client, so `clientId` is not confidential.
+ */
+export const environment = {
+  production: false,
+  keycloak: {
+    url: 'https://auth.myapp.com', // Keycloak base URL (no trailing /realms)
+    realm: 'my-realm',
+    clientId: 'my-angular-client',
+  },
+  // Every origin your app calls that must carry the bearer token.
+  // Anything NOT listed here is called WITHOUT the token (correct for 3rd parties).
+  apiOrigins: ['https://api.myapp.com'],
+};
+```
+
+================================================================================
+FILE: src/app/app.config.ts
+================================================================================
+
+```typescript
+import { ApplicationConfig } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import {
+  provideKeycloak,
+  withAutoRefreshToken,
+  AutoRefreshTokenService,
+  UserActivityService,
+  INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
+  includeBearerTokenInterceptor,
+} from 'keycloak-angular';
+import { routes } from './app.routes';
+import { environment } from '../environments/environment';
+import { bearerTokenConditions } from './core/auth/bearer-token.conditions';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideKeycloak({
+      config: {
+        url: environment.keycloak.url,
+        realm: environment.keycloak.realm,
+        clientId: environment.keycloak.clientId,
+      },
+      // Supplying initOptions makes provideKeycloak register an app initializer
+      // that calls keycloak.init() before the app renders.  Omit initOptions to
+      // control init() yourself.
+      initOptions: {
+        // 'check-sso' = silent SSO; the app loads for anonymous users too.
+        // Use 'login-required' to force a login redirect before anything renders.
+        onLoad: 'check-sso',
+        silentCheckSsoRedirectUri:
+          window.location.origin + '/silent-check-sso.html',
+        redirectUri: window.location.origin + '/',
+        pkceMethod: 'S256', // 'S256' | false  — there is NO 'plain' value
+        // The session-status iframe needs third-party cookies, which modern
+        // browsers block.  Disable it and rely on token refresh instead.
+        checkLoginIframe: false,
+      },
+      features: [
+        // Refresh the token on activity; log the user out after inactivity.
+        withAutoRefreshToken({
+          sessionTimeout: 300000, // 5 min of inactivity
+          onInactivityTimeout: 'logout', // 'login' | 'logout' | 'none'
+        }),
+      ],
+      providers: [
+        AutoRefreshTokenService, // required by withAutoRefreshToken
+        UserActivityService, // required by withAutoRefreshToken
+        {
+          // Single InjectionToken holding the array of URL conditions.
+          // useValue with an array — NOT a multi-provider.
+          provide: INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
+          useValue: bearerTokenConditions,
+        },
+      ],
+    }),
+    provideHttpClient(withInterceptors([includeBearerTokenInterceptor])),
+    provideRouter(routes),
+  ],
+};
+```
+
+================================================================================
+FILE: src/app/core/auth/bearer-token.conditions.ts
+================================================================================
+
+```typescript
+import {
+  createInterceptorCondition,
+  IncludeBearerTokenCondition,
+} from 'keycloak-angular';
+import { environment } from '../../../environments/environment';
+
+/**
+ * SECURITY: the access token is only attached to requests whose URL matches one
+ * of these patterns.  Anchor every pattern to an origin you control.  A broad or
+ * catch-all pattern leaks your bearer token to third-party hosts.
+ *
+ * We build one anchored, escaped regex per entry in `environment.apiOrigins`.
+ */
+function escapeRegex(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function originToPattern(origin: string): RegExp {
+  // Matches exactly the origin and any path under it: https://api.myapp.com/...
+  return new RegExp(`^(${escapeRegex(origin.replace(/\/$/, ''))})(\\/.*)?$`, 'i');
+}
+
+export const bearerTokenConditions = environment.apiOrigins.map((origin) =>
+  createInterceptorCondition<IncludeBearerTokenCondition>({
+    urlPattern: originToPattern(origin),
+    // Optional overrides (defaults shown):
+    // bearerPrefix: 'Bearer',
+    // authorizationHeaderName: 'Authorization',
+    // httpMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+  }),
+);
+
+/*
+ * Prefer explicit literals if you don't want the env indirection:
+ *
+ * export const bearerTokenConditions = [
+ *   createInterceptorCondition<IncludeBearerTokenCondition>({
+ *     urlPattern: /^(https:\/\/api\.myapp\.com)(\/.*)?$/i,
+ *   }),
+ * ];
+ */
+```
+
+================================================================================
+FILE: src/app/core/auth/auth-role.guard.ts
+================================================================================
+
+```typescript
+import { inject } from '@angular/core';
+import {
+  ActivatedRouteSnapshot,
+  CanActivateFn,
+  Router,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
+import { AuthGuardData, createAuthGuard } from 'keycloak-angular';
+
+/**
+ * Route protection with role checks.  Declare requirements on the route:
+ *   { path: 'admin', canActivate: [canActivateAuthRole], data: { realmRole: 'admin' } }
+ *   { path: 'books', canActivate: [canActivateAuthRole],
+ *     data: { clientRole: 'view-books', client: 'catalog-service' } }
+ */
+const isAccessAllowed = async (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
+  authData: AuthGuardData,
+): Promise<boolean | UrlTree> => {
+  // GOTCHA: inject() needs a synchronous injection context, which is lost after
+  // the first `await`.  Capture every DI reference BEFORE awaiting.
+  const router = inject(Router);
+
+  const { authenticated, grantedRoles, keycloak } = authData;
+
+  // (a) Not logged in -> send to Keycloak, come back to the attempted URL.
+  if (!authenticated) {
+    await keycloak.login({ redirectUri: window.location.origin + state.url });
+    return false; // navigation to Keycloak is under way
+  }
+
+  // (b) Enforce role(s) declared on the route. Authenticated is enough if none.
+  const requiredRealmRole = route.data['realmRole'] as string | undefined;
+  const requiredClientRole = route.data['clientRole'] as string | undefined;
+  const requiredClient = route.data['client'] as string | undefined;
+
+  if (!requiredRealmRole && !requiredClientRole) {
+    return true;
+  }
+
+  const hasRealmRole = (r: string): boolean =>
+    grantedRoles.realmRoles.includes(r);
+
+  const hasClientRole = (r: string, client?: string): boolean =>
+    client
+      ? (grantedRoles.resourceRoles[client]?.includes(r) ?? false)
+      : Object.values(grantedRoles.resourceRoles).some((roles) =>
+          roles.includes(r),
+        );
+
+  const allowed =
+    (requiredRealmRole ? hasRealmRole(requiredRealmRole) : false) ||
+    (requiredClientRole
+      ? hasClientRole(requiredClientRole, requiredClient)
+      : false);
+
+  return allowed ? true : router.parseUrl('/forbidden');
+};
+
+export const canActivateAuthRole =
+  createAuthGuard<CanActivateFn>(isAccessAllowed);
+
+// For child routes use:
+//   createAuthGuard<CanActivateChildFn>(isAccessAllowed) with canActivateChild.
+```
+
+================================================================================
+FILE: src/app/core/auth/auth.store.ts
+================================================================================
+
+```typescript
+import {
+  Injectable,
+  Signal,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
+import Keycloak from 'keycloak-js'; // instance type + DI token — NOT keycloak-angular
+import type { KeycloakProfile } from 'keycloak-js';
+import {
+  KEYCLOAK_EVENT_SIGNAL,
+  KeycloakEventType,
+  ReadyArgs,
+  typeEventArgs,
+} from 'keycloak-angular';
+
+/**
+ * Signal-based auth state.  Inject this anywhere (components, guards, services)
+ * and read `authenticated()`, `username()`, `roles()` reactively.  It listens to
+ * KEYCLOAK_EVENT_SIGNAL and keeps its signals in sync with the adapter.
+ *
+ * Zoneless-friendly: it exposes signals, so templates update without Zone.js.
+ */
+@Injectable({ providedIn: 'root' })
+export class AuthStore {
+  private readonly keycloak = inject(Keycloak);
+  private readonly kcEvent = inject(KEYCLOAK_EVENT_SIGNAL); // Signal<KeycloakEvent>
+
+  private readonly _authenticated = signal(false);
+  private readonly _profile = signal<KeycloakProfile | null>(null);
+  private readonly _roles = signal<string[]>([]);
+
+  readonly authenticated: Signal<boolean> = this._authenticated.asReadonly();
+  readonly profile: Signal<KeycloakProfile | null> = this._profile.asReadonly();
+  readonly roles: Signal<string[]> = this._roles.asReadonly();
+  readonly username = computed(() => this._profile()?.username ?? null);
+
+  constructor() {
+    effect(() => {
+      const event = this.kcEvent(); // tracked: re-runs on every Keycloak event
+
+      switch (event.type) {
+        case KeycloakEventType.Ready: {
+          const authed = typeEventArgs<ReadyArgs>(event.args); // boolean
+          this.setAuthenticated(authed);
+          break;
+        }
+        case KeycloakEventType.AuthSuccess:
+        case KeycloakEventType.AuthRefreshSuccess: {
+          this.setAuthenticated(true);
+          break;
+        }
+        case KeycloakEventType.AuthLogout:
+        case KeycloakEventType.AuthRefreshError: {
+          this.setAuthenticated(false);
+          break;
+        }
+        case KeycloakEventType.TokenExpired: {
+          // Belt-and-suspenders: the bearer interceptor also refreshes on demand.
+          void this.keycloak.updateToken(30);
+          break;
+        }
+      }
+    });
+  }
+
+  get token(): string | undefined {
+    return this.keycloak.token;
+  }
+
+  hasRole(role: string): boolean {
+    return this._roles().includes(role);
+  }
+
+  login(redirectUri: string = window.location.href): Promise<void> {
+    return this.keycloak.login({ redirectUri });
+  }
+
+  logout(redirectUri: string = window.location.origin): Promise<void> {
+    // keycloak-js maps `redirectUri` to the OIDC post_logout_redirect_uri and
+    // attaches id_token_hint automatically (RP-initiated logout).
+    return this.keycloak.logout({ redirectUri });
+  }
+
+  private setAuthenticated(authed: boolean): void {
+    this._authenticated.set(authed);
+    if (authed) {
+      this.syncRoles();
+      void this.refreshProfile();
+    } else {
+      this._profile.set(null);
+      this._roles.set([]);
+    }
+  }
+
+  private syncRoles(): void {
+    const realmRoles = this.keycloak.realmAccess?.roles ?? [];
+    const clientId = this.keycloak.clientId;
+    const clientRoles = clientId
+      ? (this.keycloak.resourceAccess?.[clientId]?.roles ?? [])
+      : [];
+    this._roles.set([...new Set([...realmRoles, ...clientRoles])]);
+  }
+
+  private async refreshProfile(): Promise<void> {
+    try {
+      this._profile.set(await this.keycloak.loadUserProfile());
+    } catch {
+      this._profile.set(null);
+    }
+  }
+}
+```
+
+================================================================================
+FILE: src/app/app.routes.ts
+================================================================================
+
+```typescript
+import { Routes } from '@angular/router';
+import { canActivateAuthRole } from './core/auth/auth-role.guard';
+
+/**
+ * Wiring the role guard.  `data` declares the requirement; the guard reads it.
+ * Replace the component references with your own.
+ */
+export const routes: Routes = [
+  {
+    path: '',
+    loadComponent: () =>
+      import('./features/home/home.component').then((m) => m.HomeComponent),
+  },
+  {
+    path: 'forbidden',
+    loadComponent: () =>
+      import('./features/forbidden/forbidden.component').then(
+        (m) => m.ForbiddenComponent,
+      ),
+  },
+  {
+    // Any authenticated user (no role requirement).
+    path: 'account',
+    canActivate: [canActivateAuthRole],
+    loadComponent: () =>
+      import('./features/account/account.component').then(
+        (m) => m.AccountComponent,
+      ),
+  },
+  {
+    // Requires realm role 'admin'.
+    path: 'admin',
+    canActivate: [canActivateAuthRole],
+    data: { realmRole: 'admin' },
+    loadComponent: () =>
+      import('./features/admin/admin.component').then((m) => m.AdminComponent),
+  },
+  {
+    // Requires client role 'view-books' on client 'catalog-service'.
+    path: 'books',
+    canActivate: [canActivateAuthRole],
+    data: { clientRole: 'view-books', client: 'catalog-service' },
+    loadComponent: () =>
+      import('./features/books/books.component').then((m) => m.BooksComponent),
+  },
+];
+```
+
+================================================================================
+FILE: src/public/silent-check-sso.html
+================================================================================
+
+```html
+<!doctype html>
+<html>
+  <body>
+    <script>
+      // Keycloak loads this page inside a hidden iframe to check the SSO session
+      // without a full-page redirect, then reads the result from the URL.
+      // It must be served as a STATIC file from your app's own origin and its URL
+      // must be a Valid Redirect URI on the Keycloak client.
+      parent.postMessage(location.href, location.origin);
+    </script>
+  </body>
+</html>
+```
+
+================================================================================
+FILE: src/main.ts
+================================================================================
+
+```typescript
+import { bootstrapApplication } from '@angular/platform-browser';
+import { appConfig } from './app/app.config';
+import { AppComponent } from './app/app.component';
+
+// Standalone bootstrap (Angular 21).  No NgModule, no zone.js by default.
+bootstrapApplication(AppComponent, appConfig).catch((err) =>
+  console.error(err),
+);
+```
