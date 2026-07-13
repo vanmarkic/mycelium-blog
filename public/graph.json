@@ -505,6 +505,29 @@
       "date": "2026-07-08"
     },
     {
+      "id": "2026-07-13-best-stack-for-ai-coding-agents-en",
+      "type": "post",
+      "title": "The actually-best stack for AI coding agents, derived from the corrected criteria",
+      "tags": [
+        "ai-agents",
+        "agentic-development",
+        "architecture",
+        "stack",
+        "typescript",
+        "postgres",
+        "type-safety",
+        "trpc",
+        "openapi",
+        "drizzle",
+        "htmx",
+        "testcontainers",
+        "verification",
+        "code-review"
+      ],
+      "path": "/posts/2026-07-13-best-stack-for-ai-coding-agents-en",
+      "date": "2026-07-13"
+    },
+    {
       "id": "2026-07-13-fastapi-angular-type-safety-en",
       "type": "post",
       "title": "FastAPI → Angular type safety: end-to-end setup",
@@ -1299,6 +1322,13 @@
     },
     {
       "from": "2025-11-14-3DSoundViz",
+      "to": "2026-07-13-best-stack-for-ai-coding-agents-en",
+      "type": "related",
+      "strength": 0.4,
+      "reason": "1 shared tags"
+    },
+    {
+      "from": "2025-11-14-3DSoundViz",
       "to": "2026-07-13-fastapi-angular-type-safety-en",
       "type": "related",
       "strength": 0.4,
@@ -1669,5 +1699,5 @@
       "reason": "2 shared tags, shared patterns: systematic-debugging, recent proximity"
     }
   ],
-  "lastUpdated": "2026-07-13T11:11:14.526Z"
+  "lastUpdated": "2026-07-13T21:20:17.852Z"
 }
