@@ -505,6 +505,28 @@
       "date": "2026-07-08"
     },
     {
+      "id": "2026-07-13-fastapi-angular-type-safety-en",
+      "type": "post",
+      "title": "FastAPI → Angular type safety: end-to-end setup",
+      "tags": [
+        "fastapi",
+        "angular",
+        "typescript",
+        "type-safety",
+        "orval",
+        "openapi",
+        "zod",
+        "runtime-validation",
+        "pydantic",
+        "code-generation",
+        "ci",
+        "frontend",
+        "agentic-development"
+      ],
+      "path": "/posts/2026-07-13-fastapi-angular-type-safety-en",
+      "date": "2026-07-13"
+    },
+    {
       "id": "exhaustive-verification",
       "type": "skill",
       "title": "Exhaustive Verification Skill",
@@ -1277,6 +1299,13 @@
     },
     {
       "from": "2025-11-14-3DSoundViz",
+      "to": "2026-07-13-fastapi-angular-type-safety-en",
+      "type": "related",
+      "strength": 0.4,
+      "reason": "1 shared tags"
+    },
+    {
+      "from": "2025-11-14-3DSoundViz",
       "to": "knowledge-converter",
       "type": "uses",
       "strength": 0.4,
@@ -1640,5 +1669,5 @@
       "reason": "2 shared tags, shared patterns: systematic-debugging, recent proximity"
     }
   ],
-  "lastUpdated": "2026-07-08T16:23:30.775Z"
+  "lastUpdated": "2026-07-13T11:11:14.526Z"
 }
