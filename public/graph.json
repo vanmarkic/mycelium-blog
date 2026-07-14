@@ -550,6 +550,27 @@
       "date": "2026-07-13"
     },
     {
+      "id": "2026-07-14-fastapi-postgres-testing-en",
+      "type": "post",
+      "title": "Testing FastAPI Endpoints Against a Real Postgres",
+      "tags": [
+        "fastapi",
+        "postgresql",
+        "testing",
+        "pytest",
+        "testcontainers",
+        "sqlalchemy",
+        "alembic",
+        "asyncio",
+        "httpx",
+        "integration-testing",
+        "ci",
+        "backend"
+      ],
+      "path": "/posts/2026-07-14-fastapi-postgres-testing-en",
+      "date": "2026-07-14"
+    },
+    {
       "id": "exhaustive-verification",
       "type": "skill",
       "title": "Exhaustive Verification Skill",
@@ -1699,5 +1720,5 @@
       "reason": "2 shared tags, shared patterns: systematic-debugging, recent proximity"
     }
   ],
-  "lastUpdated": "2026-07-13T21:20:17.852Z"
+  "lastUpdated": "2026-07-14T16:45:30.752Z"
 }
