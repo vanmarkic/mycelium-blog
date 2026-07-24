@@ -60,15 +60,33 @@ Per Google SRE: take notes of every test result, including negative results. A t
 
 ```
 MISP_NAMESPACE=<namespace>
-MISP_DEPLOY=<deployment-name>         # e.g. misp, misp-core
+MISP_WORKLOAD=<kind/name>             # e.g. deploy/misp, statefulset/misp, sts/misp-core
 KEYCLOAK_NAMESPACE=<namespace>
-KEYCLOAK_DEPLOY=<deployment-name>     # e.g. keycloak
+KEYCLOAK_WORKLOAD=<kind/name>         # e.g. deploy/keycloak, statefulset/keycloak
 KEYCLOAK_HOSTNAME=<external-hostname> # e.g. keycloak.example.org
 KEYCLOAK_METALLB_IP=<IP>              # MetalLB LoadBalancer IP for Keycloak
 MISP_HOSTNAME=<external-hostname>     # e.g. misp.example.org
 MISP_METALLB_IP=<IP>                  # MetalLB LoadBalancer IP for MISP
 KEYCLOAK_REALM=<realm-name>           # e.g. MISP, master
 ```
+
+### StatefulSet vs Deployment
+
+Every `kubectl exec` and `kubectl logs` command in this playbook targets a workload by short name. In this document that's written as `deploy/${MISP_DEPLOY}` for readability, but **substitute your actual workload kind** — `statefulset/<name>` (or `sts/<name>`) if MISP or Keycloak is deployed as a StatefulSet (common: MISP with persistent MySQL/files volume, Keycloak in HA mode).
+
+Substitution map:
+
+| Playbook writes | If Deployment | If StatefulSet |
+|-----------------|---------------|----------------|
+| `deploy/${MISP_DEPLOY}` | `deploy/misp` | `sts/misp` or `statefulset/misp` |
+| `kubectl rollout restart deploy/X` | same | `kubectl rollout restart statefulset/X` |
+| Pod targeting `-l app=X` | same | same (labels are workload-agnostic) |
+
+**Two things change with a StatefulSet:**
+1. **Pod names are ordinal and stable** (`misp-0`, `misp-1`, …) — you can target a specific replica with `kubectl exec misp-0 -n ${MISP_NAMESPACE}` when needed.
+2. **`hostAliases` and DNS fixes apply to every pod in the set** — but a rollout of a StatefulSet is sequential (pod by pod), not parallel. Expect the fix to take longer to propagate across replicas, and if `podManagementPolicy: OrderedReady`, a wedged pod-0 blocks the rest.
+
+**One thing that does NOT change:** DNS resolution behavior. CoreDNS, `/etc/resolv.conf`, and MetalLB hairpinning behave identically for pods regardless of their owning workload. The root cause and fixes in Phase 1–2 are the same.
 
 ---
 
