@@ -31,9 +31,10 @@ description: >-
   ready-to-run kubectl one-liners for every phase, plus follow-on phases for
   TLS trust, PHP session loss, invalid_grant, and MetalLB hairpin issues. Phase
   9 adds a field report from a real RKE2 + Cilium + Traefik run where the login
-  loop turned out to be three overlapping faults — a stale provider-URL env var,
-  pod-side DNS, and browser-side DNS — with the RKE2-native HelmChartConfig fix
-  and the ClusterIP-vs-external-VIP split-horizon decision.
+  loop turned out to be four overlapping faults — a stale provider-URL env var,
+  pod-side DNS, browser-side DNS, and an http↔https scheme flip from proxy
+  headers — with the RKE2-native HelmChartConfig fix, the ClusterIP-vs-external-VIP
+  split-horizon decision, and the KC_PROXY_HEADERS / KC_HOSTNAME scheme fix.
 ---
 
 # MISP + Keycloak OIDC Redirect Failure — K8s Debugging Playbook
@@ -719,15 +720,16 @@ TRAEFIK_LB_IP=<traefik-external-loadbalancer-ip>   # MetalLB VIP, reachable from
 TRAEFIK_CLUSTERIP=<traefik-service-clusterip>      # reachable from inside the cluster
 ```
 
-### The three overlapping root causes
+### The overlapping root causes
 
 | # | Fault | Where it lives | Fixed by |
 |---|-------|----------------|----------|
 | 1 | Stale provider URL — an env var silently overrides `config.php` | Application config | Correct the env var (§9.1) |
 | 2 | Issuer hostname unresolvable **from the MISP pod** | In-cluster DNS | RKE2 CoreDNS `HelmChartConfig` → Traefik ClusterIP (§9.2) |
 | 3 | Same hostnames unresolvable **in the browser** | Client-side DNS | Split-horizon DNS → Traefik external VIP (§9.3) |
+| 4 | Redirects flip **http↔https** between MISP and Keycloak | TLS termination / proxy headers | Proxy-aware scheme config at both ends (§9.4) |
 
-Root cause 2 is the one Phase 1 predicted. Root causes 1 and 3 are the reason the login loop survives a naive DNS fix. Note also that **DNS is not the same failure class as a TLS handshake error** — a `getent` failure is name resolution; `wrong version number` (seen against the stale endpoint below) is a protocol/port mismatch. Do not conflate them.
+Root cause 2 is the one Phase 1 predicted. Root causes 1 and 3 are the reason the login loop survives a naive DNS fix. Root cause 4 only becomes visible **after** names resolve — the redirects finally fire, then bounce between schemes. Note also that **DNS is not the same failure class as a TLS handshake error** — a `getent` failure is name resolution; `wrong version number` (seen against the stale endpoint below) is a protocol/port mismatch. Do not conflate them.
 
 ---
 
@@ -888,24 +890,72 @@ ${MISP_HOST}     A   ${TRAEFIK_LB_IP}
 
 ---
 
-### 9.4 — The corrected fix order
+### 9.4 — Root cause 4: the redirects flip http↔https (proxy headers)
+
+Once DNS resolves and the redirects finally fire, a second-order bug often shows up. The symptom from this run:
+
+> Starting at `http://${MISP_HOST}` bounces the browser to `https://${ISSUER_HOST}`, but starting at `https://${MISP_HOST}` bounces it to **`http://${ISSUER_HOST}`** — and Keycloak then rejects the callback or the browser loops.
+
+This is **not DNS**. Traefik terminates HTTPS at the edge and forwards **plain HTTP** to the pods, so each app builds its outbound redirect/issuer URLs from the *backend* scheme it sees (`http`) unless you explicitly tell it to trust the forwarded scheme. Keycloak and MISP each get this wrong independently, which is why the scheme appears to flip depending on where you start.
+
+Both ends must be made proxy-aware. All three fixes are required together.
+
+**Keycloak (Quarkus, behind Traefik):**
+
+```
+KC_HTTP_ENABLED=true                  # accept the plaintext hop from Traefik
+KC_PROXY_HEADERS=xforwarded           # trust X-Forwarded-Proto/Host/Port (RFC-7239: use "forwarded")
+KC_HOSTNAME=https://${ISSUER_HOST}    # FULL URL, with scheme (hostname v2)
+```
+
+Setting `KC_HOSTNAME` to a full `https://` URL forces every issuer, authorization, and token URL to `https` regardless of the backend hop — this is the single most important line. (`KC_PROXY_HEADERS` replaced the old `KC_PROXY=edge`, which was removed in Keycloak 26; `xforwarded` parses the `X-Forwarded-*` headers, `forwarded` parses the RFC 7239 `Forwarded` header.)
+
+**MISP:**
+
+```
+BASE_URL=https://${MISP_HOST}                        # MISP.baseurl — the scheme redirect_uri is built from
+OIDC_REDIRECT_URI=https://${MISP_HOST}/users/login   # pin the callback scheme explicitly
+```
+
+Also make PHP trust the proxy so the session cookie gets the `Secure` flag (this is Phase 5.3): `session.cookie_secure=1`. If MISP still thinks it is on `http`, confirm Traefik actually sends `X-Forwarded-Proto: https`.
+
+**Traefik — one canonical scheme:**
+- Terminate TLS at the entrypoint and redirect `http→https`, so only one scheme is ever in play.
+- Make Traefik **overwrite** (not append) `X-Forwarded-Proto` — appending lets a client spoof the scheme, which is both a bug and a security hole.
+
+**Keycloak client:**
+- The client's **Valid Redirect URIs** must list the exact `https://${MISP_HOST}/users/login`. A scheme-only difference (`http` vs `https`) is still a mismatch and Keycloak rejects it with `Invalid parameter: redirect_uri`.
+
+**Verify — the discovery document must advertise `https` everywhere:**
+
+```bash
+kubectl exec sts/${MISP_STS} -n ${MISP_NS} -- \
+  curl -s https://${ISSUER_HOST}/realms/${REALM}/.well-known/openid-configuration \
+  | grep -oE 'https?://[^"]+' | sort -u
+```
+
+Every URL should be `https://${ISSUER_HOST}/…`. Any `http://` means `KC_PROXY_HEADERS` / `KC_HOSTNAME` is still wrong and the flip will persist.
+
+### 9.5 — The corrected fix order
 
 1. **Fix the stale env var** (§9.1) — set `OIDC_PROVIDER_URL`, `kubectl rollout restart`, persist in Git.
 2. **Make the issuer resolvable in-cluster** (§9.2) — `HelmChartConfig` hosts block → **Traefik ClusterIP**, full server block re-declared, `fallthrough` present.
 3. **Make both hostnames resolvable in the browser** (§9.3) — split-horizon DNS → **Traefik external VIP**.
-4. **Verify end-to-end** — pod resolves + reaches discovery (§9.2), then an incognito browser completes the redirect and lands on the MISP dashboard.
-5. **Only then** set `OIDC_MIXEDAUTH=false` if you want to disable password login — never before SSO is fully working.
+4. **Pin the scheme end-to-end** (§9.4) — `KC_HOSTNAME=https://…` + `KC_PROXY_HEADERS` on Keycloak; `BASE_URL`/`OIDC_REDIRECT_URI` on MISP; register the exact `https` callback in the Keycloak client.
+5. **Verify end-to-end** — pod resolves + reaches discovery (§9.2), discovery advertises only `https` (§9.4), then an incognito browser completes the redirect and lands on the MISP dashboard.
+6. **Only then** set `OIDC_MIXEDAUTH=false` if you want to disable password login — never before SSO is fully working.
 
-### 9.5 — What the generic playbook got right and wrong
+### 9.6 — What the generic playbook got right and wrong
 
 **Right:** the DNS hypothesis, the `getent hosts` test, the CoreDNS hosts-plugin concept, and that `fallthrough` is mandatory.
 
 **Wrong or incomplete for a real RKE2 stack:**
 - "Edit the `coredns` ConfigMap" — on RKE2 use a `HelmChartConfig`; the ConfigMap is Helm-managed and reverts, and its name isn't `coredns`.
 - No warning that the `HelmChartConfig` `servers` list is **replaced, not merged** — the top way to break cluster DNS while fixing this.
-- Treats the fix as one DNS record. It's **three** faults: a stale env var, pod-side DNS, and **browser-side DNS** — and CoreDNS can't touch the last one.
+- Treats the fix as one DNS record. It's **four** faults: a stale env var, pod-side DNS, **browser-side DNS**, and an **http↔https scheme flip** — and CoreDNS can't touch the last two.
 - Doesn't distinguish the **ClusterIP (pod-side) vs external VIP (browser-side)** targets, or the Cilium hairpin risk of pointing in-cluster DNS at the external VIP.
 - Doesn't note that misp-docker **regenerates `config.php` from env on every boot**, so the file is not authoritative.
+- Phase 4/5 handle TLS trust and session cookies but never mention that a TLS-terminating proxy makes Keycloak and MISP emit the **wrong URL scheme** unless `KC_PROXY_HEADERS` / `KC_HOSTNAME=https://…` and MISP's `BASE_URL` are set to trust the forwarded proto.
 
 > Reference: RKE2 defaults the Service CIDR to `10.43.0.0/16` and the pod CIDR to `10.42.0.0/16`. If a "working" ClusterIP looks right but the service behind it is dead, suspect a **stale** ClusterIP from a decommissioned release — exactly the root-cause-1 signature.
 
