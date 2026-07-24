@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
 
+Disallow: /mycelium-blog/404
+
 Sitemap: https://vanmarkic.github.io/mycelium-blog/sitemap-index.xml

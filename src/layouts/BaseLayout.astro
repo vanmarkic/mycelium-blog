@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import SEO from '../components/SEO.astro';
 import { useTranslations } from '../i18n/translations';
 import { getLangFromUrl, useTranslatedPath } from '../i18n/utils';
 import ThemeToggle from '../components/ThemeToggle.astro';
@@ -7,25 +8,44 @@ import ThemeToggle from '../components/ThemeToggle.astro';
 interface Props {
   title: string;
   description?: string;
+  image?: string;
+  article?: boolean;
+  publishedTime?: string;
+  modifiedTime?: string;
+  tags?: string[];
+  section?: string;
+  breadcrumbs?: Array<{ name: string; url: string }>;
+  noindex?: boolean;
 }
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
 
-const { title, description = 'A digital garden exploring technical patterns, Claude Code workflows, and interconnected knowledge' } = Astro.props;
+const {
+  title,
+  description = 'A digital garden exploring technical patterns, Claude Code workflows, and interconnected knowledge',
+  image,
+  article = false,
+  publishedTime,
+  modifiedTime,
+  tags = [],
+  section,
+  breadcrumbs,
+  noindex = false,
+} = Astro.props;
 
 const base = import.meta.env.BASE_URL;
 
-// Language switcher data
 const languages = [
   { code: 'fr', label: 'FR' },
   { code: 'nl', label: 'NL' },
   { code: 'en', label: 'EN' }
 ];
 
-// Get current path without language prefix
 const currentPath = Astro.url.pathname.replace(base, '/').replace(/^\/(nl|en)\//, '/');
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') || 'https://vanmarkic.github.io';
 ---
 
 <!DOCTYPE html>
@@ -33,12 +53,28 @@ const currentPath = Astro.url.pathname.replace(base, '/').replace(/^\/(nl|en)\//
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title} | Mycelium Blog</title>
-    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <meta name="generator" content={Astro.generator} />
 
-    <!-- Prevent flash of unstyled content -->
+    <SEO
+      title={title}
+      description={description}
+      image={image}
+      article={article}
+      publishedTime={publishedTime}
+      modifiedTime={modifiedTime}
+      tags={tags}
+      section={section}
+      breadcrumbs={breadcrumbs}
+      noindex={noindex}
+    />
+
+    <!-- hreflang for multilingual pages -->
+    <link rel="alternate" hreflang="fr" href={`${siteUrl}${base}${currentPath.replace(/^\//, '')}`} />
+    <link rel="alternate" hreflang="nl" href={`${siteUrl}${base}nl/${currentPath.replace(/^\//, '')}`} />
+    <link rel="alternate" hreflang="en" href={`${siteUrl}${base}en/${currentPath.replace(/^\//, '')}`} />
+    <link rel="alternate" hreflang="x-default" href={`${siteUrl}${base}${currentPath.replace(/^\//, '')}`} />
+
     <script is:inline>
       const theme = localStorage.getItem('theme') || 'light';
       if (theme === 'dark') {
@@ -129,7 +165,6 @@ const currentPath = Astro.url.pathname.replace(base, '/').replace(/^\/(nl|en)\//
     </nav>
 
     <script>
-      // Mobile menu toggle functionality
       const mobileMenuButton = document.getElementById('mobile-menu-button');
       const mobileMenu = document.getElementById('mobile-menu');
 
@@ -139,14 +174,12 @@ const currentPath = Astro.url.pathname.replace(base, '/').replace(/^\/(nl|en)\//
 
           if (isHidden) {
             mobileMenu.classList.remove('hidden');
-            // Animate hamburger to X
             const spans = mobileMenuButton.querySelectorAll('span');
             spans[0].style.transform = 'rotate(45deg) translateY(8px)';
             spans[1].style.opacity = '0';
             spans[2].style.transform = 'rotate(-45deg) translateY(-8px)';
           } else {
             mobileMenu.classList.add('hidden');
-            // Animate X back to hamburger
             const spans = mobileMenuButton.querySelectorAll('span');
             spans[0].style.transform = 'none';
             spans[1].style.opacity = '1';
@@ -154,7 +187,6 @@ const currentPath = Astro.url.pathname.replace(base, '/').replace(/^\/(nl|en)\//
           }
         });
 
-        // Close mobile menu when clicking a link
         const mobileLinks = mobileMenu.querySelectorAll('a');
         mobileLinks.forEach(link => {
           link.addEventListener('click', () => {

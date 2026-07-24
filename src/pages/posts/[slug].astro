@@ -17,9 +17,23 @@ const { post } = Astro.props;
 const { frontmatter, content } = post;
 
 const base = import.meta.env.BASE_URL;
+
+const breadcrumbs = [
+  { name: 'Home', url: `${base}` },
+  { name: 'Posts', url: `${base}` },
+  { name: frontmatter.title, url: `${base}posts/${post.slug}/` },
+];
 ---
 
-<BaseLayout title={frontmatter.title} description={frontmatter.description}>
+<BaseLayout
+  title={frontmatter.title}
+  description={frontmatter.description || `${frontmatter.title} — exploring ${frontmatter.tags.slice(0, 3).join(', ')}`}
+  article={true}
+  publishedTime={frontmatter.date}
+  tags={frontmatter.tags}
+  section={frontmatter.tags[0]}
+  breadcrumbs={breadcrumbs}
+>
   <article class="max-w-4xl mx-auto">
     <!-- Header -->
     <header class="mb-8">
@@ -121,13 +135,13 @@ const base = import.meta.env.BASE_URL;
     )}
 
     <!-- Back to home -->
-    <div class="mt-12">
+    <nav class="mt-12" aria-label="Breadcrumb">
       <a
         href={base}
         class="text-mycelium-600 dark:text-mycelium-400 hover:text-mycelium-700 dark:hover:text-mycelium-300 transition-colors"
       >
         ← Back to all posts
       </a>
-    </div>
+    </nav>
   </article>
 </BaseLayout>

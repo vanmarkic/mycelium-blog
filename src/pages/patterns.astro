@@ -8,7 +8,14 @@ const patterns = await getPatterns(contentDir);
 const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title="Technical Patterns" description="A library of reusable technical patterns and architectural approaches">
+<BaseLayout
+  title="Technical Patterns"
+  description="A library of reusable technical patterns and architectural approaches including event sourcing, CQRS, and domain-driven design"
+  breadcrumbs={[
+    { name: 'Home', url: base },
+    { name: 'Patterns', url: `${base}patterns/` },
+  ]}
+>
   <div class="max-w-4xl mx-auto">
     <header class="mb-12">
       <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">

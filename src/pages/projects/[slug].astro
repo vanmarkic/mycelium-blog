@@ -50,6 +50,11 @@ const base = import.meta.env.BASE_URL;
 <BaseLayout
   title={project.title}
   description={project.tagline}
+  breadcrumbs={[
+    { name: 'Home', url: base },
+    { name: 'Support', url: `${base}support/` },
+    { name: project.title, url: `${base}projects/${slug}/` },
+  ]}
 >
   <!-- Hero Section -->
   <div class="mb-12">
