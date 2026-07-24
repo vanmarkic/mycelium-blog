@@ -123,24 +123,33 @@ curl -sI https://${KEYCLOAK_HOSTNAME}/realms/${KEYCLOAK_REALM} | head -5
 
 ### 0.3 — Emergency workaround (if login is completely blocked)
 
-If OIDC is the only auth method and nobody can log in, disable it temporarily:
+> **Where you make the change depends on the install type.** On a **containerized (misp-docker) deployment** — a StatefulSet/Deployment from the misp-docker image, which is the case in the Phase 9 field report — `config.php` is **regenerated from env vars on every container start**, so editing the file by hand is wiped on the next restart. Change the **env var** and restart. Only a **classic (non-container) install** (bare VM / git deploy) has an authoritative `config.php` you edit directly. See §9.1 for the full precedence explanation. The `config.php` you read is still useful as a *diagnostic* — it shows what the last boot rendered.
+
+First, confirm OIDC is the active auth method (read-only, safe on any install):
 
 ```bash
-# Exec into the MISP pod and switch to mixed auth or disable OIDC
 kubectl exec -it deploy/${MISP_DEPLOY} -n ${MISP_NAMESPACE} -- sh -c "
   grep -q 'OidcAuth.Oidc' /var/www/MISP/app/Config/config.php && echo 'OIDC is active'
 "
 ```
 
-If using Docker env vars, set `OIDC_MIXEDAUTH=true` and restart the pod. This keeps OIDC available but also shows a local login form.
-
-If config.php is directly editable:
+**Containerized (misp-docker) — the correct path for a K8s deployment.** Keep OIDC available but also show a local login form, so operators can still log in with a password:
 
 ```bash
-kubectl exec -it deploy/${MISP_DEPLOY} -n ${MISP_NAMESPACE} -- sh -c "
-  sed -i \"s/'auth' => array('OidcAuth.Oidc')/'auth' => array()/\" /var/www/MISP/app/Config/config.php
-"
+kubectl set env deploy/${MISP_DEPLOY} -n ${MISP_NAMESPACE} OIDC_MIXEDAUTH=true
+kubectl rollout restart deploy/${MISP_DEPLOY} -n ${MISP_NAMESPACE}
 ```
+
+Persist the same value in your deployment manifest / Helm values, or GitOps reconciliation will revert it.
+
+**Classic (non-container) install only.** Where `config.php` is authoritative, you can disable OIDC directly:
+
+```bash
+sed -i "s/'auth' => array('OidcAuth.Oidc')/'auth' => array()/" \
+  /var/www/MISP/app/Config/config.php
+```
+
+On a misp-docker pod this `sed` is a no-op across restarts — the entrypoint regenerates the file — so do not rely on it there.
 
 **Note:** This is a temporary measure. Document that you did this.
 
@@ -543,15 +552,22 @@ kubectl exec -it deploy/${MISP_DEPLOY} -n ${MISP_NAMESPACE} -- sh -c "
 
 ### 5.4 — Workaround: Enable mixedAuth
 
-```bash
-# If using env vars
-# Set OIDC_MIXEDAUTH=true in the deployment
+On a **containerized (misp-docker) deployment**, set the env var and restart — do not edit `config.php` (it is regenerated at boot; see §9.1):
 
-# If using config.php directly:
+```bash
+kubectl set env deploy/${MISP_DEPLOY} -n ${MISP_NAMESPACE} OIDC_MIXEDAUTH=true
+kubectl rollout restart deploy/${MISP_DEPLOY} -n ${MISP_NAMESPACE}
+```
+
+Verify what the last boot rendered (read-only diagnostic):
+
+```bash
 kubectl exec -it deploy/${MISP_DEPLOY} -n ${MISP_NAMESPACE} -- sh -c "
-  grep -q 'mixedAuth' /var/www/MISP/app/Config/config.php && echo 'mixedAuth already set' || echo 'mixedAuth not configured'
+  grep -q 'mixedAuth' /var/www/MISP/app/Config/config.php && echo 'mixedAuth present in config.php' || echo 'mixedAuth not rendered'
 "
 ```
+
+On a **classic (non-container) install**, set `'mixedAuth' => true` in the `OidcAuth` block of `config.php` directly.
 
 Setting `mixedAuth` to `true` prevents the auto-redirect to Keycloak on first visit. Instead, the login page loads first (establishing a PHP session), then the user clicks "Login with SSO". This avoids the session-not-initialized race condition (MISP #10391).
 
