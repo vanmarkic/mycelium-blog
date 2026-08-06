@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FSK Text Encoder</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700&family=IBM+Plex+Sans:wght@400;500&family=JetBrains+Mono:wght@400&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: #1a1714;
+    color: #d4cdc4;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.6rem;
+    color: #e8a849;
+    margin-bottom: 0.3rem;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+    color: #8a8078;
+    margin-bottom: 2rem;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  textarea {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    background: #252017;
+    color: #d4cdc4;
+    border: 1px solid #3a352d;
+    border-radius: 6px;
+    padding: 0.8rem;
+    resize: vertical;
+    min-height: 80px;
+    outline: none;
+  }
+  textarea:focus { border-color: #e8a849; }
+
+  .controls {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  button {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.85rem;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  button:hover { opacity: 0.85; }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .btn-primary {
+    background: #e8a849;
+    color: #1a1714;
+  }
+  .btn-secondary {
+    background: #3a352d;
+    color: #d4cdc4;
+  }
+
+  .config {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .config label {
+    font-size: 0.8rem;
+    color: #8a8078;
+  }
+  .config select, .config input[type="number"] {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    background: #252017;
+    color: #d4cdc4;
+    border: 1px solid #3a352d;
+    border-radius: 4px;
+    padding: 0.3rem 0.5rem;
+    outline: none;
+  }
+
+  canvas {
+    width: 100%;
+    height: 100px;
+    background: #252017;
+    border-radius: 6px;
+    border: 1px solid #3a352d;
+  }
+
+  .status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: #8a8078;
+    min-height: 1.2rem;
+  }
+  .status.active { color: #e8a849; }
+  .status.error { color: #c45a3a; }
+  .status.success { color: #6a9f5b; }
+
+  .bit-display {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: #5a544c;
+    word-break: break-all;
+    max-height: 60px;
+    overflow-y: auto;
+    padding: 0.4rem;
+    background: #1f1b16;
+    border-radius: 4px;
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #8a8078;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0.5rem;
+  }
+
+  .decoded-output {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    background: #252017;
+    color: #6a9f5b;
+    border: 1px solid #3a352d;
+    border-radius: 6px;
+    padding: 0.8rem;
+    min-height: 50px;
+    white-space: pre-wrap;
+  }
+</style>
+</head>
+<body>
+
+<h1>FSK Text ↔ Audio</h1>
+<p class="subtitle">Frequency Shift Keying — encode text as audible tones</p>
+
+<div class="container">
+  <div class="section-label">Input</div>
+  <textarea id="input" placeholder="Type text to encode...">Salut les imposteurs !</textarea>
+
+  <div class="config">
+    <label>Mode:
+      <select id="mode">
+        <option value="audible">Audible (800/1200 Hz)</option>
+        <option value="ultrasonic">Near-ultrasonic (18k/19k Hz)</option>
+      </select>
+    </label>
+    <label>Baud:
+      <input type="number" id="baud" value="40" min="10" max="200" step="10">
+    </label>
+  </div>
+
+  <div class="controls">
+    <button class="btn-primary" id="playBtn" onclick="play()">▶ Play</button>
+    <button class="btn-secondary" id="stopBtn" onclick="stop()" disabled>■ Stop</button>
+    <button class="btn-secondary" onclick="listenAndDecode()">🎙 Listen & Decode</button>
+  </div>
+
+  <div class="status" id="status"></div>
+  <canvas id="viz"></canvas>
+
+  <div class="section-label">Bits</div>
+  <div class="bit-display" id="bits"></div>
+
+  <div class="section-label">Decoded</div>
+  <div class="decoded-output" id="decoded"></div>
+</div>
+
+<script>
+let audioCtx = null;
+let playing = false;
+let analyserNode = null;
+let mediaStream = null;
+
+function getFreqs() {
+  const mode = document.getElementById('mode').value;
+  return mode === 'ultrasonic'
+    ? { f0: 18000, f1: 19000 }
+    : { f0: 800, f1: 1200 };
+}
+
+function textToBits(text) {
+  const bytes = new TextEncoder().encode(text);
+  let bits = [];
+  for (const byte of bytes) {
+    for (let i = 7; i >= 0; i--) {
+      bits.push((byte >> i) & 1);
+    }
+  }
+  return bits;
+}
+
+function bitsToText(bits) {
+  // trim to multiple of 8
+  const usable = bits.slice(0, bits.length - (bits.length % 8));
+  const bytes = [];
+  for (let i = 0; i < usable.length; i += 8) {
+    let byte = 0;
+    for (let j = 0; j < 8; j++) {
+      byte = (byte << 1) | usable[i + j];
+    }
+    bytes.push(byte);
+  }
+  return new TextDecoder().decode(new Uint8Array(bytes));
+}
+
+// --- ENCODE & PLAY ---
+
+async function play() {
+  const text = document.getElementById('input').value;
+  if (!text) return;
+
+  audioCtx = new AudioContext();
+  playing = true;
+  document.getElementById('playBtn').disabled = true;
+  document.getElementById('stopBtn').disabled = false;
+
+  const { f0, f1 } = getFreqs();
+  const baud = parseInt(document.getElementById('baud').value);
+  const bitDuration = 1 / baud;
+  const bits = textToBits(text);
+
+  // preamble: alternating 01010101 x4
+  const preamble = [];
+  for (let i = 0; i < 32; i++) preamble.push(i % 2);
+
+  const allBits = [...preamble, ...bits];
+  document.getElementById('bits').textContent = allBits.join('');
+
+  // setup analyser for visualisation
+  analyserNode = audioCtx.createAnalyser();
+  analyserNode.fftSize = 2048;
+  analyserNode.connect(audioCtx.destination);
+  drawWaveform();
+
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  gain.gain.value = 0.3;
+  osc.connect(gain);
+  gain.connect(analyserNode);
+
+  const startTime = audioCtx.currentTime + 0.05;
+  osc.frequency.setValueAtTime(f0, startTime);
+
+  for (let i = 0; i < allBits.length; i++) {
+    const t = startTime + i * bitDuration;
+    osc.frequency.setValueAtTime(allBits[i] ? f1 : f0, t);
+  }
+
+  const endTime = startTime + allBits.length * bitDuration;
+  osc.start(startTime);
+  osc.stop(endTime);
+
+  setStatus(`Playing ${bits.length} bits (${text.length} chars) @ ${baud} baud`, 'active');
+
+  osc.onended = () => {
+    setStatus(`Done — ${(allBits.length * bitDuration).toFixed(1)}s of audio`, 'success');
+    stop();
+  };
+}
+
+function stop() {
+  playing = false;
+  document.getElementById('playBtn').disabled = false;
+  document.getElementById('stopBtn').disabled = true;
+  if (audioCtx && audioCtx.state !== 'closed') {
+    audioCtx.close();
+    audioCtx = null;
+  }
+}
+
+// --- DECODE (listen from mic) ---
+
+async function listenAndDecode() {
+  try {
+    mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  } catch (e) {
+    setStatus('Microphone access denied', 'error');
+    return;
+  }
+
+  audioCtx = new AudioContext();
+  const source = audioCtx.createMediaStreamSource(mediaStream);
+  analyserNode = audioCtx.createAnalyser();
+  analyserNode.fftSize = 4096;
+  source.connect(analyserNode);
+
+  const { f0, f1 } = getFreqs();
+  const baud = parseInt(document.getElementById('baud').value);
+  const sampleInterval = 1000 / baud;
+
+  setStatus('Listening... play audio near mic', 'active');
+  playing = true;
+  drawWaveform();
+
+  const receivedBits = [];
+  let detecting = false;
+  let silenceCount = 0;
+  const preamblePattern = [0,1,0,1,0,1,0,1];
+  let preambleFound = false;
+
+  const bufferLength = analyserNode.frequencyBinCount;
+  const freqData = new Float32Array(bufferLength);
+  const binWidth = audioCtx.sampleRate / analyserNode.fftSize;
+
+  const f0Bin = Math.round(f0 / binWidth);
+  const f1Bin = Math.round(f1 / binWidth);
+
+  const interval = setInterval(() => {
+    analyserNode.getFloatFrequencyData(freqData);
+
+    const power0 = freqData[f0Bin] || -Infinity;
+    const power1 = freqData[f1Bin] || -Infinity;
+    const maxPower = Math.max(power0, power1);
+
+    if (maxPower < -60) {
+      silenceCount++;
+      if (silenceCount > baud * 2 && receivedBits.length > 0) {
+        // end of transmission
+        clearInterval(interval);
+        finishDecode(receivedBits, preambleFound);
+        return;
+      }
+      return;
+    }
+
+    silenceCount = 0;
+    const bit = power1 > power0 ? 1 : 0;
+    receivedBits.push(bit);
+
+    // check for preamble
+    if (!preambleFound && receivedBits.length >= 32) {
+      const last8 = receivedBits.slice(-8);
+      if (last8.join('') === preamblePattern.join('')) {
+        preambleFound = true;
+        receivedBits.length = 0; // clear preamble bits
+        setStatus('Preamble detected — receiving data...', 'active');
+      }
+    }
+
+    document.getElementById('bits').textContent = receivedBits.join('');
+  }, sampleInterval);
+
+  // timeout after 30s
+  setTimeout(() => {
+    clearInterval(interval);
+    if (receivedBits.length > 0) {
+      finishDecode(receivedBits, preambleFound);
+    } else {
+      setStatus('Timeout — no signal detected', 'error');
+      cleanupMic();
+    }
+  }, 30000);
+}
+
+function finishDecode(bits, hadPreamble) {
+  const text = bitsToText(bits);
+  document.getElementById('decoded').textContent = text;
+  setStatus(`Decoded ${bits.length} bits → ${text.length} chars`, 'success');
+  cleanupMic();
+}
+
+function cleanupMic() {
+  playing = false;
+  if (mediaStream) {
+    mediaStream.getTracks().forEach(t => t.stop());
+    mediaStream = null;
+  }
+  if (audioCtx && audioCtx.state !== 'closed') {
+    audioCtx.close();
+    audioCtx = null;
+  }
+}
+
+// --- VIZ ---
+
+function drawWaveform() {
+  const canvas = document.getElementById('viz');
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.offsetWidth * 2;
+  canvas.height = canvas.offsetHeight * 2;
+
+  function draw() {
+    if (!playing || !analyserNode) return;
+    requestAnimationFrame(draw);
+
+    const bufferLength = analyserNode.fftSize;
+    const dataArray = new Uint8Array(bufferLength);
+    analyserNode.getByteTimeDomainData(dataArray);
+
+    ctx.fillStyle = '#252017';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#e8a849';
+    ctx.beginPath();
+
+    const sliceWidth = canvas.width / bufferLength;
+    let x = 0;
+    for (let i = 0; i < bufferLength; i++) {
+      const v = dataArray[i] / 128.0;
+      const y = (v * canvas.height) / 2;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+      x += sliceWidth;
+    }
+
+    ctx.lineTo(canvas.width, canvas.height / 2);
+    ctx.stroke();
+  }
+
+  draw();
+}
+
+function setStatus(msg, cls = '') {
+  const el = document.getElementById('status');
+  el.textContent = msg;
+  el.className = 'status ' + cls;
+}
+</script>
+</body>
+</html>
