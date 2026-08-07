@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Device Testing — plug / unplug detector</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700&family=IBM+Plex+Sans:wght@400;500&family=JetBrains+Mono:wght@400&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: #1a1714;
+    color: #d4cdc4;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem 4rem;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.6rem;
+    color: #e8a849;
+    margin-bottom: 0.3rem;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+    color: #8a8078;
+    margin-bottom: 2rem;
+    max-width: 60ch;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 860px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  section {
+    background: #201c18;
+    border: 1px solid #3a352d;
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+  }
+
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    color: #e8a849;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+  }
+
+  .hint {
+    font-size: 0.78rem;
+    color: #8a8078;
+    line-height: 1.5;
+    margin-top: 0.6rem;
+  }
+
+  .controls {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  button {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.85rem;
+    background: #2d271f;
+    color: #d4cdc4;
+    border: 1px solid #3a352d;
+    border-radius: 6px;
+    padding: 0.5rem 0.9rem;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  button:hover:not(:disabled) { border-color: #e8a849; color: #e8a849; }
+  button:disabled { opacity: 0.45; cursor: not-allowed; }
+  button.primary { background: #e8a849; color: #1a1714; border-color: #e8a849; font-weight: 500; }
+  button.primary:hover:not(:disabled) { background: #f0b862; color: #1a1714; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.6rem;
+  }
+
+  .check {
+    background: #252017;
+    border: 1px solid #3a352d;
+    border-radius: 6px;
+    padding: 0.6rem 0.7rem;
+  }
+  .check .label { font-size: 0.72rem; color: #8a8078; text-transform: uppercase; letter-spacing: 0.05em; }
+  .check .value { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; margin-top: 0.25rem; }
+
+  .ok { color: #7fbf7f; }
+  .warn { color: #e8a849; }
+  .bad { color: #d97c6a; }
+  .muted { color: #8a8078; }
+
+  .device {
+    background: #252017;
+    border: 1px solid #3a352d;
+    border-radius: 6px;
+    padding: 0.7rem 0.8rem;
+    margin-bottom: 0.6rem;
+  }
+  .device:last-of-type { margin-bottom: 0; }
+  .device.fresh { border-color: #7fbf7f; }
+
+  .device-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+  }
+  .device-label {
+    font-size: 0.9rem;
+    color: #d4cdc4;
+    font-weight: 500;
+  }
+  .device-label.missing { color: #e8a849; font-weight: 400; font-style: italic; }
+
+  .kv {
+    display: grid;
+    grid-template-columns: minmax(7rem, max-content) 1fr;
+    gap: 0.2rem 0.8rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.76rem;
+    line-height: 1.5;
+  }
+  .kv dt { color: #8a8078; }
+  .kv dd { color: #d4cdc4; word-break: break-all; }
+
+  .caps {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid #2a251f;
+  }
+  .caps-title {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6b635a;
+    margin-bottom: 0.35rem;
+  }
+
+  .raw {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.74rem;
+    line-height: 1.5;
+    background: #16130f;
+    border: 1px solid #2a251f;
+    border-radius: 6px;
+    padding: 0.7rem;
+    max-height: 300px;
+    overflow: auto;
+    color: #a89f94;
+    white-space: pre;
+  }
+
+  .log {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 1.6;
+    background: #16130f;
+    border: 1px solid #2a251f;
+    border-radius: 6px;
+    padding: 0.7rem;
+    height: 260px;
+    overflow-y: auto;
+  }
+  .log .row { display: flex; gap: 0.6rem; padding: 0.1rem 0; }
+  .log .ts { color: #6b635a; flex-shrink: 0; }
+  .log .empty { color: #6b635a; font-style: italic; }
+
+  .badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    border: 1px solid #3a352d;
+    color: #8a8078;
+  }
+  .badge.live { border-color: #7fbf7f; color: #7fbf7f; }
+
+  label.toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.82rem;
+    color: #8a8078;
+    cursor: pointer;
+  }
+  input[type="checkbox"] { accent-color: #e8a849; cursor: pointer; }
+  input[type="number"] {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    background: #252017;
+    color: #d4cdc4;
+    border: 1px solid #3a352d;
+    border-radius: 4px;
+    padding: 0.25rem 0.4rem;
+    width: 5rem;
+    outline: none;
+  }
+  input[type="number"]:focus { border-color: #e8a849; }
+
+  .verdict {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    padding: 0.7rem 0.8rem;
+    border-radius: 6px;
+    background: #252017;
+    border: 1px solid #3a352d;
+  }
+  .verdict strong { color: #e8a849; }
+
+  footer {
+    margin-top: 2rem;
+    font-size: 0.75rem;
+    color: #6b635a;
+    text-align: center;
+    max-width: 60ch;
+    line-height: 1.6;
+  }
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    background: #252017;
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+    font-size: 0.9em;
+  }
+</style>
+</head>
+<body>
+
+<h1>Device Testing</h1>
+<p class="subtitle">
+  Detects media device plug / unplug two ways at once — the <code>devicechange</code> event
+  and an independent <code>enumerateDevices()</code> poll — so you can tell whether the event
+  is broken or the devices genuinely aren't changing.
+</p>
+
+<div class="container">
+
+  <section>
+    <h2>Environment</h2>
+    <div class="grid" id="env"></div>
+    <div class="hint">
+      Labels stay empty until an origin has an active camera/mic grant. Empty labels with
+      <code>granted</code> permission usually means the grant isn't actually live for this origin.
+    </div>
+  </section>
+
+  <section>
+    <h2>Controls</h2>
+    <div class="controls">
+      <button class="primary" id="btn-grant">Request getUserMedia (audio + video)</button>
+      <button id="btn-grant-audio">Audio only</button>
+      <button id="btn-refresh">Refresh devices</button>
+      <button id="btn-clear">Clear log</button>
+    </div>
+    <div class="controls" style="margin-top: 0.7rem; align-items: center;">
+      <label class="toggle"><input type="checkbox" id="poll-on" checked> Poll enumerateDevices every</label>
+      <input type="number" id="poll-ms" value="1000" min="200" step="100"> <span class="muted" style="font-size:0.82rem">ms</span>
+      <label class="toggle" style="margin-left:0.8rem"><input type="checkbox" id="keep-stream"> Keep stream open after grant</label>
+    </div>
+    <div class="hint">
+      Some Linux/Chromium builds only deliver <code>devicechange</code> after a getUserMedia call has
+      happened in the page's lifetime. Holding the stream open (checkbox above) is a further test —
+      if events fire only while a stream is live, that's the media layer, not your listener.
+    </div>
+  </section>
+
+  <section>
+    <h2>Verdict</h2>
+    <div class="verdict" id="verdict">Plug or unplug a device to collect evidence.</div>
+  </section>
+
+  <section>
+    <h2>
+      Devices <span class="badge" id="dev-count">0</span>
+    </h2>
+    <div class="controls" style="margin-bottom: 0.8rem;">
+      <label class="toggle"><input type="checkbox" id="full-ids"> Show full IDs</label>
+      <label class="toggle" style="margin-left:0.8rem"><input type="checkbox" id="show-caps" checked> Show capabilities</label>
+      <button id="btn-copy" style="margin-left:auto">Copy raw JSON</button>
+    </div>
+    <div id="dev-list"></div>
+    <div class="hint">
+      Capabilities come from <code>InputDeviceInfo.getCapabilities()</code> and are only populated
+      once the origin has an active grant — they are another way to confirm a grant is really live.
+    </div>
+  </section>
+
+  <section>
+    <h2>Supported constraints</h2>
+    <div class="kv" id="constraints"></div>
+  </section>
+
+  <section>
+    <h2>Raw JSON</h2>
+    <pre class="raw" id="raw">[]</pre>
+  </section>
+
+  <section>
+    <h2>
+      Event log
+      <span class="badge" id="listener-badge">listener idle</span>
+    </h2>
+    <div class="log" id="log"><div class="empty">waiting…</div></div>
+  </section>
+
+</div>
+
+<footer>
+  Static page, no framework. Everything runs in the page — nothing is sent anywhere.
+  Needs a secure context (https or localhost) for <code>navigator.mediaDevices</code> to exist at all.
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  var logEl = document.getElementById('log');
+  var devList = document.getElementById('dev-list');
+  var devCount = document.getElementById('dev-count');
+  var rawEl = document.getElementById('raw');
+  var constraintsEl = document.getElementById('constraints');
+  var envEl = document.getElementById('env');
+  var verdictEl = document.getElementById('verdict');
+  var listenerBadge = document.getElementById('listener-badge');
+
+  var known = [];          // last known device snapshot
+  var pollTimer = null;
+  var heldStream = null;
+  var logEmpty = true;
+
+  // Evidence counters that drive the verdict.
+  var stats = {
+    eventFired: 0,
+    pollDetected: 0,       // changes the poll saw
+    pollDetectedNoEvent: 0 // changes the poll saw with no event in the preceding window
+  };
+  var lastEventAt = 0;
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function stamp() {
+    var d = new Date();
+    return pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds()) +
+           '.' + String(d.getMilliseconds()).padStart(3, '0');
+  }
+
+  function log(msg, cls) {
+    if (logEmpty) { logEl.innerHTML = ''; logEmpty = false; }
+    var row = document.createElement('div');
+    row.className = 'row';
+    var ts = document.createElement('span');
+    ts.className = 'ts';
+    ts.textContent = stamp();
+    var body = document.createElement('span');
+    if (cls) body.className = cls;
+    body.textContent = msg;
+    row.appendChild(ts);
+    row.appendChild(body);
+    logEl.appendChild(row);
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  function envCard(label, value, cls) {
+    var d = document.createElement('div');
+    d.className = 'check';
+    var l = document.createElement('div');
+    l.className = 'label';
+    l.textContent = label;
+    var v = document.createElement('div');
+    v.className = 'value ' + (cls || '');
+    v.textContent = value;
+    d.appendChild(l);
+    d.appendChild(v);
+    return d;
+  }
+
+  function shortId(id) {
+    if (!id) return '(empty)';
+    if (id === 'default' || id === 'communications') return id;
+    return id.slice(0, 12) + '…';
+  }
+
+  // --- environment -------------------------------------------------------
+
+  function permState(name) {
+    if (!navigator.permissions || !navigator.permissions.query) {
+      return Promise.resolve('unsupported');
+    }
+    // Safari throws synchronously for unknown names; wrap it.
+    try {
+      return navigator.permissions.query({ name: name })
+        .then(function (r) {
+          // Re-render on change so a grant made in another tab shows up.
+          r.onchange = function () { renderEnv(); };
+          return r.state;
+        })
+        .catch(function () { return 'unsupported'; });
+    } catch (e) {
+      return Promise.resolve('unsupported');
+    }
+  }
+
+  function stateClass(s) {
+    if (s === 'granted') return 'ok';
+    if (s === 'denied') return 'bad';
+    if (s === 'unsupported') return 'muted';
+    return 'warn';
+  }
+
+  function renderEnv() {
+    var secure = window.isSecureContext;
+    var hasMD = !!(navigator.mediaDevices);
+    var hasEvent = hasMD && 'ondevicechange' in navigator.mediaDevices;
+
+    Promise.all([permState('camera'), permState('microphone')]).then(function (res) {
+      envEl.innerHTML = '';
+      envEl.appendChild(envCard('Secure context', secure ? 'yes' : 'no', secure ? 'ok' : 'bad'));
+      envEl.appendChild(envCard('mediaDevices', hasMD ? 'present' : 'missing', hasMD ? 'ok' : 'bad'));
+      envEl.appendChild(envCard('devicechange support', hasEvent ? 'present' : 'missing', hasEvent ? 'ok' : 'bad'));
+      envEl.appendChild(envCard('camera permission', res[0], stateClass(res[0])));
+      envEl.appendChild(envCard('microphone permission', res[1], stateClass(res[1])));
+      envEl.appendChild(envCard('labels visible', labelsVisible() ? 'yes' : 'no', labelsVisible() ? 'ok' : 'warn'));
+    });
+  }
+
+  function labelsVisible() {
+    return known.some(function (d) { return d.label && d.label.length > 0; });
+  }
+
+  // --- device enumeration + diffing -------------------------------------
+
+  function key(d) { return d.kind + '|' + d.deviceId + '|' + d.groupId; }
+
+  function snapshot() {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+      return Promise.reject(new Error('enumerateDevices unavailable'));
+    }
+    return navigator.mediaDevices.enumerateDevices().then(function (list) {
+      return list.map(function (d) {
+        var caps = null;
+        // Only InputDeviceInfo has getCapabilities, and it throws in some builds.
+        if (typeof d.getCapabilities === 'function') {
+          try { caps = d.getCapabilities(); } catch (e) { caps = null; }
+        }
+        return {
+          kind: d.kind,
+          label: d.label,
+          deviceId: d.deviceId,
+          groupId: d.groupId,
+          capabilities: caps
+        };
+      });
+    });
+  }
+
+  function fmtCapValue(v) {
+    if (v === null || v === undefined) return '—';
+    if (Array.isArray(v)) return v.join(', ');
+    if (typeof v === 'object') {
+      // Ranges arrive as {min, max, step} and similar.
+      return Object.keys(v).map(function (k) { return k + ': ' + v[k]; }).join(', ');
+    }
+    return String(v);
+  }
+
+  function kvRow(dl, k, v, cls) {
+    var dt = document.createElement('dt');
+    dt.textContent = k;
+    var dd = document.createElement('dd');
+    if (cls) dd.className = cls;
+    dd.textContent = v;
+    dl.appendChild(dt);
+    dl.appendChild(dd);
+  }
+
+  function renderDevices(freshKeys) {
+    var fullIds = document.getElementById('full-ids').checked;
+    var withCaps = document.getElementById('show-caps').checked;
+
+    devList.innerHTML = '';
+    devCount.textContent = String(known.length);
+    rawEl.textContent = JSON.stringify(known, null, 2);
+
+    if (!known.length) {
+      var empty = document.createElement('div');
+      empty.className = 'muted';
+      empty.style.fontSize = '0.82rem';
+      empty.textContent = 'No devices reported.';
+      devList.appendChild(empty);
+      return;
+    }
+
+    known.forEach(function (d) {
+      var box = document.createElement('div');
+      box.className = 'device' + (freshKeys && freshKeys[key(d)] ? ' fresh' : '');
+
+      var head = document.createElement('div');
+      head.className = 'device-head';
+
+      var kindBadge = document.createElement('span');
+      kindBadge.className = 'badge';
+      kindBadge.textContent = d.kind;
+
+      var label = document.createElement('span');
+      label.className = 'device-label' + (d.label ? '' : ' missing');
+      label.textContent = d.label || 'no label — origin has no active grant';
+
+      head.appendChild(kindBadge);
+      head.appendChild(label);
+      box.appendChild(head);
+
+      var dl = document.createElement('dl');
+      dl.className = 'kv';
+      kvRow(dl, 'deviceId', fullIds ? (d.deviceId || '(empty)') : shortId(d.deviceId));
+      kvRow(dl, 'groupId', fullIds ? (d.groupId || '(empty)') : shortId(d.groupId));
+      kvRow(dl, 'label', d.label || '(empty)', d.label ? '' : 'warn');
+      box.appendChild(dl);
+
+      if (withCaps) {
+        var caps = document.createElement('div');
+        caps.className = 'caps';
+        var title = document.createElement('div');
+        title.className = 'caps-title';
+        title.textContent = 'capabilities';
+        caps.appendChild(title);
+
+        if (d.capabilities && Object.keys(d.capabilities).length) {
+          var cdl = document.createElement('dl');
+          cdl.className = 'kv';
+          Object.keys(d.capabilities).sort().forEach(function (k) {
+            kvRow(cdl, k, fmtCapValue(d.capabilities[k]));
+          });
+          caps.appendChild(cdl);
+        } else {
+          var none = document.createElement('div');
+          none.className = 'muted';
+          none.style.fontSize = '0.76rem';
+          none.textContent = d.capabilities
+            ? 'reported empty (no active grant for this device)'
+            : 'getCapabilities() unavailable on this device';
+          caps.appendChild(none);
+        }
+        box.appendChild(caps);
+      }
+
+      devList.appendChild(box);
+    });
+  }
+
+  function renderConstraints() {
+    constraintsEl.innerHTML = '';
+    var sc = navigator.mediaDevices && navigator.mediaDevices.getSupportedConstraints
+      ? navigator.mediaDevices.getSupportedConstraints()
+      : null;
+    if (!sc) {
+      var dt = document.createElement('dt');
+      dt.textContent = 'unavailable';
+      constraintsEl.appendChild(dt);
+      return;
+    }
+    Object.keys(sc).sort().forEach(function (k) {
+      kvRow(constraintsEl, k, sc[k] ? 'yes' : 'no', sc[k] ? 'ok' : 'muted');
+    });
+  }
+
+  function diff(prev, next) {
+    var prevKeys = {};
+    prev.forEach(function (d) { prevKeys[key(d)] = d; });
+    var nextKeys = {};
+    next.forEach(function (d) { nextKeys[key(d)] = d; });
+
+    var added = next.filter(function (d) { return !prevKeys[key(d)]; });
+    var removed = prev.filter(function (d) { return !nextKeys[key(d)]; });
+    return { added: added, removed: removed };
+  }
+
+  function describe(d) {
+    return d.kind + ' "' + (d.label || 'unlabeled ' + shortId(d.deviceId)) + '"';
+  }
+
+  // source: 'event' | 'poll' | 'manual'
+  function check(source) {
+    return snapshot().then(function (next) {
+      var changes = diff(known, next);
+      var changed = changes.added.length || changes.removed.length;
+
+      if (changed) {
+        changes.added.forEach(function (d) { log('+ PLUG   ' + describe(d) + '  [' + source + ']', 'ok'); });
+        changes.removed.forEach(function (d) { log('- UNPLUG ' + describe(d) + '  [' + source + ']', 'bad'); });
+
+        if (source === 'poll') {
+          stats.pollDetected++;
+          // Did an event fire close to this change? Allow 2s of slack.
+          if (Date.now() - lastEventAt > 2000) stats.pollDetectedNoEvent++;
+        }
+      } else if (source === 'manual') {
+        log('no change (' + next.length + ' devices)', 'muted');
+      } else if (source === 'event') {
+        // The event fired but the device set is identical — usually a label or
+        // default-device reshuffle rather than a physical plug.
+        log('devicechange fired, device set identical (label/default reshuffle?)', 'warn');
+      }
+
+      var freshKeys = {};
+      changes.added.forEach(function (d) { freshKeys[key(d)] = true; });
+
+      known = next;
+      renderDevices(freshKeys);
+      if (changed || source === 'manual') { renderEnv(); updateVerdict(); }
+      return changed;
+    }).catch(function (err) {
+      log('enumerateDevices failed: ' + err.message, 'bad');
+      return false;
+    });
+  }
+
+  // --- verdict -----------------------------------------------------------
+
+  function updateVerdict() {
+    var html;
+    if (!navigator.mediaDevices) {
+      html = '<strong>mediaDevices is missing.</strong> Not a secure context, or the browser ' +
+             'exposes no media API here. Nothing else on this page can work until that is fixed.';
+    } else if (stats.pollDetected === 0 && stats.eventFired === 0) {
+      html = 'No change observed yet. Plug or unplug a device — the poll will catch it even if ' +
+             'the event does not.';
+    } else if (stats.pollDetectedNoEvent > 0 && stats.eventFired === 0) {
+      html = '<strong>Devices changed, no devicechange event.</strong> ' +
+             stats.pollDetectedNoEvent + ' change(s) seen by polling with zero events. ' +
+             'Your listener is fine — the event is not being delivered. On Linux/Chromium this ' +
+             'points at the media layer (PipeWire/udev path or sandboxing), not at your React code.';
+    } else if (stats.pollDetectedNoEvent > 0) {
+      html = '<strong>Event delivery is unreliable.</strong> ' + stats.eventFired + ' event(s) fired, ' +
+             'but ' + stats.pollDetectedNoEvent + ' change(s) arrived with no matching event. ' +
+             'Treat devicechange as a hint and reconcile with polling.';
+    } else if (stats.eventFired > 0) {
+      html = '<strong>devicechange is working.</strong> ' + stats.eventFired + ' event(s) fired, ' +
+             'each matched by a real device change. If your React app misses these, the problem is ' +
+             'listener lifecycle (effect cleanup / StrictMode remount), not the browser.';
+    } else {
+      html = 'Changes detected. Keep testing.';
+    }
+    verdictEl.innerHTML = html;
+  }
+
+  // --- devicechange listener --------------------------------------------
+
+  function onDeviceChange() {
+    stats.eventFired++;
+    lastEventAt = Date.now();
+    log('devicechange event #' + stats.eventFired, 'warn');
+    check('event');
+  }
+
+  if (navigator.mediaDevices && navigator.mediaDevices.addEventListener) {
+    navigator.mediaDevices.addEventListener('devicechange', onDeviceChange);
+    listenerBadge.textContent = 'listener attached';
+    listenerBadge.className = 'badge live';
+  } else {
+    listenerBadge.textContent = 'listener unavailable';
+    listenerBadge.className = 'badge';
+  }
+
+  // --- polling -----------------------------------------------------------
+
+  var pollOn = document.getElementById('poll-on');
+  var pollMs = document.getElementById('poll-ms');
+
+  function startPoll() {
+    stopPoll();
+    var ms = Math.max(200, parseInt(pollMs.value, 10) || 1000);
+    pollTimer = setInterval(function () { check('poll'); }, ms);
+    log('polling every ' + ms + 'ms', 'muted');
+  }
+
+  function stopPoll() {
+    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+  }
+
+  pollOn.addEventListener('change', function () {
+    if (pollOn.checked) startPoll(); else { stopPoll(); log('polling stopped', 'muted'); }
+  });
+  pollMs.addEventListener('change', function () { if (pollOn.checked) startPoll(); });
+
+  // --- getUserMedia ------------------------------------------------------
+
+  var keepStream = document.getElementById('keep-stream');
+
+  function releaseStream() {
+    if (heldStream) {
+      heldStream.getTracks().forEach(function (t) { t.stop(); });
+      heldStream = null;
+      log('stream released', 'muted');
+    }
+  }
+
+  function grant(constraints) {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      log('getUserMedia unavailable', 'bad');
+      return;
+    }
+    log('getUserMedia(' + JSON.stringify(constraints) + ')…', 'muted');
+    navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
+      log('granted: ' + stream.getTracks().map(function (t) { return t.kind; }).join(', '), 'ok');
+      releaseStream();
+      if (keepStream.checked) {
+        heldStream = stream;
+        log('holding stream open', 'muted');
+        // A track ending is itself an unplug signal for the device in use.
+        stream.getTracks().forEach(function (t) {
+          t.addEventListener('ended', function () {
+            log('track ended: ' + t.kind + ' "' + t.label + '" (device removed or taken)', 'bad');
+          });
+        });
+      } else {
+        stream.getTracks().forEach(function (t) { t.stop(); });
+      }
+      return check('manual');
+    }).then(function () {
+      renderEnv();
+    }).catch(function (err) {
+      log('getUserMedia rejected: ' + err.name + ' — ' + err.message, 'bad');
+      renderEnv();
+    });
+  }
+
+  document.getElementById('btn-grant').addEventListener('click', function () {
+    grant({ audio: true, video: true });
+  });
+  document.getElementById('btn-grant-audio').addEventListener('click', function () {
+    grant({ audio: true });
+  });
+  document.getElementById('btn-refresh').addEventListener('click', function () { check('manual'); });
+  document.getElementById('btn-clear').addEventListener('click', function () {
+    logEl.innerHTML = '<div class="empty">waiting…</div>';
+    logEmpty = true;
+  });
+
+  keepStream.addEventListener('change', function () {
+    if (!keepStream.checked) releaseStream();
+  });
+
+  document.getElementById('full-ids').addEventListener('change', function () { renderDevices(); });
+  document.getElementById('show-caps').addEventListener('change', function () { renderDevices(); });
+
+  document.getElementById('btn-copy').addEventListener('click', function () {
+    var text = JSON.stringify(known, null, 2);
+    var btn = document.getElementById('btn-copy');
+    var restore = function (msg) {
+      btn.textContent = msg;
+      setTimeout(function () { btn.textContent = 'Copy raw JSON'; }, 1500);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text)
+        .then(function () { restore('Copied'); })
+        .catch(function () { restore('Copy failed'); });
+    } else {
+      restore('Clipboard unavailable');
+    }
+  });
+
+  // --- boot --------------------------------------------------------------
+
+  renderEnv();
+  renderDevices();
+  renderConstraints();
+  updateVerdict();
+
+  snapshot().then(function (list) {
+    known = list;
+    renderDevices();
+    renderEnv();
+    log('initial snapshot: ' + list.length + ' devices', 'muted');
+  }).catch(function (err) {
+    log('initial enumerate failed: ' + err.message, 'bad');
+  });
+
+  if (pollOn.checked) startPoll();
+
+  window.addEventListener('beforeunload', function () {
+    stopPoll();
+    releaseStream();
+  });
+})();
+</script>
+
+</body>
+</html>
