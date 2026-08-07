@@ -173,6 +173,19 @@
     white-space: pre;
   }
 
+  .code-head {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 1rem 0 0.4rem;
+  }
+  .code-head:first-of-type { margin-top: 0.4rem; }
+  .code-title {
+    font-size: 0.8rem;
+    color: #d4cdc4;
+    font-weight: 500;
+  }
+
   .log {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.78rem;
@@ -197,6 +210,16 @@
     color: #8a8078;
   }
   .badge.live { border-color: #7fbf7f; color: #7fbf7f; }
+  .badge.ok { border-color: #7fbf7f; color: #7fbf7f; }
+  .badge.warn { border-color: #e8a849; color: #e8a849; }
+  .badge.bad { border-color: #d97c6a; color: #d97c6a; }
+  .badge.muted { color: #8a8078; }
+
+  button.mini {
+    font-size: 0.72rem;
+    padding: 0.2rem 0.5rem;
+    margin-left: auto;
+  }
 
   label.toggle {
     display: inline-flex;
@@ -280,16 +303,51 @@
       <input type="number" id="poll-ms" value="1000" min="200" step="100"> <span class="muted" style="font-size:0.82rem">ms</span>
       <label class="toggle" style="margin-left:0.8rem"><input type="checkbox" id="keep-stream"> Keep stream open after grant</label>
     </div>
+    <div class="controls" style="margin-top: 0.7rem; align-items: center;">
+      <label class="toggle"><input type="checkbox" id="auto-probe" checked> Probe newly plugged devices until openable, giving up after</label>
+      <input type="number" id="probe-timeout" value="15" min="1" step="1"> <span class="muted" style="font-size:0.82rem">s</span>
+      <button id="btn-probe-all" style="margin-left:auto">Probe all now</button>
+    </div>
     <div class="hint">
       Some Linux/Chromium builds only deliver <code>devicechange</code> after a getUserMedia call has
       happened in the page's lifetime. Holding the stream open (checkbox above) is a further test —
       if events fire only while a stream is live, that's the media layer, not your listener.
+      Probing opens each device briefly (camera LED may blink); probes run one at a time so they
+      don't collide.
     </div>
   </section>
 
   <section>
     <h2>Verdict</h2>
     <div class="verdict" id="verdict">Plug or unplug a device to collect evidence.</div>
+  </section>
+
+  <section>
+    <h2>Correlate with the OS <button class="mini copy" data-copy="os-cmds">Copy</button></h2>
+    <p class="hint" style="margin-top:0">
+      The page can only see “listed” and “openable”. These run outside the browser and show the
+      other half — whether the node exists, what its mode is, and whether the ACL landed.
+    </p>
+    <pre class="raw" id="os-cmds"># watch the device node appear and its mode change, live
+udevadm monitor --udev --property --subsystem-match=video4linux --subsystem-match=sound
+
+# mode + owner. 600 root:root = ACL has not landed yet
+ls -l /dev/video* /dev/snd/
+
+# the ACL itself. you want a user::rw entry for your uid
+getfacl /dev/video0
+
+# uaccess ACLs are only applied to the ACTIVE LOCAL session.
+# Active=no, or Remote=yes, means logind will never grant you the device.
+loginctl show-session "$XDG_SESSION_ID" -p Active -p Remote -p Type -p Class
+
+# which uaccess rules matched (or did not)
+udevadm test /sys/class/video4linux/video0 2>&1 | grep -i -E 'uaccess|tag|acl'</pre>
+    <p class="hint">
+      If <code>ls -l</code> shows the node before <code>getfacl</code> shows your uid, the window
+      between those two is exactly the gap the probe above measures. If <code>Active=no</code> or
+      <code>Remote=yes</code>, stop looking at the browser — the ACL is never coming.
+    </p>
   </section>
 
   <section>
@@ -316,6 +374,127 @@
   <section>
     <h2>Raw JSON</h2>
     <pre class="raw" id="raw">[]</pre>
+  </section>
+
+  <section>
+    <h2>Code</h2>
+    <p class="hint" style="margin-top:0">
+      What this page runs, ready to paste. The React hook is the one that survives all three
+      failure modes: undelivered events, listed-but-not-openable devices, and StrictMode remounts.
+    </p>
+
+    <div class="code-head">
+      <span class="code-title">1. Console one-liner — is the event delivered at all?</span>
+      <button class="mini copy" data-copy="code-oneliner">Copy</button>
+    </div>
+    <pre class="raw" id="code-oneliner">navigator.mediaDevices.addEventListener('devicechange', () =&gt;
+  console.log('devicechange', new Date().toISOString()));</pre>
+
+    <div class="code-head">
+      <span class="code-title">2. Poll — catches changes the event misses</span>
+      <button class="mini copy" data-copy="code-poll">Copy</button>
+    </div>
+    <pre class="raw" id="code-poll">const key = d =&gt; `${d.kind}|${d.deviceId}|${d.groupId}`;
+let known = [];
+
+setInterval(async () =&gt; {
+  const next = await navigator.mediaDevices.enumerateDevices();
+  const prev = new Set(known.map(key));
+  const now  = new Set(next.map(key));
+  const added   = next.filter(d =&gt; !prev.has(key(d)));
+  const removed = known.filter(d =&gt; !now.has(key(d)));
+  if (added.length || removed.length) console.log({ added, removed });
+  known = next;
+}, 1000);</pre>
+
+    <div class="code-head">
+      <span class="code-title">3. Availability probe — listed is not the same as usable</span>
+      <button class="mini copy" data-copy="code-probe">Copy</button>
+    </div>
+    <pre class="raw" id="code-probe">// A device node can exist as 600 root:root before logind's uaccess ACL
+// lands. Until then getUserMedia rejects with NotReadableError, so retry
+// instead of treating the first failure as "no device".
+async function waitUntilOpenable(device, { timeoutMs = 15000, intervalMs = 400 } = {}) {
+  const started = Date.now();
+  const sel = { deviceId: { exact: device.deviceId } };
+  const constraints = device.kind === 'videoinput' ? { video: sel } : { audio: sel };
+
+  for (;;) {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      stream.getTracks().forEach(t =&gt; t.stop());
+      return { ok: true, waitedMs: Date.now() - started };
+    } catch (err) {
+      // Retrying cannot fix an origin-level denial or a device that is gone.
+      if (err.name === 'NotAllowedError') return { ok: false, reason: 'permission' };
+      if (err.name === 'OverconstrainedError' || err.name === 'NotFoundError') {
+        return { ok: false, reason: 'absent' };
+      }
+      if (Date.now() - started &gt; timeoutMs) {
+        return { ok: false, reason: err.name, waitedMs: Date.now() - started };
+      }
+      await new Promise(r =&gt; setTimeout(r, intervalMs));
+    }
+  }
+}</pre>
+
+    <div class="code-head">
+      <span class="code-title">4. React hook — event + poll reconciled</span>
+      <button class="mini copy" data-copy="code-react">Copy</button>
+    </div>
+    <pre class="raw" id="code-react">import { useEffect, useRef, useState } from 'react';
+
+const key = d =&gt; `${d.kind}|${d.deviceId}|${d.groupId}`;
+
+export function useMediaDevices({ pollMs = 1000 } = {}) {
+  const [devices, setDevices] = useState([]);
+  // Ref, not state: the reconcile closure must read the latest snapshot
+  // without the effect resubscribing on every change.
+  const knownRef = useRef([]);
+
+  useEffect(() =&gt; {
+    let cancelled = false;
+
+    async function reconcile(source) {
+      const next = await navigator.mediaDevices.enumerateDevices();
+      if (cancelled) return;
+
+      const prev = new Set(knownRef.current.map(key));
+      const now  = new Set(next.map(key));
+      const added   = next.filter(d =&gt; !prev.has(key(d)));
+      const removed = knownRef.current.filter(d =&gt; !now.has(key(d)));
+
+      if (added.length || removed.length) {
+        console.debug('[devices]', source, { added, removed });
+      }
+      knownRef.current = next;
+      setDevices(next);
+    }
+
+    // Defining the handler inside the effect keeps add/remove on the same
+    // reference, so a StrictMode double-mount cannot unbind the wrong one.
+    const onChange = () =&gt; reconcile('event');
+    navigator.mediaDevices.addEventListener('devicechange', onChange);
+
+    // The poll is not a fallback, it is the source of truth. The event only
+    // makes it react faster when it happens to be delivered.
+    const timer = setInterval(() =&gt; reconcile('poll'), pollMs);
+    reconcile('init');
+
+    return () =&gt; {
+      cancelled = true;
+      clearInterval(timer);
+      navigator.mediaDevices.removeEventListener('devicechange', onChange);
+    };
+  }, [pollMs]);
+
+  return devices;
+}</pre>
+    <p class="hint">
+      Labels stay empty until the origin holds a live grant, so call
+      <code>getUserMedia</code> once before you rely on them. Pair the hook with
+      <code>waitUntilOpenable</code> before you actually attach a newly plugged device to a stream.
+    </p>
   </section>
 
   <section>
@@ -355,9 +534,19 @@
   var stats = {
     eventFired: 0,
     pollDetected: 0,       // changes the poll saw
-    pollDetectedNoEvent: 0 // changes the poll saw with no event in the preceding window
+    pollDetectedNoEvent: 0,// changes the poll saw with no event in the preceding window
+    raceObserved: 0,       // devices listed but not openable for a while (ACL race)
+    neverOpenable: 0       // devices listed that never became openable
   };
   var lastEventAt = 0;
+
+  // Per-device timing, keyed the same way as the diff. Survives snapshots.
+  // { firstSeen, state, error, since, openableAfter, attempts }
+  var meta = {};
+
+  // Probes run strictly one at a time — concurrent opens produce spurious
+  // NotReadableError ("device busy"), which would look like the ACL race.
+  var probeChain = Promise.resolve();
 
   function pad(n) { return n < 10 ? '0' + n : '' + n; }
 
@@ -530,13 +719,40 @@
 
       head.appendChild(kindBadge);
       head.appendChild(label);
+
+      if (probeable(d)) {
+        var pb = document.createElement('button');
+        pb.className = 'mini';
+        pb.textContent = 'Probe';
+        pb.addEventListener('click', function () {
+          var k = key(d);
+          if (!meta[k]) meta[k] = { firstSeen: Date.now(), state: 'unknown', attempts: 0 };
+          // Restart the clock so a manual probe measures from now.
+          meta[k] = { firstSeen: Date.now(), state: 'unknown', attempts: 0 };
+          probeUntilReady(d, { timeoutMs: probeTimeoutMs() });
+        });
+        head.appendChild(pb);
+      }
+
       box.appendChild(head);
+
+      var st = probeStatusText(meta[key(d)]);
+      if (st) {
+        var status = document.createElement('span');
+        status.className = 'badge ' + st.cls;
+        status.textContent = st.text;
+        head.appendChild(status);
+      }
 
       var dl = document.createElement('dl');
       dl.className = 'kv';
       kvRow(dl, 'deviceId', fullIds ? (d.deviceId || '(empty)') : shortId(d.deviceId));
       kvRow(dl, 'groupId', fullIds ? (d.groupId || '(empty)') : shortId(d.groupId));
       kvRow(dl, 'label', d.label || '(empty)', d.label ? '' : 'warn');
+      var dm = meta[key(d)];
+      if (dm && dm.openableAfter != null) {
+        kvRow(dl, 'listed → openable', dm.openableAfter + 'ms', dm.openableAfter > 250 ? 'warn' : 'ok');
+      }
       box.appendChild(dl);
 
       if (withCaps) {
@@ -568,6 +784,129 @@
 
       devList.appendChild(box);
     });
+  }
+
+  // --- availability probing ---------------------------------------------
+  //
+  // A device can be listed by enumerateDevices() while its /dev node is still
+  // 600 root:root, before logind's uaccess ACL lands. Opening it is the only
+  // way the page can tell "listed" from "actually available".
+
+  function probeable(d) {
+    return d.kind === 'videoinput' || d.kind === 'audioinput';
+  }
+
+  function constraintFor(d) {
+    var sel = { deviceId: { exact: d.deviceId } };
+    return d.kind === 'videoinput' ? { video: sel } : { audio: sel };
+  }
+
+  function probeOnce(d) {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      return Promise.resolve({ ok: false, name: 'Unsupported', message: 'getUserMedia unavailable' });
+    }
+    return navigator.mediaDevices.getUserMedia(constraintFor(d)).then(function (stream) {
+      stream.getTracks().forEach(function (t) { t.stop(); });
+      return { ok: true };
+    }).catch(function (err) {
+      return { ok: false, name: err.name, message: err.message };
+    });
+  }
+
+  // Chromium maps an EACCES on the device node to NotReadableError; a device
+  // that vanished mid-probe gives OverconstrainedError/NotFoundError.
+  function explainProbeError(name) {
+    if (name === 'NotReadableError') return 'cannot open — node not accessible yet (ACL pending) or busy';
+    if (name === 'NotAllowedError') return 'origin permission denied';
+    if (name === 'OverconstrainedError' || name === 'NotFoundError') return 'device no longer present';
+    if (name === 'AbortError') return 'aborted by the OS/driver';
+    return name;
+  }
+
+  function queueProbe(fn) {
+    probeChain = probeChain.then(fn, fn);
+    return probeChain;
+  }
+
+  // Retries until the device opens or the deadline passes, recording how long
+  // it took. That delay is the ACL race, measured from inside the page.
+  function probeUntilReady(d, opts) {
+    var k = key(d);
+    var m = meta[k];
+    if (!m) return;
+    var deadline = Date.now() + (opts && opts.timeoutMs ? opts.timeoutMs : 15000);
+    var announced = false;
+
+    function attempt() {
+      // Device removed, or a later probe superseded this one.
+      if (!meta[k] || meta[k] !== m) return Promise.resolve();
+      m.attempts = (m.attempts || 0) + 1;
+
+      return probeOnce(d).then(function (res) {
+        if (!meta[k] || meta[k] !== m) return;
+
+        if (res.ok) {
+          m.state = 'openable';
+          m.error = null;
+          m.openableAfter = Date.now() - m.firstSeen;
+          if (announced || m.openableAfter > 250) {
+            stats.raceObserved++;
+            log('READY ' + describe(d) + ' openable ' + m.openableAfter + 'ms after being listed', 'ok');
+          } else {
+            log('READY ' + describe(d) + ' openable immediately', 'ok');
+          }
+          renderDevices();
+          updateVerdict();
+          return;
+        }
+
+        m.state = 'blocked';
+        m.error = res.name;
+        if (!announced) {
+          announced = true;
+          log('BLOCKED ' + describe(d) + ' — ' + explainProbeError(res.name) +
+              ' (' + (Date.now() - m.firstSeen) + 'ms after listing)', 'warn');
+        }
+        renderDevices();
+
+        if (res.name === 'NotAllowedError' || res.name === 'Unsupported') return; // retrying won't help
+        if (Date.now() >= deadline) {
+          m.state = 'never';
+          stats.neverOpenable++;
+          log('GAVE UP ' + describe(d) + ' — still ' + res.name + ' after ' +
+              (Date.now() - m.firstSeen) + 'ms', 'bad');
+          renderDevices();
+          updateVerdict();
+          return;
+        }
+        // Schedule the retry without awaiting it. Returning queueProbe(attempt)
+        // here would make this chain link wait on a link queued behind itself.
+        setTimeout(function () { queueProbe(attempt); }, 400);
+      });
+    }
+
+    m.state = 'probing';
+    renderDevices();
+    queueProbe(attempt);
+  }
+
+  function probeTimeoutMs() {
+    var s = parseInt(document.getElementById('probe-timeout').value, 10);
+    return Math.max(1, isNaN(s) ? 15 : s) * 1000;
+  }
+
+  function probeStatusText(m) {
+    if (!m) return null;
+    if (m.state === 'probing') return { text: 'probing… (attempt ' + (m.attempts || 0) + ')', cls: 'muted' };
+    if (m.state === 'openable') {
+      return {
+        text: 'openable' + (m.openableAfter != null ? ' — ' + m.openableAfter + 'ms after listing' : ''),
+        cls: m.openableAfter > 250 ? 'warn' : 'ok'
+      };
+    }
+    if (m.state === 'blocked') return { text: 'blocked — ' + explainProbeError(m.error), cls: 'warn' };
+    if (m.state === 'never') return { text: 'never became openable — ' + explainProbeError(m.error), cls: 'bad' };
+    return null;
   }
 
   function renderConstraints() {
@@ -625,9 +964,24 @@
       }
 
       var freshKeys = {};
-      changes.added.forEach(function (d) { freshKeys[key(d)] = true; });
+      var autoProbe = document.getElementById('auto-probe').checked;
+
+      changes.added.forEach(function (d) {
+        freshKeys[key(d)] = true;
+        meta[key(d)] = { firstSeen: Date.now(), state: 'unknown', attempts: 0 };
+      });
+      changes.removed.forEach(function (d) { delete meta[key(d)]; });
 
       known = next;
+
+      // Probe after `known` is updated so renders inside the probe see the
+      // current device set.
+      if (autoProbe) {
+        changes.added.filter(probeable).forEach(function (d) {
+          probeUntilReady(d, { timeoutMs: probeTimeoutMs() });
+        });
+      }
+
       renderDevices(freshKeys);
       if (changed || source === 'manual') { renderEnv(); updateVerdict(); }
       return changed;
@@ -639,31 +993,53 @@
 
   // --- verdict -----------------------------------------------------------
 
+  // Several of these conditions can hold at once — an undelivered event and a
+  // node that is not yet readable are independent failures — so the verdict
+  // lists every finding rather than picking one.
   function updateVerdict() {
-    var html;
     if (!navigator.mediaDevices) {
-      html = '<strong>mediaDevices is missing.</strong> Not a secure context, or the browser ' +
-             'exposes no media API here. Nothing else on this page can work until that is fixed.';
-    } else if (stats.pollDetected === 0 && stats.eventFired === 0) {
-      html = 'No change observed yet. Plug or unplug a device — the poll will catch it even if ' +
-             'the event does not.';
-    } else if (stats.pollDetectedNoEvent > 0 && stats.eventFired === 0) {
-      html = '<strong>Devices changed, no devicechange event.</strong> ' +
-             stats.pollDetectedNoEvent + ' change(s) seen by polling with zero events. ' +
-             'Your listener is fine — the event is not being delivered. On Linux/Chromium this ' +
-             'points at the media layer (PipeWire/udev path or sandboxing), not at your React code.';
-    } else if (stats.pollDetectedNoEvent > 0) {
-      html = '<strong>Event delivery is unreliable.</strong> ' + stats.eventFired + ' event(s) fired, ' +
-             'but ' + stats.pollDetectedNoEvent + ' change(s) arrived with no matching event. ' +
-             'Treat devicechange as a hint and reconcile with polling.';
-    } else if (stats.eventFired > 0) {
-      html = '<strong>devicechange is working.</strong> ' + stats.eventFired + ' event(s) fired, ' +
-             'each matched by a real device change. If your React app misses these, the problem is ' +
-             'listener lifecycle (effect cleanup / StrictMode remount), not the browser.';
-    } else {
-      html = 'Changes detected. Keep testing.';
+      verdictEl.innerHTML = '<strong>mediaDevices is missing.</strong> Not a secure context, or the ' +
+        'browser exposes no media API here. Nothing else on this page can work until that is fixed.';
+      return;
     }
-    verdictEl.innerHTML = html;
+
+    var parts = [];
+
+    if (stats.pollDetectedNoEvent > 0 && stats.eventFired === 0) {
+      parts.push('<strong>Devices changed, no devicechange event.</strong> ' +
+        stats.pollDetectedNoEvent + ' change(s) seen by polling with zero events. ' +
+        'Your listener is fine — the event is not being delivered.');
+    } else if (stats.pollDetectedNoEvent > 0) {
+      parts.push('<strong>Event delivery is unreliable.</strong> ' + stats.eventFired +
+        ' event(s) fired, but ' + stats.pollDetectedNoEvent + ' change(s) arrived with no matching ' +
+        'event. Treat devicechange as a hint and reconcile with polling.');
+    } else if (stats.eventFired > 0) {
+      parts.push('<strong>devicechange is working.</strong> ' + stats.eventFired + ' event(s) fired, ' +
+        'each matched by a real device change. If your React app misses these, the problem is ' +
+        'listener lifecycle (effect cleanup / StrictMode remount), not the browser.');
+    }
+
+    if (stats.neverOpenable > 0) {
+      parts.push('<strong>Listed but never openable.</strong> ' + stats.neverOpenable +
+        ' device(s) appeared in enumerateDevices() and never opened within the timeout. The browser ' +
+        'sees the node; something below it will not let you read it. On a 600 → uaccess-ACL setup ' +
+        'that is an ACL which never got applied — check <code>getfacl</code> below, and whether ' +
+        'your logind session is the active local one.');
+    }
+
+    if (stats.raceObserved > 0) {
+      parts.push('<strong>Listed-before-available race confirmed.</strong> ' + stats.raceObserved +
+        ' device(s) took measurable time to become openable after being listed. The device node ' +
+        'exists before its ACL lands, so anything enumerating on the first udev event sees an ' +
+        'unusable device. Retry getUserMedia — one devicechange-triggered read is not enough.');
+    }
+
+    if (!parts.length) {
+      parts.push('No change observed yet. Plug or unplug a device — the poll will catch it even if ' +
+        'the event does not.');
+    }
+
+    verdictEl.innerHTML = parts.join('<hr style="border:none;border-top:1px solid #3a352d;margin:0.6rem 0">');
   }
 
   // --- devicechange listener --------------------------------------------
@@ -763,15 +1139,23 @@
     if (!keepStream.checked) releaseStream();
   });
 
+  document.getElementById('btn-probe-all').addEventListener('click', function () {
+    var targets = known.filter(probeable);
+    if (!targets.length) { log('nothing probeable', 'muted'); return; }
+    log('probing ' + targets.length + ' device(s)…', 'muted');
+    targets.forEach(function (d) {
+      meta[key(d)] = { firstSeen: Date.now(), state: 'unknown', attempts: 0 };
+      probeUntilReady(d, { timeoutMs: probeTimeoutMs() });
+    });
+  });
+
   document.getElementById('full-ids').addEventListener('change', function () { renderDevices(); });
   document.getElementById('show-caps').addEventListener('change', function () { renderDevices(); });
 
-  document.getElementById('btn-copy').addEventListener('click', function () {
-    var text = JSON.stringify(known, null, 2);
-    var btn = document.getElementById('btn-copy');
+  function copyToClipboard(btn, text, restoreLabel) {
     var restore = function (msg) {
       btn.textContent = msg;
-      setTimeout(function () { btn.textContent = 'Copy raw JSON'; }, 1500);
+      setTimeout(function () { btn.textContent = restoreLabel; }, 1500);
     };
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text)
@@ -780,6 +1164,18 @@
     } else {
       restore('Clipboard unavailable');
     }
+  }
+
+  document.getElementById('btn-copy').addEventListener('click', function () {
+    copyToClipboard(this, JSON.stringify(known, null, 2), 'Copy raw JSON');
+  });
+
+  // Any button with data-copy="<id>" copies that element's text.
+  Array.prototype.forEach.call(document.querySelectorAll('button.copy'), function (btn) {
+    btn.addEventListener('click', function () {
+      var src = document.getElementById(btn.getAttribute('data-copy'));
+      if (src) copyToClipboard(btn, src.textContent, 'Copy');
+    });
   });
 
   // --- boot --------------------------------------------------------------
