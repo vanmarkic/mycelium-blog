@@ -17,7 +17,14 @@ const emptyGraph = {
 };
 ---
 
-<BaseLayout title="Knowledge Graph" description="Interactive visualization of interconnected knowledge">
+<BaseLayout
+  title="Knowledge Graph"
+  description="Interactive D3.js visualization of interconnected blog posts, skills, and technical patterns — explore the mycelium network of knowledge"
+  breadcrumbs={[
+    { name: 'Home', url: import.meta.env.BASE_URL },
+    { name: 'Knowledge Graph', url: `${import.meta.env.BASE_URL}graph/` },
+  ]}
+>
   <div class="max-w-6xl mx-auto">
     <!-- Header -->
     <header class="mb-12">
