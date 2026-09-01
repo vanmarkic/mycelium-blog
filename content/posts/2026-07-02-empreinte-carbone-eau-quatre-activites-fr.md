@@ -43,7 +43,7 @@ Chaque chiffre est une estimation centrale avec une fourchette, et je signale à
 
 | Activité | Carbone (CO₂e) | Eau | Fiabilité |
 |---|---|---|---|
-| 1 h de transcription IA | environ 3 g (1–10 g) | environ 0,01 L | Faible — estimation, pas de donnée éditeur |
+| 1 h de transcription IA | environ 3 g (1–15 g) | environ 0,01 L (0,005–0,06 L) | Faible — une seule mesure publiée, pas de donnée éditeur |
 | 1 h de Netflix, 1080p | environ 50 g (30–90 g) | environ 0,5 L | Moyenne — IEA / Carbon Trust |
 | 100 km, petite voiture essence | 15–17 kg (usage) **+ 3–4 kg (fabrication)** | 10–20 L | Forte — chimie + études revues par les pairs |
 | 1 kg de bœuf bio | 60–99 kg | 15 400 L | Forte — Poore & Nemecek 2018 ; Mekonnen & Hoekstra 2012 |
@@ -276,10 +276,12 @@ Deux angles morts complètent le tableau :
 
 Attention : ici, ce n'est **pas un chiffre officiel mais une estimation**. Notta.ai ne publie aucune donnée ; j'ai reconstruit le calcul à partir de mesures faites sur des modèles équivalents (type Whisper).
 
-Une IA transcrit une heure d'audio en quelques minutes. Les mesures publiées donnent **environ 2 à 10 wattheures** — l'équivalent de laisser une ampoule LED allumée quelques minutes. Cela se traduit par :
+Une IA transcrit une heure d'audio en quelques minutes, mais la consommation dépend énormément du matériel. La seule mesure publiée que j'ai trouvée (**Janssens *et al.*, université de Gand, 2024**) fait tourner Whisper large-v3 sur une carte graphique déjà ancienne (une GTX 1080 Ti de 2017) et relève **32 wattheures et 7,7 g de CO₂ par heure d'audio**. Mais un service comme Notta tourne sur des puces récentes et optimisées, **5 à 15 fois plus efficaces** : sur un GPU moderne, les mesures descendent à **environ 2 wattheures** par heure d'audio — de quoi laisser une ampoule LED allumée quelques minutes. D'où une fourchette large :
 
-- **Carbone : environ 3 grammes** (entre 1 et 10 g), fabrication du serveur comprise.
-- **Eau : environ 1 centilitre** — quelques gouttes.
+- **Carbone : environ 3 grammes** (de 1 à 15 g selon le matériel et le réseau électrique), fabrication du serveur comprise.
+- **Eau : environ 1 centilitre** (jusqu'à 6 cl sur du vieux matériel) — quelques gouttes.
+
+Même dans le pire cas mesuré, on reste sur des grammes et des centilitres.
 
 La fabrication du matériel (les puces graphiques des serveurs) ajoute peu de carbone ici, car la transcription ne mobilise le processeur que quelques minutes. En revanche, cette fabrication concentre l'essentiel de la **toxicité** (extraction du cuivre) et repose sur des **minerais parfois « de conflit »** (étain, tantale, tungstène, or) — des dégâts que le seul bilan carbone ne voit pas.
 
@@ -311,4 +313,5 @@ La leçon la plus utile n'est pas un palmarès, mais un réflexe : **regarder au
 - **ICCT / Bieker (2021)** et **Ricardo/ifeu/E4Tech (2020)** — cycle de vie des voitures ; **World Steel Association**, **International Aluminium Institute** — acier et aluminium.
 - **King & Webber (2008)**, *Environmental Science & Technology* — eau de l'essence ; **DEFRA / EPA / IPCC** — 2,31 kg CO₂/L ; **CE Delft (2019)** — coûts externes du transport ; **OCDE (2020)** — particules hors échappement ; **AEE / OMS** — bruit ; **Banque mondiale (2024)** — torchage.
 - **IEA (Kamiya, 2020)**, **Carbon Trust (2021)**, **DIMPACT** — carbone du streaming ; **Apple**, **Fairphone**, **Dell** — fabrication des appareils.
-- **Morand *et al.* (2025)**, arXiv:2509.00093 — cycle de vie d'un GPU ; **UNITAR/ITU (2024)** — déchets électroniques ; **World Economic Forum (2024)** — eau des semi-conducteurs ; **benchmarks Whisper/ASR** (arXiv:2405.01004, E2E Networks) — base de l'estimation transcription.
+- **Morand *et al.* (2025)**, arXiv:2509.00093 — cycle de vie d'un GPU ; **UNITAR/ITU (2024)** — déchets électroniques ; **World Economic Forum (2024)** — eau des semi-conducteurs.
+- **Janssens *et al.* (2024)**, arXiv:2404.17394 — mesure directe : Whisper large-v3 à 32,3 Wh et 7,7 g CO₂e par heure d'audio sur une GTX 1080 Ti ; **E2E Networks** (≈ 2 Wh/h sur GPU moderne) et **arXiv:2405.01004** — base de l'estimation transcription.
